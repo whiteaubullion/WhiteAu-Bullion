@@ -1,0 +1,54 @@
+.trustLayer {
+  padding: 3rem 0;
+  overflow: hidden;
+  position: relative;
+  background-color: var(--color-cream);
+  z-index: 5;
+}
+
+.marquee {
+  display: flex;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marqueeContent {
+  display: flex;
+  animation: scroll 40s linear infinite;
+}
+
+.trustCard {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: #ffffff;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
+  margin: 0 1rem;
+  font-family: var(--font-montserrat);
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--color-black);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid rgba(234, 162, 33, 0.1);
+  transition: transform 0.3s;
+}
+
+.trustCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(234, 162, 33, 0.1);
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-gold);
+  border-radius: 50%;
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}

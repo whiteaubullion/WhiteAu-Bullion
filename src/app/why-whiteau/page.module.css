@@ -1,0 +1,60 @@
+.pageHeader {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 5rem;
+}
+
+.pageHeader h1 {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.intro {
+  font-size: 1.2rem;
+  color: var(--color-gray);
+  line-height: 1.8;
+}
+
+.pillarsContainer {
+  max-width: 800px;
+  margin: 0 auto 6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.pillar {
+  text-align: left;
+}
+
+.pillar h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--color-gold);
+}
+
+.pillar p {
+  font-size: 1.1rem;
+  color: var(--color-gray);
+  line-height: 1.6;
+}
+
+.closingSection {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding-top: 4rem;
+  border-top: 1px solid var(--color-gold-20);
+}
+
+.closingTitle {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.closingSubline {
+  font-size: 1.2rem;
+  color: var(--color-gray);
+  line-height: 1.6;
+}

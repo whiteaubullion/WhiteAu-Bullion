@@ -1,0 +1,89 @@
+.card {
+  padding: 3rem;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.card h3 {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+@media (min-width: 600px) {
+  .inputGroup {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+.inputField {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.inputField label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+  color: var(--color-gray);
+}
+
+.inputField input,
+.inputField select {
+  width: 100%;
+  padding: 0.8rem;
+  font-family: var(--font-montserrat);
+  font-size: 1rem;
+  border: 1px solid var(--color-gold-50);
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--color-cream);
+  outline: none;
+  transition: border-color 0.2s;
+  border-radius: 8px;
+}
+
+.inputField input:focus,
+.inputField select:focus {
+  border-color: var(--color-gold);
+}
+
+.outputArea {
+  margin-bottom: 2rem;
+}
+
+.outputLabel {
+  display: block;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-gray);
+  margin-bottom: 0.5rem;
+}
+
+.outputValue {
+  font-family: var(--font-libre-baskerville);
+  font-size: 3rem;
+  color: var(--color-gold);
+  border-bottom: 1px solid var(--color-gold-50);
+  display: inline-block;
+  padding: 0 1rem 0.5rem;
+}
+
+.disclaimer {
+  font-size: 0.8rem;
+  color: var(--color-gray);
+  opacity: 0.8;
+  max-width: 80%;
+  margin: 0 auto;
+}

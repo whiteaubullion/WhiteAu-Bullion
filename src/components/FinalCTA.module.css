@@ -1,0 +1,77 @@
+.ctaCard {
+  background-color: var(--color-black);
+  border: 1px solid rgba(234, 162, 33, 0.2);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+@media (min-width: 768px) {
+  .ctaCard {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.ctaContent {
+  flex: 1;
+  padding: 4rem;
+  z-index: 2;
+}
+
+.ctaContent h2 {
+  font-family: var(--font-libre-baskerville);
+  font-size: 2.5rem;
+  color: var(--color-cream);
+  margin-bottom: 2.5rem;
+  max-width: 400px;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.secondaryAction {
+  margin-top: 1rem;
+}
+
+.talkLink {
+  color: var(--color-gold);
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: gap 0.3s;
+}
+
+.talkLink:hover {
+  gap: 1rem;
+}
+
+.ctaVisual {
+  flex: 1;
+  background-color: #1a1a1a;
+  min-height: 400px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.visualCircle {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(234, 162, 33, 0.4) 0%, rgba(234, 162, 33, 0.1) 50%, transparent 70%);
+  position: absolute;
+  animation: pulse 4s infinite alternate;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.2); opacity: 0.4; }
+}

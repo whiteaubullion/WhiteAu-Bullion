@@ -1,0 +1,133 @@
+.header {
+  text-align: center;
+  margin-bottom: 5rem;
+}
+
+.title {
+  font-family: var(--font-libre-baskerville);
+  font-size: 3rem;
+}
+
+.timelineContainer {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.timelineLine, .timelineLineActive {
+  position: absolute;
+  left: 40px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+}
+
+.timelineLine {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.timelineLineActive {
+  background-color: var(--color-gold);
+  transition: height 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  top: 40px;
+}
+
+@media (min-width: 768px) {
+  .timelineLine, .timelineLineActive {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.step {
+  display: flex;
+  position: relative;
+  margin-bottom: 4rem;
+  opacity: 0.3;
+  transform: translateY(20px);
+  transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.step.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.step.subdued {
+  opacity: 0.6;
+}
+
+.numberWrapper {
+  width: 80px;
+  display: flex;
+  justify-content: center;
+  z-index: 2;
+}
+
+.number {
+  width: 50px;
+  height: 50px;
+  background-color: var(--color-cream);
+  border: 2px solid rgba(0,0,0,0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-libre-baskerville);
+  font-weight: 600;
+  color: var(--color-gray);
+  transition: all 0.5s;
+}
+
+.step.active .number {
+  border-color: var(--color-gold);
+  background-color: var(--color-gold);
+  color: var(--color-black);
+  box-shadow: 0 0 20px rgba(234, 162, 33, 0.4);
+}
+
+.card {
+  flex: 1;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+  margin-left: 1rem;
+  border: 1px solid rgba(0,0,0,0.03);
+}
+
+.card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.card p {
+  color: var(--color-gray);
+  font-size: 0.95rem;
+}
+
+@media (min-width: 768px) {
+  .step {
+    justify-content: space-between;
+  }
+  
+  .numberWrapper {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .card {
+    width: 42%;
+    margin-left: 0;
+  }
+
+  .step:nth-child(even) {
+    flex-direction: row-reverse;
+  }
+
+  .step:nth-child(even) .card {
+    text-align: right;
+  }
+}

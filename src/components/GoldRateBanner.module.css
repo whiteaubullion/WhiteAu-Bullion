@@ -1,0 +1,46 @@
+.bannerWrapper {
+  background-color: var(--color-cream);
+  border-top: 1px solid var(--color-gold);
+  border-bottom: 1px solid var(--color-gold);
+  padding: 0.5rem 0;
+}
+
+.bannerInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .bannerInner {
+    flex-direction: row;
+    gap: 1.5rem;
+  }
+}
+
+.label {
+  font-family: var(--font-montserrat);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--color-black);
+  opacity: 0.8;
+}
+
+.rate {
+  font-family: var(--font-libre-baskerville);
+  font-size: 1.5rem;
+  color: var(--color-gold);
+  position: relative;
+}
+
+.time {
+  font-family: var(--font-montserrat);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--color-black);
+  opacity: 0.6;
+}

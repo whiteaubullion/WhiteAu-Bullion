@@ -1,0 +1,140 @@
+.transparencyHeader {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.transparencyHeader h2 {
+  font-family: var(--font-libre-baskerville);
+  font-size: 2.5rem;
+}
+
+.transparencyGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .transparencyGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.tCard h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.tCard p {
+  color: var(--color-gray);
+  font-size: 0.95rem;
+}
+
+.processSection {
+  background-color: var(--color-black);
+  color: var(--color-cream);
+  overflow: hidden;
+}
+
+.processContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+@media (min-width: 992px) {
+  .processContainer {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.processLeft {
+  flex: 1;
+}
+
+.processLeft h2 {
+  font-family: var(--font-libre-baskerville);
+  font-size: 3.5rem;
+  line-height: 1.1;
+  margin-bottom: 2rem;
+  color: var(--color-cream);
+}
+
+.processLeft p {
+  font-size: 1.2rem;
+  color: var(--color-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.processRight {
+  flex: 1;
+  position: relative;
+  min-height: 400px;
+}
+
+.overlappingCard {
+  background-color: #1a1a1a;
+  border: 1px solid rgba(234, 162, 33, 0.2);
+  padding: 2rem;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  position: absolute;
+  width: 90%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  transition: transform 0.3s;
+}
+
+.overlappingCard:hover {
+  transform: translateX(-10px);
+}
+
+.card1 {
+  top: 0;
+  right: 0;
+  z-index: 1;
+}
+
+.card2 {
+  top: 100px;
+  right: 20px;
+  z-index: 2;
+}
+
+.card3 {
+  top: 200px;
+  right: 40px;
+  z-index: 3;
+}
+
+@media (max-width: 991px) {
+  .processRight {
+    min-height: 500px;
+  }
+  .overlappingCard {
+    width: 100%;
+    right: 0 !important;
+  }
+}
+
+.cardNumber {
+  font-family: var(--font-libre-baskerville);
+  font-size: 2rem;
+  color: var(--color-gold);
+  opacity: 0.5;
+}
+
+.overlappingCard h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.25rem;
+  color: var(--color-cream);
+}
+
+.overlappingCard p {
+  color: rgba(252, 240, 219, 0.6);
+  font-size: 0.9rem;
+  margin: 0;
+}

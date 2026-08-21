@@ -1,0 +1,71 @@
+.footer {
+  background-color: var(--color-black);
+  color: var(--color-cream);
+  padding: 5rem 0 2rem;
+  margin-top: 5rem;
+}
+
+.footerGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+@media (min-width: 768px) {
+  .footerGrid {
+    grid-template-columns: 1.5fr 1fr 1.5fr;
+  }
+}
+
+.brandCol .tagline {
+  margin-top: 1.5rem;
+  font-family: var(--font-montserrat);
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+}
+
+.linksCol h4, .contactCol h4 {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-gold);
+}
+
+.linksCol nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.linksCol nav a {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  transition: opacity 0.2s, color 0.2s;
+}
+
+.linksCol nav a:hover {
+  opacity: 1;
+  color: var(--color-gold);
+}
+
+.contactCol p {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-bottom: 1rem;
+  line-height: 1.8;
+}
+
+.contactCol a {
+  transition: color 0.2s;
+}
+
+.contactCol a:hover {
+  color: var(--color-gold);
+}
+
+.copy {
+  text-align: center;
+  font-size: 0.8rem;
+  opacity: 0.6;
+}

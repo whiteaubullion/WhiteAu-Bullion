@@ -1,0 +1,150 @@
+.mainCard {
+  margin-bottom: 3rem;
+  padding: 4rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.title {
+  font-family: var(--font-libre-baskerville);
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: var(--color-gold);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+.formulaGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  margin-bottom: 4rem;
+}
+
+@media (min-width: 992px) {
+  .formulaGrid {
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch;
+  }
+}
+
+.formulaCard {
+  flex: 1;
+  background-color: var(--color-cream);
+  padding: 2rem;
+  border-radius: 16px;
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.formulaCard:hover {
+  transform: translateY(-5px);
+}
+
+.formulaCard h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: var(--color-black);
+}
+
+.formulaCard p {
+  color: var(--color-gray);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.plusIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: var(--color-gold);
+  font-weight: 300;
+}
+
+.ctaWrapper {
+  text-align: center;
+}
+
+.textCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: var(--color-black);
+  border-bottom: 1px solid var(--color-gold);
+  padding-bottom: 0.25rem;
+  transition: gap 0.3s;
+}
+
+.textCta:hover {
+  gap: 1rem;
+}
+
+/* Horizontal CTA */
+.horizontalCta {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  padding: 4rem;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .horizontalCta {
+    flex-direction: row;
+    text-align: left;
+  }
+  
+  .ctaContent {
+    flex: 1;
+    padding-right: 2rem;
+  }
+}
+
+.ctaContent h2 {
+  font-family: var(--font-libre-baskerville);
+  font-size: 2.25rem;
+  margin-bottom: 1rem;
+}
+
+.ctaContent p {
+  font-size: 1.1rem;
+  max-width: 500px;
+}
+
+.goldDust1, .goldDust2 {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(234, 162, 33, 0.15) 0%, rgba(0,0,0,0) 70%);
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.goldDust1 {
+  top: -100px;
+  left: -50px;
+}
+
+.goldDust2 {
+  bottom: -100px;
+  right: -50px;
+}
+
+.ctaContent, .ctaButton {
+  position: relative;
+  z-index: 1;
+}
