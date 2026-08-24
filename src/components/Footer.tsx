@@ -38,10 +38,7 @@ export default function Footer() {
           </p>
         </div>
       </div>
-      <div className={`container ${styles.copy}`}>
-        <div className="thin-gold-line" style={{ marginBottom: '2rem', opacity: 0.3 }}></div>
-        <p>&copy; 2026 WhiteAu Bullion Pvt Ltd. All rights reserved.</p>
-      </div>
+
     </footer>
   );
 }
