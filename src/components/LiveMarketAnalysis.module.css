@@ -1,7 +1,7 @@
 .analysisContainer {
   background: linear-gradient(135deg, #ffffff 0%, #FCF0DB 100%);
   border-radius: 24px;
-  padding: 3rem;
+  padding: 5rem; /* Increased for empty space */
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(234, 162, 33, 0.1);
 }

@@ -8,7 +8,7 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={`container ${styles.footerGrid}`}>
         <div className={styles.brandCol}>
-          <Logo variant="secondary" color="#FCF0DB" />
+          <Logo variant="secondary" />
           <p className={styles.tagline}>Your Trusted Gold Partner</p>
         </div>
         

@@ -139,8 +139,8 @@
 
 .submitBtn {
   margin-top: 1rem;
-  background-color: var(--color-black);
-  color: var(--color-cream);
+  background-color: var(--color-gold);
+  color: var(--color-black);
   border: none;
   padding: 1.25rem;
   border-radius: 12px;
@@ -152,8 +152,8 @@
 }
 
 .submitBtn:hover {
-  background-color: var(--color-gold);
-  color: var(--color-black);
+  background-color: var(--color-black);
+  color: var(--color-cream);
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(234, 162, 33, 0.2);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }

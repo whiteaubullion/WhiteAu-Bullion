@@ -18,11 +18,12 @@
 }
 
 html, body {
-  background-color: var(--color-black);
-  background-image: url('/images/bg-marble.jpg');
+  background-color: #FAF5ED; /* Pastel off-white/cream */
+  background-image: url('/images/global-pastel-bg.png');
   background-size: cover;
   background-position: center top;
   background-attachment: fixed;
+  background-repeat: no-repeat;
   color: var(--color-black);
   font-family: var(--font-montserrat), sans-serif;
   line-height: 1.6;
@@ -84,15 +85,16 @@ button {
 
 /* Layout utilities */
 .glass-card {
-  background: #111111;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-radius: 20px;
-  border: 1px solid rgba(234, 162, 33, 0.15);
-  box-shadow: inset 0 0 40px rgba(234, 162, 33, 0.05),
-              0 15px 35px rgba(0, 0, 0, 0.4);
-  padding: 2.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+  padding: 3.5rem;
   position: relative;
   overflow: hidden;
-  color: var(--color-cream);
+  color: var(--color-black);
 }
 
 .glass-card::before {
@@ -102,20 +104,16 @@ button {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle at 50% 0%, rgba(234, 162, 33, 0.12) 0%, transparent 60%);
+  background: radial-gradient(circle at 50% 0%, rgba(234, 162, 33, 0.08) 0%, transparent 60%);
   pointer-events: none;
 }
 
 .glass-card h1, .glass-card h2, .glass-card h3, .glass-card h4, .glass-card .font-serif {
-  color: var(--color-cream);
+  color: var(--color-black);
 }
 
 .glass-card p {
-  color: rgba(252, 240, 219, 0.7); /* Cream with opacity */
-}
-
-.glass-card p {
-  color: rgba(252, 240, 219, 0.7); /* Cream with opacity */
+  color: var(--color-gray);
 }
 
 /* Premium Card Language */
@@ -136,17 +134,17 @@ button {
 }
 
 .premium-card.dark {
-  background-color: #111111;
-  border-color: rgba(234, 162, 33, 0.15);
-  color: var(--color-cream);
+  background-color: #ffffff;
+  border-color: rgba(234, 162, 33, 0.2);
+  color: var(--color-black);
 }
 
 .premium-card.dark h1, .premium-card.dark h2, .premium-card.dark h3, .premium-card.dark h4 {
-  color: var(--color-cream);
+  color: var(--color-black);
 }
 
 .premium-card.dark p {
-  color: rgba(252, 240, 219, 0.8);
+  color: var(--color-gray);
 }
 
 .feature-card {
@@ -183,7 +181,7 @@ button {
 }
 
 .section-padding {
-  padding: 5rem 0;
+  padding: 10rem 0;
 }
 
 .thin-gold-line {

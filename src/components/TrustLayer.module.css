@@ -1,8 +1,8 @@
 .trustLayer {
-  padding: 3rem 0;
+  padding: 6rem 0; /* Increased for more empty space */
   overflow: hidden;
   position: relative;
-  background-color: var(--color-cream);
+  background-color: transparent; /* blend with light background */
   z-index: 5;
 }
 

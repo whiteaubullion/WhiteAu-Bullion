@@ -1,8 +1,9 @@
 .footer {
-  background-color: var(--color-black);
-  color: var(--color-cream);
-  padding: 5rem 0 2rem;
-  margin-top: 5rem;
+  background-color: #ffffff;
+  color: var(--color-black);
+  padding: 8rem 0 4rem; /* Increased padding */
+  margin-top: 8rem;
+  border-top: 1px solid rgba(234, 162, 33, 0.2); /* subtle gold border */
 }
 
 .footerGrid {

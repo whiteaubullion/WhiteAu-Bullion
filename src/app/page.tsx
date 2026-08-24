@@ -14,6 +14,8 @@ import ReleaseGoldSection from '@/components/ReleaseGoldSection';
 
 import Founder from '@/components/Founder';
 import BranchInfo from '@/components/BranchInfo';
+import PremiumSellButton from '@/components/PremiumSellButton';
+
 import styles from './page.module.css';
 
 export default function Home() {
@@ -26,11 +28,13 @@ export default function Home() {
           <div className={styles.heroLayout}>
             {/* Center Content Panel */}
             <div className={`${styles.heroContentPanel} animate-fade-in-up`}>
+              <div style={{ marginTop: '4rem', marginBottom: '2rem' }}>
+                <Logo variant="mark" iconColor="#EAA221" size={90} />
+              </div>
               <h1 className={styles.heroTitle}>Your Gold<br/>Deserves Better.</h1>
 
               <div className={styles.heroButtons}>
-                <Button href="/sell-gold" variant="primary" className={styles.heroBtn}>SELL YOUR GOLD</Button>
-                <Button href="/buy-gold" className={`${styles.heroBtn} ${styles.heroBtnGlass}`}>BUY GOLD</Button>
+                <PremiumSellButton href="/sell-gold">SELL YOUR GOLD</PremiumSellButton>
               </div>
             </div>
           </div>

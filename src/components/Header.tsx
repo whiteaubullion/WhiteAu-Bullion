@@ -8,14 +8,13 @@ export default function Header() {
     <header className={styles.header}>
       <div className={`container ${styles.headerInner}`}>
         <Link href="/" className={styles.logoLink}>
-          <Logo variant="secondary" color="#000000" />
+          <Logo variant="secondary" />
         </Link>
         
         <nav className={styles.nav}>
           <Link href="/">HOME</Link>
           <Link href="/live-rates">LIVE RATES</Link>
           <Link href="/sell-gold">SELL GOLD</Link>
-          <Link href="/buy-gold">BUY GOLD</Link>
           <Link href="/contact">SUPPORT</Link>
         </nav>
         
