@@ -31,10 +31,11 @@ export default function Home() {
               <div style={{ marginTop: '4rem', marginBottom: '2rem' }}>
                 <Logo variant="mark" iconColor="#EAA221" size={90} />
               </div>
-              <h1 className={styles.heroTitle}>India's Most Trusted<br/>Gold Buying Partner</h1>
+              <h1 className={styles.heroTitle}>India's Most Trusted Gold<br/>Buying Partner</h1>
 
               <div className={styles.heroButtons}>
-                <PremiumSellButton href="/sell-gold">SELL YOUR GOLD</PremiumSellButton>
+                <PremiumSellButton href="#valuation-form">SELL YOUR GOLD</PremiumSellButton>
+                <PremiumSellButton href="#valuation-form">RELEASE PLEDGED GOLD</PremiumSellButton>
               </div>
             </div>
           </div>
