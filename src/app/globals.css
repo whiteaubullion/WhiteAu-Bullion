@@ -18,12 +18,7 @@
 }
 
 html, body {
-  background-color: #FAF5ED; /* Pastel off-white/cream */
-  background-image: url('/images/global-pastel-bg.png');
-  background-size: cover;
-  background-position: center top;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
+  background-color: transparent;
   color: var(--color-black);
   font-family: var(--font-montserrat), sans-serif;
   line-height: 1.6;

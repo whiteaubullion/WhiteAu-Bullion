@@ -103,56 +103,66 @@ export default function HeroCardsAndMarket() {
             {isExpanded && (
               <motion.div 
                 layoutId="market-morph"
-                className={marketStyles.analysisContainer}
-                style={{ width: '100%', maxWidth: '1200px', margin: '0 auto', backgroundColor: 'var(--color-cream)' }}
+                style={{ width: '100%', maxWidth: '850px', margin: '0 auto', background: 'rgba(255, 255, 255, 0.4)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255, 255, 255, 0.6)', borderRadius: '24px', overflow: 'hidden', display: 'flex', flexDirection: 'row', boxShadow: '0 20px 40px rgba(0, 0, 0, 0.05)' }}
                 initial={{ borderRadius: 40 }}
                 transition={{ layout: { duration: 0.4, ease: "easeInOut" } }}
+                className={marketStyles.analysisContainer}
               >
-              <motion.div className={marketStyles.header} layoutId="market-header" initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.3 } }} exit={{ opacity: 0, transition: { duration: 0.1 } }}>
-                <div>
-                  <h2 className={marketStyles.title}>Live Market Analysis</h2>
-                  <p className={marketStyles.subtitle}>Real-time gold price fluctuation over the last 24 hours</p>
-                </div>
-                <div className={marketStyles.liveBadge}>
-                  <span className={marketStyles.pulseDot}></span>
-                  24H LIVE
-                </div>
-              </motion.div>
-
-              <motion.div className={marketStyles.grid} initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.3 } }} exit={{ opacity: 0, transition: { duration: 0.1 } }}>
-                {rates.map((rate, index) => (
-                  <div key={index} className={marketStyles.card}>
-                    <div className={marketStyles.cardHeader}>
-                      <div className={marketStyles.cardTitle}>
-                        {rate.title} <span>{rate.purity}</span>
+                
+                {/* Text Side (from ContactPanel) */}
+                <motion.div style={{ flex: 1, padding: '2rem', background: 'linear-gradient(135deg, rgba(234, 162, 33, 0.1) 0%, rgba(255, 255, 255, 0) 100%)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }} initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.3 } }} exit={{ opacity: 0, transition: { duration: 0.1 } }}>
+                  <h2 style={{ fontFamily: 'var(--font-libre-baskerville)', fontSize: '1.8rem', color: 'var(--color-black)', marginBottom: '1rem', lineHeight: 1.2 }}>Know What Your Gold Is Worth.</h2>
+                  <p style={{ color: 'var(--color-gold)', fontWeight: 600, marginBottom: '2rem', fontSize: '0.95rem' }}>
+                    Purity + Weight + Gold Rate = Transparent Valuation
+                  </p>
+                  
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    {[
+                      { title: 'Purity', desc: 'Professional gold testing determines the verified purity.' },
+                      { title: 'Weight', desc: 'Precision weighing determines the net gold weight.' },
+                      { title: 'Rate', desc: 'The applicable gold rate is clearly communicated before the transaction.' }
+                    ].map((item, idx) => (
+                      <div key={idx} style={{ background: 'rgba(255, 255, 255, 0.5)', border: '1px solid rgba(255, 255, 255, 0.7)', padding: '0.75rem 1rem', borderRadius: '12px', backdropFilter: 'blur(10px)' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                          <div style={{ width: '8px', height: '8px', backgroundColor: 'var(--color-gold)', borderRadius: '50%' }}></div>
+                          <h3 style={{ fontFamily: 'var(--font-libre-baskerville)', color: 'var(--color-black)', fontSize: '1.1rem', margin: 0 }}>{item.title}</h3>
+                        </div>
                       </div>
-                      <div className={marketStyles.statusDot}></div>
+                    ))}
+                  </div>
+                </motion.div>
+
+                {/* Form Side */}
+                <motion.div style={{ flex: 1, padding: '2rem', background: 'rgba(255, 255, 255, 0.6)' }} initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.3 } }} exit={{ opacity: 0, transition: { duration: 0.1 } }}>
+                  <form onSubmit={(e) => { e.preventDefault(); alert('Thank you! Our executive will contact you shortly.'); }} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                      <label htmlFor="name" style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--color-black)' }}>Full Name</label>
+                      <input type="text" id="name" placeholder="Enter your name" required style={{ padding: '0.75rem 1rem', border: '1px solid rgba(0, 0, 0, 0.1)', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.8)', fontFamily: 'var(--font-montserrat), sans-serif', fontSize: '0.95rem', color: 'var(--color-black)' }} />
                     </div>
                     
-                    <div className={marketStyles.cardBody}>
-                      <div className={marketStyles.priceContainer}>
-                        <span className={marketStyles.price}>{rate.price}</span>
-                        <span className={marketStyles.perGram}>per gram</span>
-                      </div>
-                      
-                      <div className={marketStyles.changeContainer}>
-                        <div className={`${marketStyles.changeTag} ${rate.isUp ? marketStyles.up : marketStyles.down}`}>
-                          {rate.isUp ? (
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
-                          ) : (
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline><polyline points="17 18 23 18 23 12"></polyline></svg>
-                          )}
-                          <span>{rate.change}</span>
-                        </div>
-                        <span className={marketStyles.vsYesterday}>vs yesterday</span>
-                      </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                      <label htmlFor="phone" style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--color-black)' }}>Phone Number</label>
+                      <input type="tel" id="phone" placeholder="Enter your phone number" required style={{ padding: '0.75rem 1rem', border: '1px solid rgba(0, 0, 0, 0.1)', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.8)', fontFamily: 'var(--font-montserrat), sans-serif', fontSize: '0.95rem', color: 'var(--color-black)' }} />
                     </div>
-                  </div>
-                ))}
+                    
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                      <label htmlFor="service" style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--color-black)' }}>I want to</label>
+                      <select id="service" style={{ padding: '0.75rem 1rem', border: '1px solid rgba(0, 0, 0, 0.1)', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.8)', fontFamily: 'var(--font-montserrat), sans-serif', fontSize: '0.95rem', color: 'var(--color-black)' }}>
+                        <option value="sell">Sell Gold</option>
+                        <option value="release">Release Pledged Gold</option>
+                        <option value="other">General Enquiry</option>
+                      </select>
+                    </div>
+                    
+                    <button type="submit" style={{ marginTop: '0.5rem', backgroundColor: 'var(--color-gold)', color: 'var(--color-black)', border: 'none', padding: '1rem', borderRadius: '12px', fontSize: '0.95rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', cursor: 'pointer' }}>
+                      Request Call Back
+                    </button>
+                  </form>
+                </motion.div>
+
               </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            )}
+          </AnimatePresence>
       </div>
       </LayoutGroup>
     </div>

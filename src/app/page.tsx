@@ -4,11 +4,11 @@ import Logo from '@/components/Logo';
 import Footer from '@/components/Footer';
 import Button from '@/components/Button';
 import TrustLayer from '@/components/TrustLayer';
-import ContactPanel from '@/components/ContactPanel';
+
 import HeroCardsAndMarket from '@/components/HeroCardsAndMarket';
 import WhyWhiteAuCards from '@/components/WhyWhiteAuCards';
 import ValuationFeature from '@/components/ValuationFeature';
-import WhatWeBuy from '@/components/WhatWeBuy';
+import Testimonials from '@/components/Testimonials';
 import SellGoldSection from '@/components/SellGoldSection';
 import ReleaseGoldSection from '@/components/ReleaseGoldSection';
 
@@ -43,8 +43,7 @@ export default function Home() {
         <HeroCardsAndMarket />
 
         <TrustLayer />
-        <ContactPanel />
-        <WhatWeBuy />
+        <Testimonials />
         <SellGoldSection />
         <ReleaseGoldSection />
         <WhyWhiteAuCards />

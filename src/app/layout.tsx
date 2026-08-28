@@ -26,7 +26,26 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${libreBaskerville.variable} ${montserrat.variable}`}>
-      <body>{children}</body>
+      <body>
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline
+          style={{
+            position: "fixed",
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            zIndex: -1,
+            top: 0,
+            left: 0
+          }}
+        >
+          <source src="/hero-bg-hq.mp4" type="video/mp4" />
+        </video>
+        {children}
+      </body>
     </html>
   );
 }
