@@ -44,10 +44,10 @@
 }
 
 .stepCard.active {
-  background-color: var(--color-black);
-  border-color: rgba(234, 162, 33, 0.2);
-  color: var(--color-cream);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(234, 162, 33, 0.3) 100%);
+  border-color: rgba(234, 162, 33, 0.4);
+  color: var(--color-black);
+  box-shadow: 0 15px 35px rgba(234, 162, 33, 0.15);
 }
 
 .stepHeader {
@@ -122,7 +122,7 @@
 }
 
 .active .stepContentInner {
-  color: rgba(252, 240, 219, 0.8);
+  color: rgba(0, 0, 0, 0.8);
 }
 
 /* Rich text styling inside the step content */
@@ -136,7 +136,7 @@
 }
 
 .active .stepContentInner strong {
-  color: var(--color-cream);
+  color: var(--color-black);
 }
 
 .stepContentInner strong:first-child {
