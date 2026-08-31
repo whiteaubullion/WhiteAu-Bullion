@@ -72,7 +72,7 @@
 }
 
 .outputValue {
-  font-family: var(--font-libre-baskerville);
+  font-family: var(--font-cormorant);
   font-size: 3rem;
   color: var(--color-gold);
   border-bottom: 1px solid var(--color-gold-50);

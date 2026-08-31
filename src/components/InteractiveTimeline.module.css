@@ -4,7 +4,7 @@
 }
 
 .title {
-  font-family: var(--font-libre-baskerville);
+  font-family: var(--font-cormorant);
   font-size: 3rem;
 }
 
@@ -74,7 +74,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-libre-baskerville);
+  font-family: var(--font-cormorant);
   font-weight: 600;
   color: var(--color-gray);
   transition: all 0.5s;

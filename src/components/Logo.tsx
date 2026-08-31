@@ -29,7 +29,7 @@ export default function Logo({
   );
 
   const wordmark = (
-    <span style={{ fontFamily: 'var(--font-libre-baskerville)', fontSize: '2rem', lineHeight: 1, color: textColor, marginLeft: '0.5rem', display: 'inline-block', verticalAlign: 'middle' }}>
+    <span style={{ fontFamily: 'var(--font-cormorant)', fontSize: '2rem', lineHeight: 1, color: textColor, marginLeft: '0.5rem', display: 'inline-block', verticalAlign: 'middle' }}>
       White Au.
     </span>
   );

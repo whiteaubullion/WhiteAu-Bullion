@@ -103,7 +103,6 @@ export default function HeroCardsAndMarket() {
             {isExpanded && (
               <motion.div 
                 layoutId="market-morph"
-                id="valuation-form"
                 style={{ width: '100%', maxWidth: '850px', margin: '0 auto', background: 'rgba(255, 255, 255, 0.4)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255, 255, 255, 0.6)', borderRadius: '24px', overflow: 'hidden', display: 'flex', flexDirection: 'row', boxShadow: '0 20px 40px rgba(0, 0, 0, 0.05)' }}
                 initial={{ borderRadius: 40 }}
                 transition={{ layout: { duration: 0.4, ease: "easeInOut" } }}
@@ -112,7 +111,7 @@ export default function HeroCardsAndMarket() {
                 
                 {/* Text Side (from ContactPanel) */}
                 <motion.div style={{ flex: 1, padding: '2rem', background: 'linear-gradient(135deg, rgba(234, 162, 33, 0.1) 0%, rgba(255, 255, 255, 0) 100%)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }} initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.3 } }} exit={{ opacity: 0, transition: { duration: 0.1 } }}>
-                  <h2 style={{ fontFamily: 'var(--font-libre-baskerville)', fontSize: '1.8rem', color: 'var(--color-black)', marginBottom: '1rem', lineHeight: 1.2 }}>Know What Your Gold Is Worth.</h2>
+                  <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: '1.8rem', color: 'var(--color-black)', marginBottom: '1rem', lineHeight: 1.2 }}>Know What Your Gold Is Worth.</h2>
                   <p style={{ color: 'var(--color-gold)', fontWeight: 600, marginBottom: '2rem', fontSize: '0.95rem' }}>
                     Purity + Weight + Gold Rate = Transparent Valuation
                   </p>
@@ -126,7 +125,7 @@ export default function HeroCardsAndMarket() {
                       <div key={idx} style={{ background: 'rgba(255, 255, 255, 0.5)', border: '1px solid rgba(255, 255, 255, 0.7)', padding: '0.75rem 1rem', borderRadius: '12px', backdropFilter: 'blur(10px)' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                           <div style={{ width: '8px', height: '8px', backgroundColor: 'var(--color-gold)', borderRadius: '50%' }}></div>
-                          <h3 style={{ fontFamily: 'var(--font-libre-baskerville)', color: 'var(--color-black)', fontSize: '1.1rem', margin: 0 }}>{item.title}</h3>
+                          <h3 style={{ fontFamily: 'var(--font-cormorant)', color: 'var(--color-black)', fontSize: '1.1rem', margin: 0 }}>{item.title}</h3>
                         </div>
                       </div>
                     ))}

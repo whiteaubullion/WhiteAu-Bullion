@@ -50,7 +50,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-libre-baskerville);
+  font-family: var(--font-cormorant);
   font-size: 1.2rem;
   flex-shrink: 0;
   z-index: 2;

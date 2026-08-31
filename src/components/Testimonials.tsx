@@ -77,6 +77,19 @@ const cardVariants: Variants = {
 };
 
 export default function Testimonials() {
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [rating, setRating] = React.useState(5);
+  const [isSubmitted, setIsSubmitted] = React.useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitted(true);
+    setTimeout(() => {
+      setIsModalOpen(false);
+      setTimeout(() => setIsSubmitted(false), 500);
+    }, 2000);
+  };
+
   return (
     <section className="section-padding" style={{ position: 'relative', zIndex: 2 }}>
       <div className="container">
@@ -183,9 +196,57 @@ export default function Testimonials() {
         </motion.div>
 
         <div className={styles.ctaContainer}>
-          <a href="mailto:sairajpr.whiteau@gmail.com?subject=My%20Review%20for%20WhiteAu" className={styles.reviewBtn}>
+          <button onClick={() => setIsModalOpen(true)} className={styles.reviewBtn}>
             Write a Review
-          </a>
+          </button>
+        </div>
+      </div>
+
+      {/* Review Modal */}
+      <div className={`${styles.modalOverlay} ${isModalOpen ? styles.open : ''}`}>
+        <div className={styles.modalContent}>
+          <button className={styles.modalClose} onClick={() => setIsModalOpen(false)}>×</button>
+          
+          {isSubmitted ? (
+            <div className={styles.successMessage}>
+              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>✓</div>
+              Thank you for your review!
+            </div>
+          ) : (
+            <>
+              <h3 className={styles.modalTitle}>Write a Review</h3>
+              <p className={styles.modalSubtitle}>Share your experience with WhiteAu Bullion</p>
+              
+              <form onSubmit={handleSubmit}>
+                <div className={styles.formGroup}>
+                  <label>Your Rating</label>
+                  <div className={styles.starRating}>
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <span 
+                        key={star} 
+                        className={star <= rating ? styles.active : ''}
+                        onClick={() => setRating(star)}
+                      >
+                        ★
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className={styles.formGroup}>
+                  <label>Your Name</label>
+                  <input type="text" className={styles.formInput} placeholder="e.g. Rahul M." required />
+                </div>
+                
+                <div className={styles.formGroup}>
+                  <label>Your Review</label>
+                  <textarea className={styles.formTextarea} placeholder="Tell us about your experience..." required></textarea>
+                </div>
+                
+                <button type="submit" className={styles.submitBtn}>Submit Review</button>
+              </form>
+            </>
+          )}
         </div>
       </div>
     </section>

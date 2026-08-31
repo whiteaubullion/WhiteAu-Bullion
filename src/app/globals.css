@@ -24,7 +24,7 @@ html, body {
   line-height: 1.6;
   scroll-behavior: smooth;
   width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* Make sections transparent by default so the body background shows through */
@@ -34,7 +34,7 @@ main > section {
 }
 
 h1, h2, h3, h4, h5, h6, .font-serif {
-  font-family: var(--font-libre-baskerville), serif;
+  font-family: var(--font-cormorant), serif;
   font-weight: 400;
   color: var(--color-black);
 }

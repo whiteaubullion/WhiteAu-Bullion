@@ -71,7 +71,7 @@
 }
 
 .stepNumber {
-  font-family: var(--font-libre-baskerville);
+  font-family: var(--font-cormorant);
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--color-gray);
@@ -132,7 +132,7 @@
   color: var(--color-black);
   margin-top: 1rem;
   margin-bottom: 0.25rem;
-  font-family: var(--font-libre-baskerville);
+  font-family: var(--font-cormorant);
 }
 
 .active .stepContentInner strong {

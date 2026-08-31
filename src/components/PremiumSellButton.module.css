@@ -11,10 +11,10 @@
   border: none;
   border-radius: 6px; /* Refined soft-rounded shape */
   padding: 1.1rem 2.8rem;
-  font-family: var(--font-montserrat), sans-serif;
-  font-size: 0.95rem;
+  font-family: var(--font-cormorant), serif;
+  font-size: 1.1rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.05em;
   cursor: pointer;
   outline: none;
   transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.4s ease;
@@ -152,4 +152,21 @@
 .clicking .innerFrame {
   opacity: 0;
   transform: scale(0.9);
+}
+
+/* WHITE VARIANT */
+.buttonWhite {
+  background-color: #ffffff;
+  color: var(--color-black);
+}
+
+.buttonWhite:hover {
+  background-color: #f8f8f8;
+}
+
+.wrapperWhite .lineTop, 
+.wrapperWhite .lineRight, 
+.wrapperWhite .lineBottom, 
+.wrapperWhite .lineLeft {
+  background-color: #ffffff;
 }

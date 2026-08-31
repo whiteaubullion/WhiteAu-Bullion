@@ -15,6 +15,7 @@ import ReleaseGoldSection from '@/components/ReleaseGoldSection';
 import Founder from '@/components/Founder';
 import BranchInfo from '@/components/BranchInfo';
 import PremiumSellButton from '@/components/PremiumSellButton';
+import BackgroundMarquee from '@/components/BackgroundMarquee';
 
 import styles from './page.module.css';
 
@@ -31,11 +32,11 @@ export default function Home() {
               <div style={{ marginTop: '4rem', marginBottom: '2rem' }}>
                 <Logo variant="mark" iconColor="#EAA221" size={90} />
               </div>
-              <h1 className={styles.heroTitle}>India's Most Trusted Gold<br/>Buying Partner</h1>
+              <h1 className={styles.heroTitle}>India's Most Trusted<br/>Gold Buying Partner</h1>
 
               <div className={styles.heroButtons}>
-                <PremiumSellButton href="#valuation-form">SELL YOUR GOLD</PremiumSellButton>
-                <PremiumSellButton href="#valuation-form">RELEASE PLEDGED GOLD</PremiumSellButton>
+                <PremiumSellButton href="/sell-gold">SELL YOUR GOLD</PremiumSellButton>
+                <PremiumSellButton href="/release-gold" variant="white">RELEASE GOLD</PremiumSellButton>
               </div>
             </div>
           </div>
@@ -44,16 +45,21 @@ export default function Home() {
         <HeroCardsAndMarket />
 
         <TrustLayer />
-        <Testimonials />
-        <SellGoldSection />
-        <ReleaseGoldSection />
-        <WhyWhiteAuCards />
+        <div className={styles.lowerFixedGradient}>
+          <BackgroundMarquee />
+          
+          <div style={{ position: 'relative', zIndex: 2 }}>
+            <Testimonials />
+            <SellGoldSection />
+            <ReleaseGoldSection />
+            <WhyWhiteAuCards />
 
-        <Founder />
-        <BranchInfo />
+            <Founder />
+            <BranchInfo />
+            <Footer />
+          </div>
+        </div>
       </main>
-
-      <Footer />
     </>
   );
 }

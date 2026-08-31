@@ -8,9 +8,10 @@ interface PremiumSellButtonProps {
   href: string;
   className?: string;
   children?: React.ReactNode;
+  variant?: 'gold' | 'white';
 }
 
-export default function PremiumSellButton({ href, className = '', children }: PremiumSellButtonProps) {
+export default function PremiumSellButton({ href, className = '', children, variant = 'gold' }: PremiumSellButtonProps) {
   const router = useRouter();
   const [isClicking, setIsClicking] = useState(false);
 
@@ -24,10 +25,13 @@ export default function PremiumSellButton({ href, className = '', children }: Pr
     }, 400); 
   };
 
+  const buttonClass = `${styles.button} ${variant === 'white' ? styles.buttonWhite : ''}`;
+  const wrapperClass = `${styles.wrapper} ${className} ${isClicking ? styles.clicking : ''} ${variant === 'white' ? styles.wrapperWhite : ''}`;
+
   return (
-    <div className={`${styles.wrapper} ${className} ${isClicking ? styles.clicking : ''}`}>
+    <div className={wrapperClass}>
       <button 
-        className={styles.button}
+        className={buttonClass}
         onClick={handleClick}
       >
         <span className={styles.text}>{children || "SELL YOUR GOLD"}</span>

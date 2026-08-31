@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Libre_Baskerville, Montserrat } from "next/font/google";
+import { Cormorant_Garamond, Montserrat } from "next/font/google";
 import "./globals.css";
+import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 
-const libreBaskerville = Libre_Baskerville({
-  variable: "--font-libre-baskerville",
-  weight: ["400", "700"],
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
 });
 
@@ -25,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${libreBaskerville.variable} ${montserrat.variable}`}>
+    <html lang="en" className={`${cormorant.variable} ${montserrat.variable}`}>
       <body>
         <video 
           autoPlay 
@@ -39,12 +40,14 @@ export default function RootLayout({
             objectFit: "cover",
             zIndex: -1,
             top: 0,
-            left: 0
+            left: 0,
+            transform: "scale(1.05)"
           }}
         >
           <source src="/hero-bg-hq.mp4" type="video/mp4" />
         </video>
         {children}
+        <FloatingWhatsApp />
       </body>
     </html>
   );
