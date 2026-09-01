@@ -18,6 +18,7 @@ import PremiumSellButton from '@/components/PremiumSellButton';
 import BackgroundMarquee from '@/components/BackgroundMarquee';
 
 import styles from './page.module.css';
+import HeroTrustPanel from '@/components/HeroTrustPanel';
 
 export default function Home() {
   return (
@@ -29,10 +30,23 @@ export default function Home() {
           <div className={styles.heroLayout}>
             {/* Center Content Panel */}
             <div className={`${styles.heroContentPanel} animate-fade-in-up`}>
-              <div style={{ marginTop: '4rem', marginBottom: '2rem' }}>
-                <Logo variant="mark" iconColor="#EAA221" size={90} />
+              <div className={styles.goldBarWrapper}>
+                <img
+                  src="/goldbar.png"
+                  alt="WhiteAu Gold Bar"
+                  className={styles.goldBarImage}
+                />
               </div>
-              <h1 className={styles.heroTitle}>India's Most Trusted<br/>Gold Buying Partner</h1>
+
+              <h1 className={styles.heroTitle}>
+                India's Most Trusted<br/>Gold Buying Partner
+              </h1>
+
+              <div className={styles.heroTagline}>
+                <span className={styles.taglineDivider}>✦</span>
+                <span>TRUSTED · TRANSPARENT · REWARDING</span>
+                <span className={styles.taglineDivider}>✦</span>
+              </div>
 
               <div className={styles.heroButtons}>
                 <PremiumSellButton href="/sell-gold">SELL YOUR GOLD</PremiumSellButton>

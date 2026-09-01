@@ -1,31 +1,50 @@
-.wrapper {
-  position: relative;
-  display: inline-block;
-  padding: 12px; /* Space for extending lines */
+.leftIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.9;
+  transition: transform 0.3s ease;
+}
+
+.button:hover .leftIcon {
+  transform: scale(1.1);
 }
 
 .button {
   position: relative;
-  background-color: var(--color-gold);
-  color: var(--color-black);
-  border: none;
-  border-radius: 6px; /* Refined soft-rounded shape */
-  padding: 1.1rem 2.8rem;
-  font-family: var(--font-cormorant), serif;
-  font-size: 1.1rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
+  background: linear-gradient(135deg, #F2C45C 0%, #C9942E 100%);
+  color: var(--color-espresso);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 16px;
+  padding: 1.1rem 2.4rem;
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   cursor: pointer;
   outline: none;
-  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.4s ease;
+  transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
   z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 0.75rem;
+  box-shadow: 0 8px 25px rgba(201, 148, 46, 0.3);
 }
 
 .button:hover {
-  background-color: #f1ac2b; /* Slightly brighter on hover */
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(201, 148, 46, 0.45);
+  background: linear-gradient(135deg, #FFE09A 0%, #D9A441 100%);
+}
+
+.arrowIcon {
+  font-size: 1.1rem;
+  transition: transform 0.3s ease;
+}
+
+.button:hover .arrowIcon {
+  transform: translateX(4px);
 }
 
 .text {
@@ -33,140 +52,27 @@
   z-index: 2;
 }
 
-/* DECORATIVE LINES */
-.lineTop, .lineRight, .lineBottom, .lineLeft {
-  position: absolute;
-  background-color: var(--color-gold);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* 
-  Lines extend 16px beyond the button on each side.
-  So width/height is calc(100% + 32px)
-*/
-.lineTop {
-  height: 1px;
-  top: -8px;
-  left: -16px;
-  width: 0;
-  transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
-  transition-delay: 0.15s;
-}
-
-.lineRight {
-  width: 1px;
-  top: -16px;
-  right: -8px;
-  height: 0;
-  transition: height 0.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
-  transition-delay: 0.1s;
-}
-
-.lineBottom {
-  height: 1px;
-  bottom: -8px;
-  right: -16px;
-  width: 0;
-  transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
-  transition-delay: 0.05s;
-}
-
-.lineLeft {
-  width: 1px;
-  bottom: -16px;
-  left: -8px;
-  height: 0;
-  transition: height 0.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
-  transition-delay: 0s;
-}
-
-/* Secondary inner frame for the "layered geometric frame" effect */
-.innerFrame {
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  right: 4px;
-  bottom: 4px;
-  border: 1px solid rgba(0,0,0,0.15);
-  border-radius: 4px;
-  opacity: 0;
-  transform: scale(0.95);
-  transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-  pointer-events: none;
-}
-
-/* HOVER STATE */
-.wrapper:hover .lineTop {
-  width: calc(100% + 32px);
-  opacity: 0.8;
-  transition-delay: 0s;
-}
-
-.wrapper:hover .lineRight {
-  height: calc(100% + 32px);
-  opacity: 0.8;
-  transition-delay: 0.05s;
-}
-
-.wrapper:hover .lineBottom {
-  width: calc(100% + 32px);
-  opacity: 0.8;
-  transition-delay: 0.1s;
-}
-
-.wrapper:hover .lineLeft {
-  height: calc(100% + 32px);
-  opacity: 0.8;
-  transition-delay: 0.15s;
-}
-
-.wrapper:hover .innerFrame {
-  opacity: 1;
-  transform: scale(1);
-}
-
 /* ACTIVE / CLICK STATE */
 .clicking .button {
-  transform: scale(0.96);
+  transform: scale(0.97);
 }
 
-.clicking .lineTop,
-.clicking .lineRight,
-.clicking .lineBottom,
-.clicking .lineLeft {
-  opacity: 0;
-  transition: all 0.3s ease;
-  transition-delay: 0s;
-}
-
-.clicking .lineTop, .clicking .lineBottom {
-  width: 0;
-}
-
-.clicking .lineRight, .clicking .lineLeft {
-  height: 0;
-}
-
-.clicking .innerFrame {
-  opacity: 0;
-  transform: scale(0.9);
-}
-
-/* WHITE VARIANT */
+/* WHITE / PEARL VARIANT */
 .buttonWhite {
-  background-color: #ffffff;
-  color: var(--color-black);
+  background: #FFFDF8;
+  color: var(--color-brown-dark);
+  border: 1px solid rgba(201, 148, 46, 0.45);
+  box-shadow: 0 6px 20px rgba(74, 46, 24, 0.06);
 }
 
 .buttonWhite:hover {
-  background-color: #f8f8f8;
+  background: rgba(247, 235, 213, 0.6);
+  border-color: var(--color-gold);
+  box-shadow: 0 10px 25px rgba(201, 148, 46, 0.18);
+  color: var(--color-espresso);
 }
 
-.wrapperWhite .lineTop, 
-.wrapperWhite .lineRight, 
-.wrapperWhite .lineBottom, 
-.wrapperWhite .lineLeft {
-  background-color: #ffffff;
+/* DECORATIVE LINES (Hidden/Minimal for modern luxury look) */
+.lineTop, .lineRight, .lineBottom, .lineLeft, .innerFrame {
+  display: none;
 }

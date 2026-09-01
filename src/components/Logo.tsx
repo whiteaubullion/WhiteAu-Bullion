@@ -11,21 +11,23 @@ interface LogoProps {
 export default function Logo({ 
   variant = 'full', 
   className = '', 
-  iconColor = '#000000', // Default to Black icon
-  textColor = '#000000', // Default to Black text
+  iconColor = '#2F2117', // Website primary dark color
+  textColor = '#2F2117', // Website primary dark color
   size = 52 // A little bit bigger
 }: LogoProps) {
   const monogram = (
-    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="monogram" style={{ display: 'inline-block', verticalAlign: 'middle' }}>
-      {/* Curved Arch */}
-      <path d="M10 80 Q50 30 90 80" stroke={iconColor} strokeWidth="2" fill="none" />
-      {/* W */}
-      <path d="M15 40 L35 90 L50 60 L65 90 L85 40" stroke={iconColor} strokeWidth="3" fill="none" strokeLinejoin="round" />
-      {/* A */}
-      <path d="M50 20 L25 80 M50 20 L75 80 M35 60 L65 60" stroke={iconColor} strokeWidth="3" fill="none" strokeLinejoin="round" />
-      {/* Star Accent */}
-      <path d="M50 5 L53 12 L60 15 L53 18 L50 25 L47 18 L40 15 L47 12 Z" fill={iconColor} />
-    </svg>
+    <img 
+      src="/gold-logo.png" 
+      alt="WhiteAu Gold Logo" 
+      style={{ 
+        width: `${size}px`, 
+        height: 'auto', 
+        display: 'inline-block', 
+        verticalAlign: 'middle',
+        marginTop: '5px',
+        filter: 'drop-shadow(0 2px 6px rgba(201, 148, 46, 0.25))'
+      }} 
+    />
   );
 
   const wordmark = (

@@ -5,6 +5,8 @@ import Accordion from './Accordion';
 import styles from './ServiceSection.module.css'; // Will create a shared CSS for the section wrapper
 
 export default function SellGoldSection() {
+  const [showAllFaqs, setShowAllFaqs] = React.useState(false);
+
   const sellGoldGroups: ProcessGroup[] = [
     {
       groupName: 'AT HOME',
@@ -168,10 +170,15 @@ export default function SellGoldSection() {
         
         <div className={styles.faqSection}>
           <h2 className={styles.faqTitle}>Frequently Asked Questions</h2>
-          <Accordion items={sellGoldFaqs} />
+          <Accordion items={showAllFaqs ? sellGoldFaqs : sellGoldFaqs.slice(0, 3)} />
           
           <div className={styles.showAllWrapper}>
-            <button className={styles.showAllBtn}>Show All FAQs</button>
+            <button 
+              className={styles.showAllBtn}
+              onClick={() => setShowAllFaqs(!showAllFaqs)}
+            >
+              {showAllFaqs ? 'Show Less ↑' : 'Show All FAQs ↓'}
+            </button>
           </div>
         </div>
       </div>

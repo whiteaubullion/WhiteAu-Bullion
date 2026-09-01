@@ -1,14 +1,34 @@
+@font-face {
+  font-family: 'Raleway ExtraBold';
+  src: url('/fonts/Raleway-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  --color-gold: #EAA221;
-  --color-gold-90: rgba(234, 162, 33, 0.9);
-  --color-gold-80: rgba(234, 162, 33, 0.8);
-  --color-gold-50: rgba(234, 162, 33, 0.5);
-  --color-gold-20: rgba(234, 162, 33, 0.2);
-  --color-gold-10: rgba(234, 162, 33, 0.1);
-  --color-cream: #FCF0DB;
-  --color-black: #000000;
-  --color-gray: #666666;
-  --color-light-gray: #f5f5f5;
+  --color-ivory: #FFFDF8;
+  --color-pearl: #F8F4EA;
+  --color-champagne: #F3E3C1;
+  --color-cream: #F7EBD5;
+  
+  --color-gold-soft: #D9A441;
+  --color-gold: #C9942E;
+  --color-gold-bright: #F2C45C;
+  --color-gold-metallic: #FFE09A;
+  
+  --color-brown-dark: #4A2E18;
+  --color-espresso: #2F2117;
+  
+  --color-gold-90: rgba(201, 148, 46, 0.9);
+  --color-gold-80: rgba(201, 148, 46, 0.8);
+  --color-gold-50: rgba(201, 148, 46, 0.5);
+  --color-gold-20: rgba(201, 148, 46, 0.2);
+  --color-gold-10: rgba(201, 148, 46, 0.1);
+  
+  --color-black: #2F2117;
+  --color-gray: #6B5544;
+  --color-light-gray: #F8F4EA;
 }
 
 * {
@@ -176,7 +196,7 @@ button {
 }
 
 .section-padding {
-  padding: 10rem 0;
+  padding: 3.5rem 0;
 }
 
 .thin-gold-line {

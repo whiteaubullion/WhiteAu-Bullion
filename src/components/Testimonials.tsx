@@ -91,7 +91,7 @@ export default function Testimonials() {
   };
 
   return (
-    <section className="section-padding" style={{ position: 'relative', zIndex: 2 }}>
+    <section className={styles.testimonialsSection}>
       <div className="container">
         <div className={styles.header}>
           <h2>What Our Clients Say</h2>

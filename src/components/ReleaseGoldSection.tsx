@@ -5,6 +5,8 @@ import Accordion from './Accordion';
 import styles from './ServiceSection.module.css';
 
 export default function ReleaseGoldSection() {
+  const [showAllFaqs, setShowAllFaqs] = React.useState(false);
+
   const releaseGoldGroups: ProcessGroup[] = [
     {
       groupName: 'AT HOME',
@@ -163,10 +165,15 @@ export default function ReleaseGoldSection() {
         
         <div className={styles.faqSection}>
           <h2 className={styles.faqTitle}>Frequently Asked Questions</h2>
-          <Accordion items={releaseGoldFaqs} />
+          <Accordion items={showAllFaqs ? releaseGoldFaqs : releaseGoldFaqs.slice(0, 3)} />
           
           <div className={styles.showAllWrapper}>
-            <button className={styles.showAllBtn}>Show All FAQs</button>
+            <button 
+              className={styles.showAllBtn}
+              onClick={() => setShowAllFaqs(!showAllFaqs)}
+            >
+              {showAllFaqs ? 'Show Less ↑' : 'Show All FAQs ↓'}
+            </button>
           </div>
         </div>
       </div>

@@ -1,18 +1,27 @@
+.testimonialsSection {
+  padding: 1.5rem 0 3.5rem 0;
+  position: relative;
+  z-index: 2;
+}
+
 .header {
   text-align: center;
   margin-bottom: 3rem;
 }
 
 .header h2 {
-  font-family: var(--font-cormorant);
-  font-size: 2.5rem;
-  color: var(--color-black);
-  margin-bottom: 1rem;
+  font-family: var(--font-cormorant), serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #2F2117;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
 }
 
 .subtitle {
-  color: rgba(0, 0, 0, 0.7);
-  font-size: 1.1rem;
+  color: #4A2E18;
+  font-size: 1.15rem;
+  font-weight: 600;
 }
 
 .bentoGrid {
