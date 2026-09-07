@@ -10,7 +10,7 @@ export async function updateRate(formData: FormData) {
   const rateValue = Number(formData.get('rateValue'))
 
   if (!itemType || isNaN(rateValue)) {
-    return { error: 'Invalid input' }
+    throw new Error('Invalid input')
   }
 
   // Insert a new active rate. 
@@ -25,11 +25,9 @@ export async function updateRate(formData: FormData) {
     })
 
   if (error) {
-    return { error: error.message }
+    throw new Error(error.message)
   }
 
   revalidatePath('/live-rates')
   revalidatePath('/admin')
-  
-  return { success: true }
 }
