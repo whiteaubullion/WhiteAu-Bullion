@@ -1,15 +1,131 @@
+'use client';
 import React from 'react';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
+import ProcessAccordion, { ProcessGroup } from '@/components/features/ProcessAccordion';
 import Accordion from '@/components/ui/Accordion';
-import styles from './page.module.css';
+import styles from '../ui/ServiceSection.module.css'; // Will create a shared CSS for the section wrapper
 
-export const metadata = {
-  title: 'FAQs | WhiteAu Bullion',
-  description: 'Frequently Asked Questions about selling and releasing pledged gold with WhiteAu.',
-};
+export default function SellGoldSection() {
+  const [showAllFaqs, setShowAllFaqs] = React.useState(false);
 
-export default function FAQs() {
+    const sellGoldGroups: ProcessGroup[] = [
+    {
+      groupName: 'SEVEN EASY STEPS',
+      steps: [
+        {
+          id: '1',
+          title: 'Contact Us',
+          content: (
+            <>
+              <strong>Contact Us</strong>
+              <p>Get in touch with WhiteAu through our phone, WhatsApp, or website or our office. Our team will assist you and guide you through the process.</p>
+            </>
+          ),
+        },
+        {
+          id: '2',
+          title: 'Bring Your ID Proof',
+          content: (
+            <>
+              <strong>Required Documents</strong>
+              <p>For a quick and hassle-free KYC verification, please carry any of the following documents:</p>
+              <strong>Passport</strong>
+              <p>Carry your valid Passport for fast-track verification.</p>
+              <div style={{ textAlign: 'left', margin: '0.5rem 0', fontWeight: 'bold', color: 'var(--color-gold)' }}>OR</div>
+              <strong>Aadhaar Card</strong>
+              <p>Carry your Aadhaar Card for easy KYC verification.</p>
+              <div style={{ textAlign: 'left', margin: '0.5rem 0', fontWeight: 'bold', color: 'var(--color-gold)' }}>AND</div>
+              <strong>Photo ID Proof</strong>
+              <p>A valid government-issued photo ID is required.</p>
+              <div style={{ textAlign: 'left', margin: '0.5rem 0', fontWeight: 'bold', color: 'var(--color-gold)' }}>AND</div>
+              <strong>Local Address Proof</strong>
+              <p>A valid address proof is required to complete the verification process.</p>
+            </>
+          ),
+        },
+        {
+          id: '3',
+          title: 'Gold Purity Testing',
+          content: (
+            <>
+              <strong>Professional Gold Testing</strong>
+              <p>Your gold is tested using a secure and professional process to ensure accurate results.</p>
+              <strong>Tamper-Proof Testing</strong>
+              <p>Gold is tested through a secure, tamper-proof process.</p>
+              <strong>German Testing Machines</strong>
+              <p>Advanced German testing machines are used to assess gold purity accurately.</p>
+              <strong>Accurate Valuation</strong>
+              <p>Your gold is valued based on its verified purity and weight, ensuring a transparent and fair valuation.</p>
+            </>
+          ),
+        },
+        {
+          id: '4',
+          title: 'Check Gold Rate',
+          content: (
+            <>
+              <strong>Transparent Quotation</strong>
+              <p>Based on the results of the gold purity check, we will provide you with a clear quotation for your gold.</p>
+              <strong>Transparent Gold Rate</strong>
+              <p>Our applicable gold rate is clearly communicated to you before the transaction.</p>
+              <strong>Fair Valuation</strong>
+              <p>Your quotation is determined based on the verified purity and weight of your gold.</p>
+              <strong>No Hidden Charges</strong>
+              <p>We believe in complete transparency, with no unexpected charges or surprises.</p>
+            </>
+          ),
+        },
+        {
+          id: '5',
+          title: 'Complete KYC Verification',
+          content: (
+            <>
+              <strong>KYC Verification</strong>
+              <p>Complete a quick and secure KYC verification with the required documents.</p>
+              <strong>Photo ID Proof</strong>
+              <p>A valid government-issued photo ID is required for verification.</p>
+              <strong>Address Proof</strong>
+              <p>A valid address proof is mandatory. Your Aadhaar Card can serve as both Photo ID and Address Proof.</p>
+              <strong>Verification Phone Call</strong>
+              <p>As an additional safety and fraud-prevention measure, a verification call to a family member may be required.</p>
+            </>
+          ),
+        },
+        {
+          id: '6',
+          title: 'Receive Your Payment',
+          content: (
+            <>
+              <strong>Payment Transfer</strong>
+              <p>Once the valuation is approved and the KYC process is completed, your payment will be transferred securely to your bank account.</p>
+              <strong>Instant Payment</strong>
+              <p>Your payment is transferred instantly to your bank account upon completion of the transaction.</p>
+              <strong>Secure Bank Transfer</strong>
+              <p>For your security, the payment is made directly to your bank account.</p>
+              <strong>Confirm Before You Leave</strong>
+              <p>You can confirm the successful transfer of your payment before leaving our branch.</p>
+            </>
+          ),
+        },
+        {
+          id: '7',
+          title: 'Get More With Your Gold',
+          content: (
+            <>
+              <strong>Original Purchase Bill</strong>
+              <p>Have your original purchase bill? Bring it with you to help us verify your gold and make your selling experience even more rewarding.</p>
+              <strong>Original Purchase Bill</strong>
+              <p>Carry the original purchase bill of your gold for verification.</p>
+              <strong>Earn a Reward</strong>
+              <p>Get an additional payment when you present the original purchase bill, as per our applicable policy.</p>
+              <strong>Better Value</strong>
+              <p>A hassle-free experience with the opportunity to receive better value for your gold.</p>
+            </>
+          ),
+        }
+      ]
+    }
+  ];
+
   const sellGoldFaqs = [
     {
         "question": "What documents do I need to sell my gold to White AU?",
@@ -121,99 +237,29 @@ export default function FAQs() {
     }
 ];
 
-  const releaseGoldFaqs = [
-    {
-        "question": "Does White AU help release pledged gold?",
-        "answer": "Yes. White AU can help you close your existing gold loan and release your pledged gold jewellery.Our team will guide you through the required documentation, loan settlement, gold release, purity assessment, valuation, and final settlement process."
-    },
-    {
-        "question": "Can White AU release gold pledged with a bank or finance company?",
-        "answer": "Yes. White AU can assist in releasing gold that has been pledged with a bank or finance company.Simply bring your valid pledge receipt or relevant gold loan documents to our branch. After completing the necessary verification and formalities, White AU can arrange the funds required to settle the outstanding loan amount and facilitate the release of your pledged jewellery."
-    },
-    {
-        "question": "What if I am not satisfied with the valuation after my gold is released?",
-        "answer": "If you are not satisfied with the valuation offered after your pledged gold is released, you can choose to take back your gold by paying the gold release amount plus 5%, subject to the applicable terms and conditions.This gives you an opportunity to review the valuation before completing the final transaction."
-    },
-    {
-        "question": "What happens if the value of my gold is lower than the amount paid to release it?",
-        "answer": "If the final value of your gold is lower than the amount White AU paid to release the pledged jewellery, you will be required to pay the difference amount, as applicable under the agreed terms. Our team will explain the applicable amount and settlement terms before the transaction is finalized."
-    },
-    {
-        "question": "Can I keep some of the gold that has been released?",
-        "answer": "Yes, you may be able to retain a portion of your released gold. However, you must inform the White AU branch executive in advance, before the final valuation and settlement, so the necessary arrangements can be made."
-    },
-    {
-        "question": "Will the weight of stones or other materials be deducted during valuation?",
-        "answer": "Yes.White AU values the actual gold content of your jewellery. Therefore, the weight of stones, beads, enamel, or other non-gold materials will be deducted when determining the net gold weight. The final valuation is based on the eligible gold weight and purity."
-    },
-    {
-        "question": "Is there a minimum quantity of gold required to release pledged gold?",
-        "answer": "No. There is no minimum quantity of gold required for the pledged-gold release service. The transaction will, however, remain subject to the required documentation, verification, and applicable terms."
-    },
-    {
-        "question": "Can White AU release gold loans from multiple locations?",
-        "answer": "Yes. White AU can assist with releasing pledged gold from multiple locations. If your gold loan involves more than one branch, bank, or finance company, speak with our team so we can explain the process and documentation required for your specific situation."
-    },
-    {
-        "question": "Will a White AU representative accompany me to the bank or finance company?",
-        "answer": "Yes.After the necessary formalities are completed, a White AU representative can accompany you to the concerned bank or finance company. You will authorize the representative to assist with the gold release process. The applicable outstanding loan amount will be settled, and the pledged gold will be collected in your presence. Once the gold has been released, the representative will accompany you back to the White AU branch for the final purity assessment, valuation, and settlement."
-    },
-    {
-        "question": "Can White AU release my gold without a pledge receipt?",
-        "answer": "No. A copy of the pledge receipt or relevant gold loan document is required to evaluate and process the pledged gold release. Please carry your pledge receipt when visiting a White AU branch. If you have lost your receipt, contact the concerned branch to understand whether alternative documentation can be accepted."
-    },
-    {
-        "question": "Can I release gold that is pledged in someone else's name?",
-        "answer": "No. The person in whose name the gold has been pledged must be present during the release process. The required KYC, authorization, and other formalities must be completed by the person who originally pledged the gold."
-    },
-    {
-        "question": "Can White AU release gold that has already been moved for auction?",
-        "answer": "Yes, White AU may be able to assist with gold that has been moved into the auction process. However, such cases are considered on a case-by-case basis. The availability of relevant documents, such as purchase bills and other supporting records, may be required before the transaction can proceed. Please contact a White AU branch so our team can assess your specific case."
-    },
-    {
-        "question": "What types of gold items can I sell to White AU?",
-        "answer": "White AU purchases a wide range of eligible gold items. These may include: ● Gold jewellery ● Gold coins ● Gold bars ● Other eligible gold articles The final value depends on factors such as gold purity, net gold weight, prevailing market price, and the applicable terms of the transaction."
-    },
-    {
-        "question": "Why do I need to visit a White AU branch before releasing my pledged gold?",
-        "answer": "A branch visit is required because certain takeover, KYC, verification, and documentation formalities must be completed before the pledged gold can be released. Visiting the branch allows our team to: ● Verify your identity and documents ● Review your gold loan details ● Check the pledge receipt ● Explain the release process ● Discuss the applicable gold rate and terms ● Complete the required takeover formalities This helps ensure that the entire process is properly documented and transparent."
-    },
-    {
-        "question": "How does White AU determine the value of my gold jewellery?",
-        "answer": "White AU uses advanced gold-testing technology and precision weighing equipment to assess your jewellery. The valuation generally considers: ● Gold purity ● Net gold weight ● Weight of stones and other non-gold materials ● Prevailing gold market price ● Applicable transaction terms Our objective is to provide a clear and transparent valuation based on the actual gold content and prevailing market conditions."
-    },
-    {
-        "question": "What documents do I need to bring to release my pledged gold?",
-        "answer": "To begin the process, you should carry your pledge receipt or gold loan document along with a valid government-issued photo ID. Depending on your specific case, additional documents may be required for KYC, ownership verification, or loan settlement. Our branch team will review your documents and let you know if anything additional is required."
-    },
-    {
-        "question": "What is the process for releasing pledged gold through White AU?",
-        "answer": "The process is designed to be simple and transparent:"
-    }
-];
-
   return (
-    <>
-      <Header />
-      
-      <main className="container section-padding">
-        <div className={styles.pageHeader}>
-          <h1 className="font-serif">Frequently Asked Questions</h1>
-          <p className={styles.intro}>Find answers to the most common questions about selling or releasing your gold.</p>
+    <section className="section-padding">
+      <div className="container">
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.title}>Sell Gold in Kerala with Seven easy steps</h2>
         </div>
-
+        
+        <ProcessAccordion groups={sellGoldGroups} />
+        
         <div className={styles.faqSection}>
-          <h2 className="font-serif">Selling Gold</h2>
-          <Accordion items={sellGoldFaqs} />
+          <h2 className={styles.faqTitle}>Frequently Asked Questions</h2>
+          <Accordion items={showAllFaqs ? sellGoldFaqs : sellGoldFaqs.slice(0, 3)} />
+          
+          <div className={styles.showAllWrapper}>
+            <button 
+              className={styles.showAllBtn}
+              onClick={() => setShowAllFaqs(!showAllFaqs)}
+            >
+              {showAllFaqs ? 'Show Less ↑' : 'Show All FAQs ↓'}
+            </button>
+          </div>
         </div>
-
-        <div className={styles.faqSection}>
-          <h2 className="font-serif">Releasing Pledged Gold</h2>
-          <Accordion items={releaseGoldFaqs} />
-        </div>
-      </main>
-
-      <Footer />
-    </>
+      </div>
+    </section>
   );
 }

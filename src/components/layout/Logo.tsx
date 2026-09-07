@@ -11,9 +11,9 @@ interface LogoProps {
 export default function Logo({ 
   variant = 'full', 
   className = '', 
-  iconColor = '#2F2117', // Website primary dark color
-  textColor = '#2F2117', // Website primary dark color
-  size = 52 // A little bit bigger
+  iconColor = 'var(--color-gold)', 
+  textColor = 'var(--color-gold)', 
+  size = 52 
 }: LogoProps) {
   const monogram = (
     <img 
@@ -30,14 +30,8 @@ export default function Logo({
   );
 
   const wordmark = (
-    <span style={{ fontFamily: 'var(--font-cormorant)', fontSize: '2.1rem', fontWeight: 600, lineHeight: 1, color: textColor, display: 'inline-block' }}>
+    <span style={{ fontFamily: 'var(--font-cormorant)', fontSize: '1.8rem', fontWeight: 600, lineHeight: 1, color: textColor, display: 'inline-block' }}>
       White Au.
-    </span>
-  );
-
-  const bullion = (
-    <span style={{ display: 'block', fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', letterSpacing: '0.45em', color: textColor, textAlign: 'center', marginTop: '0.25rem', textTransform: 'uppercase', paddingLeft: '0.45em' }}>
-      BULLION
     </span>
   );
 
@@ -48,9 +42,8 @@ export default function Logo({
   return (
     <div className={className} style={{ display: 'inline-flex', alignItems: 'center' }}>
       {monogram}
-      <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', marginLeft: '0.6rem' }}>
+      <div style={{ display: 'inline-flex', alignItems: 'center', marginLeft: '0.8rem', marginTop: '0.4rem' }}>
         {wordmark}
-        {bullion}
       </div>
     </div>
   );

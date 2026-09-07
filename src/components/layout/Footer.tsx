@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import Logo from './Logo';
+import Logo from '@/components/layout/Logo';
 import styles from './Footer.module.css';
 
 export default function Footer() {
@@ -9,7 +9,7 @@ export default function Footer() {
       <div className={`container ${styles.footerGrid}`}>
         <div className={styles.brandCol}>
           <Logo variant="secondary" />
-          <p className={styles.tagline}>Your Trusted Gold Partner</p>
+          <p className={styles.tagline}>YOUR TRUSTED GOLD PARTNER</p>
         </div>
         
         <div className={styles.linksCol}>

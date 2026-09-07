@@ -1,6 +1,6 @@
 import React from 'react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 import styles from './page.module.css';
 
 export const metadata = {
@@ -12,27 +12,27 @@ export default function WhyWhiteAu() {
   const pillars = [
     {
       title: "Built on Trust",
-      description: "Trust is earned through legacy, transparency, honest valuations, and doing right by our customers."
+      description: "We believe trust is earned through legacy, transparency, honest valuations, and doing the right thing for our customers."
     },
     {
       title: "Accurate Gold Valuation",
-      description: "Advanced technology to assess your gold accurately and transparently."
+      description: "We use advanced technology to assess your gold accurately and transparently."
     },
     {
       title: "Transparent Gold Rates",
-      description: "Clear, upfront pricing — without unnecessary surprises."
+      description: "Know the value of your gold with clear and transparent pricing—without unnecessary surprises."
     },
     {
-      title: "Secure & Hassle-Free",
-      description: "From valuation to payment, a smooth and convenient experience."
+      title: <>Secure <span className="ampersand">&amp;</span> Hassle-Free</>,
+      description: "From valuation to payment, we ensure a smooth, secure, and convenient experience."
     },
     {
       title: "People Come First",
-      description: "A committed team that genuinely cares about every customer and interaction."
+      description: "Behind WhiteAu is a committed team that genuinely cares about every customer and every interaction."
     },
     {
       title: "Building the Future",
-      description: "Not just another place to sell gold — the future of gold selling: more transparent, accessible, and trusted."
+      description: "We are not just creating another place to sell gold. We are building the future of gold selling — one that is more transparent, accessible, and trusted."
     }
   ];
 

@@ -21,6 +21,10 @@
   gap: 4rem;
   max-width: 1000px;
   margin: 0 auto;
+  background-color: #fcf1e8; /* Light peach color */
+  padding: 3rem;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
 }
 
 @media (min-width: 768px) {
@@ -61,21 +65,23 @@
 }
 
 .contactForm {
-  background-color: #fff;
-  padding: 3rem;
-  border-top: 3px solid var(--color-gold);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  background-color: #ffffff;
+  padding: 2rem 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.03);
 }
 
 .contactForm h3 {
   font-size: 1.8rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-black);
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 
 .formGroup {
@@ -85,26 +91,30 @@
 }
 
 .formGroup label {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--color-gray);
+  letter-spacing: 0.08em;
+  color: var(--color-black);
 }
 
 .formGroup input,
 .formGroup textarea {
   width: 100%;
-  padding: 0.8rem;
+  padding: 1rem 1.25rem;
   font-family: var(--font-montserrat);
   font-size: 1rem;
-  border: 1px solid var(--color-gold-20);
-  background-color: transparent;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #f9f9f9;
   color: var(--color-black);
   outline: none;
-  transition: border-color 0.2s;
+  transition: all 0.3s ease;
 }
 
 .formGroup input:focus,
 .formGroup textarea:focus {
   border-color: var(--color-gold);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.15);
 }

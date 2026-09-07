@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Jost } from "next/font/google";
 import "./globals.css";
-import FloatingWhatsApp from "@/components/FloatingWhatsApp";
+import FloatingWhatsApp from '@/components/ui/FloatingWhatsApp';
 
 const playfair = Playfair_Display({
   variable: "--font-cormorant",
   weight: ["400", "500", "600", "700", "800"],
+  style: ["normal", "italic"],
   subsets: ["latin"],
 });
 

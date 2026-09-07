@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import Logo from './Logo';
+import Logo from '@/components/layout/Logo';
 import styles from './Header.module.css';
 
 export default function Header() {
@@ -31,6 +31,7 @@ export default function Header() {
     { href: '/', label: 'HOME' },
     { href: '/live-rates', label: 'LIVE RATES' },
     { href: '/sell-gold', label: 'SELL GOLD' },
+    { href: '/release-gold', label: 'RELEASE GOLD' },
     { href: '/contact', label: 'SUPPORT' },
   ];
 
@@ -62,8 +63,8 @@ export default function Header() {
         </nav>
 
         {/* CTA */}
-        <Link href="/#valuation" className={styles.headerCta}>
-          Get a Valuation <span className={styles.arrow}>↗</span>
+        <Link href="/contact" className={styles.headerCta}>
+          Contact Our Branch <span className={styles.arrow}>↗</span>
         </Link>
 
         {/* Mobile hamburger */}
@@ -80,8 +81,8 @@ export default function Header() {
               {label}
             </Link>
           ))}
-          <Link href="/#valuation" className={styles.mobileCta} onClick={() => setMenuOpen(false)}>
-            Get a Valuation ↗
+          <Link href="/contact" className={styles.mobileCta} onClick={() => setMenuOpen(false)}>
+            Contact Our Branch ↗
           </Link>
         </div>
       )}

@@ -24,7 +24,7 @@ export default function Founder() {
         <div className={styles.ctaCard}>
           <div className={styles.topBadge}>
             <span className={styles.badgeDot}></span>
-            <span>CUSTOMER RESOLUTION & SUPPORT</span>
+            <span>CUSTOMER RESOLUTION <span className="ampersand">&amp;</span> SUPPORT</span>
           </div>
           <h2 className={styles.ctaTitle}>Need to file an official complaint?</h2>
           <p className={styles.ctaText}>

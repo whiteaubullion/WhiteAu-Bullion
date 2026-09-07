@@ -1,8 +1,8 @@
 import React from 'react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import ContactPanel from '@/components/ContactPanel';
-import SellGoldSection from '@/components/SellGoldSection';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
+import ContactPanel from '@/components/sections/ContactPanel';
+import SellGoldSection from '@/components/sections/SellGoldSection';
 
 export const metadata = {
   title: 'Sell Gold | WhiteAu Bullion',

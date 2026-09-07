@@ -19,7 +19,7 @@ const cards = [
     number: "03"
   },
   {
-    title: "Secure & Hassle-Free",
+    title: <>Secure <span className="ampersand">&amp;</span> Hassle-Free</>,
     description: "A smooth journey from gold testing to final payment.",
     number: "04"
   },

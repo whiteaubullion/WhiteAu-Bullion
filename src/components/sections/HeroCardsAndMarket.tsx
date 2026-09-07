@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import marketStyles from './LiveMarketAnalysis.module.css';
+import marketStyles from '../features/LiveMarketAnalysis.module.css';
 
 export default function HeroCardsAndMarket() {
   return (

@@ -210,3 +210,9 @@ button {
   border-top: 1px solid var(--color-gold);
   margin: 2rem 0;
 }
+
+.ampersand {
+  font-family: 'Baskerville', 'Playfair Display', serif;
+  font-style: italic;
+  font-weight: 500;
+}

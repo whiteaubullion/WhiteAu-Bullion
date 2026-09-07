@@ -1,24 +1,24 @@
 import React from 'react';
-import Header from '@/components/Header';
-import Logo from '@/components/Logo';
-import Footer from '@/components/Footer';
-import Button from '@/components/Button';
-import TrustLayer from '@/components/TrustLayer';
+import Header from '@/components/layout/Header';
+import Logo from '@/components/layout/Logo';
+import Footer from '@/components/layout/Footer';
+import Button from '@/components/ui/Button';
+import TrustLayer from '@/components/sections/TrustLayer';
 
-import HeroCardsAndMarket from '@/components/HeroCardsAndMarket';
-import WhyWhiteAuCards from '@/components/WhyWhiteAuCards';
-import ValuationFeature from '@/components/ValuationFeature';
-import Testimonials from '@/components/Testimonials';
-import SellGoldSection from '@/components/SellGoldSection';
-import ReleaseGoldSection from '@/components/ReleaseGoldSection';
+import HeroCardsAndMarket from '@/components/sections/HeroCardsAndMarket';
+import WhyWhiteAuCards from '@/components/sections/WhyWhiteAuCards';
+import ValuationFeature from '@/components/features/ValuationFeature';
+import Testimonials from '@/components/sections/Testimonials';
+import SellGoldSection from '@/components/sections/SellGoldSection';
+import ReleaseGoldSection from '@/components/sections/ReleaseGoldSection';
 
-import Founder from '@/components/Founder';
-import BranchInfo from '@/components/BranchInfo';
-import PremiumSellButton from '@/components/PremiumSellButton';
-import BackgroundMarquee from '@/components/BackgroundMarquee';
+import Founder from '@/components/sections/Founder';
+import BranchInfo from '@/components/features/BranchInfo';
+import PremiumSellButton from '@/components/features/PremiumSellButton';
+import BackgroundMarquee from '@/components/ui/BackgroundMarquee';
 
 import styles from './page.module.css';
-import HeroTrustPanel from '@/components/HeroTrustPanel';
+import HeroTrustPanel from '@/components/sections/HeroTrustPanel';
 
 export default function Home() {
   return (
