@@ -2,8 +2,8 @@
   position: fixed;
   bottom: 0.6rem;
   right: 4.2rem;
-  width: 78px;
-  height: 78px;
+  width: 88px;
+  height: 88px;
   background-color: #25D366;
   color: white;
   border-radius: 50%;
@@ -34,11 +34,52 @@
   }
 }
 
+.messageBox {
+  position: absolute;
+  right: calc(100% + 15px);
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: white;
+  color: #1a1a1a;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+  animation: bounceHorizontal 2s infinite ease-in-out;
+}
+
+.messageBox::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent transparent transparent white;
+}
+
+@keyframes bounceHorizontal {
+  0%, 100% {
+    transform: translateY(-50%) translateX(0);
+  }
+  50% {
+    transform: translateY(-50%) translateX(-4px);
+  }
+}
+
 @media (max-width: 768px) {
   .floatingWhatsApp {
     bottom: 0.6rem;
     right: 3rem;
-    width: 68px;
-    height: 68px;
+    width: 76px;
+    height: 76px;
+  }
+  
+  .messageBox {
+    display: none; /* Hide tooltip on mobile if it clutters */
   }
 }

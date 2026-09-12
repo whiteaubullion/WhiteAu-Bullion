@@ -1,18 +1,15 @@
 'use client';
 import React from 'react';
-import ProcessAccordion, { ProcessGroup } from '@/components/features/ProcessAccordion';
+import InteractiveStepsCard, { StepItem } from '@/components/features/InteractiveStepsCard';
 import Accordion from '@/components/ui/Accordion';
-import styles from '../ui/ServiceSection.module.css';
+import faqStyles from './TwoColumnFaq.module.css';
 
 export default function ReleaseGoldSection() {
   const [showAllFaqs, setShowAllFaqs] = React.useState(false);
 
-  const releaseGoldGroups: ProcessGroup[] = [
+  const releaseGoldSteps: StepItem[] = [
     {
-      groupName: 'NINE EASY STEPS',
-      steps: [
-        {
-          id: '1',
+      id: '1',
           title: 'Visit a White AU',
           content: (
             <>
@@ -100,8 +97,6 @@ export default function ReleaseGoldSection() {
               <p>After completing the valuation and settlement formalities, the applicable amount will be transferred to your bank account.</p>
             </>
           ),
-        }
-      ]
     }
   ];
 
@@ -173,29 +168,40 @@ export default function ReleaseGoldSection() {
 ];
 
   return (
-    <section className="section-padding">
-      <div className="container">
-        <div className={styles.sectionHeader}>
-          <h2 className={styles.title}>Release Gold Loan<br/>Nine easy steps</h2>
-          <p className={styles.intro} style={{ marginTop: '1rem', fontStyle: 'italic', color: 'var(--color-gold)' }}>White AU — Release Your Gold. Move Forward.</p>
+    <>
+      <section className="section-padding">
+        <div className="container">
+          <InteractiveStepsCard 
+            title={<>Release Gold Loan<br/><span style={{ color: 'var(--color-gold)' }}>Nine easy steps</span></>}
+            subtitle="White AU — Release Your Gold. Move Forward."
+            steps={releaseGoldSteps}
+            imageSrc="/why-model.jpg"
+          />
         </div>
-        
-        <ProcessAccordion groups={releaseGoldGroups} />
-        
-        <div className={styles.faqSection}>
-          <h2 className={styles.faqTitle}>Frequently Asked Questions</h2>
-          <Accordion items={showAllFaqs ? releaseGoldFaqs : releaseGoldFaqs.slice(0, 3)} />
-          
-          <div className={styles.showAllWrapper}>
-            <button 
-              className={styles.showAllBtn}
-              onClick={() => setShowAllFaqs(!showAllFaqs)}
-            >
-              {showAllFaqs ? 'Show Less ↑' : 'Show All FAQs ↓'}
-            </button>
+      </section>
+
+      <section className={faqStyles.faqSection}>
+        <div className="container">
+          <div className={faqStyles.faqContainer}>
+            <div className={faqStyles.faqLeft}>
+              <h2 className={faqStyles.faqTitle}>Frequently Asked<br/>Questions</h2>
+            </div>
+            
+            <div className={faqStyles.faqRight}>
+              <Accordion items={showAllFaqs ? releaseGoldFaqs : releaseGoldFaqs.slice(0, 5)} />
+              
+              <div className={faqStyles.showAllWrapper}>
+                <button 
+                  className={faqStyles.showAllBtn}
+                  onClick={() => setShowAllFaqs(!showAllFaqs)}
+                >
+                  {showAllFaqs ? 'Show Less ↑' : 'Show All FAQs'}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

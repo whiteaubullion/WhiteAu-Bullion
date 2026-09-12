@@ -2,11 +2,15 @@
 import React, { useState } from 'react';
 import styles from './ContactPanel.module.css';
 
-export default function ContactPanel() {
+type ContactPanelProps = {
+  type?: 'sell' | 'release' | 'all';
+};
+
+export default function ContactPanel({ type = 'all' }: ContactPanelProps) {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
-    service: 'sell',
+    service: type === 'all' ? 'sell' : type,
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -88,9 +92,9 @@ export default function ContactPanel() {
                   value={formData.service}
                   onChange={(e) => setFormData({...formData, service: e.target.value})}
                 >
-                  <option value="sell">Sell Gold</option>
-                  <option value="release">Release Pledged Gold</option>
-                  <option value="other">General Enquiry</option>
+                  {(type === 'all' || type === 'sell') && <option value="sell">Sell Gold</option>}
+                  {(type === 'all' || type === 'release') && <option value="release">Release Pledged Gold</option>}
+                  {type === 'all' && <option value="other">General Enquiry</option>}
                 </select>
               </div>
               

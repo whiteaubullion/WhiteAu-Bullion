@@ -38,6 +38,38 @@ export default function Home() {
                 />
               </div>
 
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.5rem', marginTop: '0.5rem', position: 'relative', zIndex: 10 }}>
+                <a 
+                  href="/live-rates" 
+                  style={{ 
+                    padding: '0.5rem 1.5rem', 
+                    borderRadius: '9999px', 
+                    background: 'rgba(255, 255, 255, 0.15)', 
+                    backdropFilter: 'blur(12px)', 
+                    WebkitBackdropFilter: 'blur(12px)',
+                    border: '1px solid rgba(255, 255, 255, 0.3)', 
+                    color: 'var(--color-gold)', 
+                    fontWeight: 'bold', 
+                    fontSize: '0.95rem', 
+                    textDecoration: 'none', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: '0.5rem', 
+                    boxShadow: '0 4px 15px rgba(0,0,0,0.1)' 
+                  }}
+                >
+                  <span style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#10b981', boxShadow: '0 0 8px #10b981' }}></span>
+                  <span style={{ 
+                    letterSpacing: '0.1em', 
+                    textTransform: 'uppercase', 
+                    color: '#4e342e', /* Dark brown similar to the image */
+                    fontSize: '0.75rem' /* Reduced text size */
+                  }}>
+                    Our Rate
+                  </span>
+                </a>
+              </div>
+
               <h1 className={styles.heroTitle}>
                 India's Most Trusted<br/>Gold Buying Partner
               </h1>
@@ -63,12 +95,12 @@ export default function Home() {
           <BackgroundMarquee />
           
           <div style={{ position: 'relative', zIndex: 2 }}>
-            <Testimonials />
             <SellGoldSection />
             <ReleaseGoldSection />
             <WhyWhiteAuCards />
 
             <Founder />
+            <Testimonials />
             <BranchInfo />
             <Footer />
           </div>

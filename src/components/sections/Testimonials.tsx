@@ -108,7 +108,7 @@ export default function Testimonials() {
           
           {/* Card 1: Tall left card */}
           <motion.div variants={cardVariants} className={`${styles.card} ${styles.cardTall1} ${styles.cardWhite}`}>
-            <div className={styles.cardClose}>×</div>
+
             <div className={styles.starsCenter}>
               <span className={styles.star}>★</span><span className={styles.star}>★</span><span className={styles.star}>★</span><span className={styles.star}>★</span><span className={styles.star}>★</span>
             </div>
@@ -118,16 +118,16 @@ export default function Testimonials() {
               <span className={styles.pill}>Perfect</span>
               <span className={styles.pill}>Good deal</span>
             </div>
-            <p className={styles.authorTag}>- @RahulM -</p>
+            <p className={styles.authorTag}>- Vishnu -</p>
           </motion.div>
 
           {/* Card 2: Top middle wide card */}
           <motion.div variants={cardVariants} className={`${styles.card} ${styles.cardWide1} ${styles.cardYellow}`}>
             <div className={styles.cardTopRow}>
               <div className={styles.authorSmall}>
-                <div className={styles.avatarSmall}>S</div>
+                <div className={styles.avatarSmall}>B</div>
                 <div className={styles.authorInfoSmall}>
-                  <span className={styles.nameSmall}>Sneha K.</span>
+                  <span className={styles.nameSmall}>Bibin</span>
                   <span className={styles.timeSmall}>2 days ago</span>
                 </div>
               </div>
@@ -141,9 +141,9 @@ export default function Testimonials() {
           <motion.div variants={cardVariants} className={`${styles.card} ${styles.cardHuge} ${styles.cardWhite}`}>
             <div className={styles.cardTopRow}>
               <div className={styles.author}>
-                <div className={styles.avatar}>D</div>
+                <div className={styles.avatar}>E</div>
                 <div className={styles.authorInfo}>
-                  <span className={styles.name}>David T.</span>
+                  <span className={styles.name}>Ejas</span>
                   <span className={styles.role}>Verified Client</span>
                 </div>
               </div>
@@ -157,7 +157,7 @@ export default function Testimonials() {
 
           {/* Card 4: Top right square */}
           <motion.div variants={cardVariants} className={`${styles.card} ${styles.cardSquare1} ${styles.cardYellow}`}>
-            <p className={styles.dateSmall}>26 Mar 2026</p>
+            <p className={styles.dateSmall}>Nikhil & Maya</p>
             <h3 className={styles.titleMedium}>Incredible service</h3>
             <p className={styles.textMedium}>Perfect, exceeded expectations.</p>
             <div className={styles.starsLeft}>
@@ -173,18 +173,19 @@ export default function Testimonials() {
             <p className={styles.textSmall}>Very smooth experience. The staff was polite and explained the purity test clearly. Got my money transferred to my account in minutes.</p>
             <div className={styles.authorBottomRight}>
               <div className={styles.authorInfoRight}>
-                <span className={styles.nameSmall}>Anjali S.</span>
+                <span className={styles.nameSmall}>Sherin</span>
                 <span className={styles.timeSmall}>Local Client</span>
               </div>
-              <div className={styles.avatarSmall}>A</div>
+              <div className={styles.avatarSmall}>S</div>
             </div>
             <span className={styles.pillBottomLeft}>Great service</span>
           </motion.div>
 
           {/* Card 6: Bottom right tall card */}
           <motion.div variants={cardVariants} className={`${styles.card} ${styles.cardTall2} ${styles.cardYellow}`}>
-            <div className={styles.cardClose}>×</div>
-            <div className={styles.avatarLarge}>V</div>
+
+            <div className={styles.avatarLarge}>F</div>
+            <p style={{textAlign: 'center', fontWeight: 600, marginTop: '0.5rem', marginBottom: '0.5rem'}}>Fahad</p>
             <h3 className={styles.titleCenter}>Amazing Experience!</h3>
             <p className={styles.textCenterSmall}>When it comes to releasing pledged gold, this service is top-notch.</p>
             <div className={styles.statsRow}>

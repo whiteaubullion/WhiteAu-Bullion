@@ -62,6 +62,13 @@ export default async function LiveRatesPage() {
 
   return (
     <main style={{ minHeight: '100vh', paddingTop: '120px', backgroundColor: 'var(--primary-dark)' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px', display: 'flex', justifyContent: 'flex-end', marginBottom: '1.5rem' }}>
+        <form action="/auth/signout" method="post">
+          <button type="submit" style={{ padding: '0.5rem 1rem', backgroundColor: 'rgba(212, 175, 55, 0.1)', border: '1px solid var(--color-gold)', color: 'var(--color-gold)', borderRadius: '0.5rem', cursor: 'pointer', fontSize: '0.875rem', fontWeight: 'bold' }}>
+            Sign Out
+          </button>
+        </form>
+      </div>
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
         <LiveRatesPanel rates={rates} />
       </div>

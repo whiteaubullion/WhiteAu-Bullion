@@ -25,6 +25,19 @@ export default async function AdminLayout({
 
   const role = adminUser?.role || 'UNAUTHORIZED'
 
+  // Strictly enforce that only this specific email can access the admin panel
+  if (user.email !== 'whiteau.bullion@gmail.com') {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', flexDirection: 'column', fontFamily: 'sans-serif', backgroundColor: '#f9fafb' }}>
+        <h1 style={{ fontSize: '2rem', color: '#ef4444', marginBottom: '1rem' }}>Access Denied</h1>
+        <p style={{ color: '#4b5563', marginBottom: '2rem' }}>You do not have permission to view the admin panel.</p>
+        <Link href="/" style={{ padding: '0.75rem 1.5rem', backgroundColor: '#d4af37', color: 'white', textDecoration: 'none', borderRadius: '4px', fontWeight: 'bold' }}>
+          Return to Home
+        </Link>
+      </div>
+    )
+  }
+
   return (
     <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f9fafb', fontFamily: 'sans-serif' }}>
       <aside style={{ width: '250px', backgroundColor: '#1f2937', color: 'white', display: 'flex', flexDirection: 'column' }}>
@@ -42,6 +55,11 @@ export default async function AdminLayout({
             <li>
               <Link href="/admin" style={{ display: 'block', padding: '0.75rem 1.5rem', color: '#d1d5db', textDecoration: 'none', transition: 'background 0.2s' }}>
                 Dashboard
+              </Link>
+            </li>
+            <li>
+              <Link href="/admin/customers" style={{ display: 'block', padding: '0.75rem 1.5rem', color: '#d1d5db', textDecoration: 'none', transition: 'background 0.2s' }}>
+                Customers
               </Link>
             </li>
           </ul>

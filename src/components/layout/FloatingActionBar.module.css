@@ -1,0 +1,180 @@
+.floatingBarContainer {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #262626;
+  border-radius: 12px;
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  width: max-content;
+  max-width: 95vw;
+  overflow-x: auto;
+  border: 1px solid #3f3f46;
+}
+
+.floatingBarContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.itemGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #1a1a1a;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+}
+
+.itemGroup:hover {
+  background-color: #333;
+}
+
+.goldRateGroup {
+  background: linear-gradient(135deg, #b48e4b, #dfc282);
+  color: #1a1a1a;
+}
+.goldRateGroup:hover {
+  background: linear-gradient(135deg, #c79e56, #efd191);
+}
+
+.actionButton {
+  padding: 0.6rem 1.25rem;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.1s, opacity 0.2s;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.actionButton:active {
+  transform: scale(0.96);
+}
+
+.sellGold {
+  background-color: #0b51c1;
+  color: white;
+}
+.sellGold:hover {
+  opacity: 0.9;
+}
+
+.releaseGold {
+  background-color: white;
+  color: #1a1a1a;
+}
+.releaseGold:hover {
+  opacity: 0.9;
+}
+
+.iconButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  color: #9ca3af;
+  transition: background-color 0.2s;
+}
+
+.iconButton:hover {
+  background-color: #333;
+  color: white;
+}
+
+.whatsappButton {
+  background-color: #22c55e;
+  color: white;
+}
+.whatsappButton:hover {
+  background-color: #16a34a;
+  color: white;
+}
+
+.phoneGroup {
+  background-color: #3f3f46;
+  color: white;
+  padding: 0.6rem 1.25rem;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+}
+
+.phoneGroup:hover {
+  background-color: #52525b;
+}
+
+@media (max-width: 768px) {
+  .floatingBarContainer {
+    bottom: 1rem;
+    padding: 0.5rem;
+    gap: 0.5rem;
+  }
+  .itemGroup, .actionButton, .phoneGroup {
+    font-size: 0.8rem;
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+.whatsappWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.whatsappTooltip {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  color: #1a1a1a;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+  animation: tooltipBounce 2s infinite ease-in-out;
+}
+
+.whatsappTooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: white transparent transparent transparent;
+}
+
+@keyframes tooltipBounce {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-5px);
+  }
+}

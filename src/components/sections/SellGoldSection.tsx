@@ -1,18 +1,15 @@
 'use client';
 import React from 'react';
-import ProcessAccordion, { ProcessGroup } from '@/components/features/ProcessAccordion';
+import InteractiveStepsCard, { StepItem } from '@/components/features/InteractiveStepsCard';
 import Accordion from '@/components/ui/Accordion';
-import styles from '../ui/ServiceSection.module.css'; // Will create a shared CSS for the section wrapper
+import faqStyles from './TwoColumnFaq.module.css';
 
 export default function SellGoldSection() {
   const [showAllFaqs, setShowAllFaqs] = React.useState(false);
 
-    const sellGoldGroups: ProcessGroup[] = [
+  const sellGoldSteps: StepItem[] = [
     {
-      groupName: 'SEVEN EASY STEPS',
-      steps: [
-        {
-          id: '1',
+      id: '1',
           title: 'Contact Us',
           content: (
             <>
@@ -121,8 +118,6 @@ export default function SellGoldSection() {
               <p>A hassle-free experience with the opportunity to receive better value for your gold.</p>
             </>
           ),
-        }
-      ]
     }
   ];
 
@@ -235,31 +230,42 @@ export default function SellGoldSection() {
         "question": "Why should I choose White AU to sell my old gold?",
         "answer": "White AU is committed to providing a transparent and convenient gold-selling experience. We offer free valuation, modern testing technology and a straightforward transaction process. If you are looking to convert your old, unused or unwanted gold into money, White AU can help you understand the value of your gold and complete the selling process with clarity and convenience."
     }
-];
+  ];
 
   return (
-    <section className="section-padding">
-      <div className="container">
-        <div className={styles.sectionHeader}>
-          <h2 className={styles.title}>Sell Gold in Kerala with Seven easy steps</h2>
+    <>
+      <section className="section-padding">
+        <div className="container">
+          <InteractiveStepsCard 
+            title={<>Sell Gold in Bangalore with<br/><span style={{ color: 'var(--color-gold)' }}>Seven easy steps</span></>}
+            steps={sellGoldSteps}
+            imageSrc="/why-model.jpg"
+          />
         </div>
-        
-        <ProcessAccordion groups={sellGoldGroups} />
-        
-        <div className={styles.faqSection}>
-          <h2 className={styles.faqTitle}>Frequently Asked Questions</h2>
-          <Accordion items={showAllFaqs ? sellGoldFaqs : sellGoldFaqs.slice(0, 3)} />
-          
-          <div className={styles.showAllWrapper}>
-            <button 
-              className={styles.showAllBtn}
-              onClick={() => setShowAllFaqs(!showAllFaqs)}
-            >
-              {showAllFaqs ? 'Show Less ↑' : 'Show All FAQs ↓'}
-            </button>
+      </section>
+
+      <section className={faqStyles.faqSection}>
+        <div className="container">
+          <div className={faqStyles.faqContainer}>
+            <div className={faqStyles.faqLeft}>
+              <h2 className={faqStyles.faqTitle}>Frequently Asked<br/>Questions</h2>
+            </div>
+            
+            <div className={faqStyles.faqRight}>
+              <Accordion items={showAllFaqs ? sellGoldFaqs : sellGoldFaqs.slice(0, 5)} />
+              
+              <div className={faqStyles.showAllWrapper}>
+                <button 
+                  className={faqStyles.showAllBtn}
+                  onClick={() => setShowAllFaqs(!showAllFaqs)}
+                >
+                  {showAllFaqs ? 'Show Less ↑' : 'Show All FAQs'}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

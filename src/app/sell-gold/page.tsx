@@ -15,7 +15,7 @@ export default function SellGold() {
       <Header />
       
       <main style={{ paddingTop: '80px' }}>
-        <ContactPanel />
+        <ContactPanel type="sell" />
         <SellGoldSection />
       </main>
 
