@@ -90,7 +90,7 @@ export default function ContactPanel({ type = 'all' }: ContactPanelProps) {
                   id="service"
                   className={styles.select}
                   value={formData.service}
-                  onChange={(e) => setFormData({...formData, service: e.target.value})}
+                  onChange={(e) => setFormData({...formData, service: e.target.value as 'sell' | 'release' | 'all'})}
                 >
                   {(type === 'all' || type === 'sell') && <option value="sell">Sell Gold</option>}
                   {(type === 'all' || type === 'release') && <option value="release">Release Pledged Gold</option>}
