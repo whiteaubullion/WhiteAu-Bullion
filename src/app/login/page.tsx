@@ -25,22 +25,22 @@ export default function LoginPage() {
     const res = await initialAuthSubmit(prev, formData)
     if (res.step) setCurrentStep(res.step as Step)
     return res
-  }, { error: '', email: '', phone: '', exists: false })
+  }, { error: '', email: '', phone: '', exists: false } as any)
 
   const [verifyState, verifyAction, isVerifying] = useActionState(async (prev: any, formData: FormData) => {
     const res = await verifyOtp(prev, formData)
     if (res.step) setCurrentStep(res.step as Step)
     return res
-  }, { error: '' })
+  }, { error: '', email: '', phone: '' })
 
   const [nameState, nameAction, isSavingName] = useActionState(async (prev: any, formData: FormData) => {
     const res = await saveName(prev, formData)
     if (res.step) setCurrentStep(res.step as Step)
     return res
-  }, { error: '' })
+  }, { error: '', email: '', phone: '', name: '' })
 
   const [passwordState, passwordAction, isSettingPassword] = useActionState(setPassword, { error: '' })
-  const [loginState, loginAction, isLoggingIn] = useActionState(loginWithPassword, { error: '' })
+  const [loginState, loginAction, isLoggingIn] = useActionState(loginWithPassword, { error: '', email: '' })
 
   const handleResend = async () => {
     setIsResending(true)

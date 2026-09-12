@@ -10,7 +10,7 @@ export default function ContactPanel({ type = 'all' }: ContactPanelProps) {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
-    service: type === 'all' ? 'sell' : type,
+    service: type === 'all' ? 'sell' : type as string,
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -90,7 +90,7 @@ export default function ContactPanel({ type = 'all' }: ContactPanelProps) {
                   id="service"
                   className={styles.select}
                   value={formData.service}
-                  onChange={(e) => setFormData({...formData, service: e.target.value as 'sell' | 'release' | 'all'})}
+                  onChange={(e) => setFormData({...formData, service: e.target.value})}
                 >
                   {(type === 'all' || type === 'sell') && <option value="sell">Sell Gold</option>}
                   {(type === 'all' || type === 'release') && <option value="release">Release Pledged Gold</option>}
