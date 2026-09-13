@@ -15,8 +15,8 @@ export default function ReleaseGold() {
       <Header />
       
       <main style={{ paddingTop: '80px' }}>
-        <ContactPanel type="release" />
         <ReleaseGoldSection />
+        <ContactPanel type="release" />
       </main>
 
       <Footer />
