@@ -8,32 +8,38 @@ const features = [
   {
     number: "01",
     title: "Built on Trust",
-    description: "Honest valuations, transparent processes and customer-first service.",
+    description: "We believe trust is earned through legacy, transparency, honest valuations, and doing the right thing for our customers.",
     icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
   },
   {
     number: "02",
     title: "Accurate Gold Valuation",
-    description: "Advanced testing technology and precision weighing to determine the value of your gold.",
+    description: "We use advanced technology to assess your gold accurately and transparently.",
     icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>
   },
   {
     number: "03",
     title: "Transparent Gold Rates",
-    description: "Clear pricing before the transaction with no unnecessary surprises.",
+    description: "Know the value of your gold with clear and transparent pricing—without unnecessary surprises.",
     icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
   },
   {
     number: "04",
     title: "Secure & Hassle-Free",
-    description: "A smooth journey from gold testing to final payment.",
+    description: "From valuation to payment, we ensure a smooth, secure, and convenient experience.",
     icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
   },
   {
     number: "05",
     title: "People Come First",
-    description: "Professional assistance from a team focused on making the experience simple.",
+    description: "Behind WhiteAu is a committed team that genuinely cares about every customer and every interaction.",
     icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+  },
+  {
+    number: "06",
+    title: "Building the Future",
+    description: "We are not just creating another place to sell gold. We are building the future of gold selling — one that is more transparent, accessible, and trusted.",
+    icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
   }
 ];
 
@@ -45,9 +51,8 @@ export default function WhyWhiteAuCards() {
           className={styles.title}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
         >
-          Why Sell Gold To WhiteAu ?
+          Why WhiteAu? Trust. Transparency. Value.
         </motion.h2>
 
         <div className={styles.contentWrapper}>
@@ -121,6 +126,18 @@ export default function WhyWhiteAuCards() {
             ))}
           </motion.div>
         </div>
+        
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          style={{ textAlign: 'center', marginTop: '4rem', padding: '2rem', background: 'rgba(255,255,255,0.4)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.7)', backdropFilter: 'blur(10px)' }}
+        >
+          <h3 style={{ fontFamily: 'var(--font-cormorant)', fontSize: '2rem', color: 'var(--color-black)', marginBottom: '1rem' }}>Your Gold Deserves Better.</h3>
+          <p style={{ color: 'var(--color-gray)', fontSize: '1.1rem', maxWidth: '700px', margin: '0 auto' }}>
+            WhiteAu is where trust meets technology, and where selling gold becomes a better experience.
+          </p>
+        </motion.div>
 
       </div>
     </section>

@@ -10,93 +10,115 @@ export default function ReleaseGoldSection() {
   const releaseGoldSteps: StepItem[] = [
     {
       id: '1',
-          title: 'Visit a White AU',
-          content: (
-            <>
-              <strong>Locate a Branch</strong>
-              <p>Locate your nearest White AU branch or connect us through website or call and discuss your gold loan with our team.</p>
-            </>
-          ),
-        },
-        {
-          id: '2',
-          title: 'Submit Your Documents',
-          content: (
-            <>
-              <strong>Required Documents</strong>
-              <p>Bring your pledge receipt/gold loan document and valid government-issued photo ID.</p>
-            </>
-          ),
-        },
-        {
-          id: '3',
-          title: 'Complete KYC Verification',
-          content: (
-            <>
-              <strong>Identity Verification</strong>
-              <p>Our team will verify your identity and review the relevant gold loan documents.</p>
-            </>
-          ),
-        },
-        {
-          id: '4',
-          title: 'Understand the Gold Rate and Terms',
-          content: (
-            <>
-              <strong>Transparent Terms</strong>
-              <p>We will explain the applicable gold rate, release amount, valuation process, and transaction terms.</p>
-            </>
-          ),
-        },
-        {
-          id: '5',
-          title: 'Confirm the Transaction',
-          content: (
-            <>
-              <strong>Authorization</strong>
-              <p>After reviewing the terms, you can provide the necessary authorization and complete the required documentation.</p>
-            </>
-          ),
-        },
-        {
-          id: '6',
-          title: 'Visit the Gold Loan Provider',
-          content: (
-            <>
-              <strong>Personal Assistance</strong>
-              <p>A White AU representative can accompany you to the concerned bank or finance company to assist with settling the outstanding gold loan and collecting your pledged jewellery.</p>
-            </>
-          ),
-        },
-        {
-          id: '7',
-          title: 'Gold Purity Assessment',
-          content: (
-            <>
-              <strong>Professional Testing</strong>
-              <p>Once the jewellery is released, it will be brought to the White AU branch for purity testing and precise weighing.</p>
-            </>
-          ),
-        },
-        {
-          id: '8',
-          title: 'Final Valuation',
-          content: (
-            <>
-              <strong>Accurate Valuation</strong>
-              <p>The jewellery will be valued based on its purity, net gold weight, applicable gold rate, and agreed transaction terms.</p>
-            </>
-          ),
-        },
-        {
-          id: '9',
-          title: 'Final Settlement',
-          content: (
-            <>
-              <strong>Instant Payment</strong>
-              <p>After completing the valuation and settlement formalities, the applicable amount will be transferred to your bank account.</p>
-            </>
-          ),
+      title: 'Bring Your Pledge Receipt',
+      content: (
+        <>
+          <strong>Check Your Loan Documents</strong>
+          <p>Locate your original pledge receipt and keep it ready for the process.</p>
+        </>
+      ),
+    },
+    {
+      id: '2',
+      title: 'Carry Your ID Proof',
+      content: (
+        <>
+          <p>Bring a valid government-issued ID for identification and verification.</p>
+          <strong>Passport</strong>
+          <p>Carry your Passport for verification.</p>
+          <div style={{ textAlign: 'left', margin: '0.5rem 0', fontWeight: 'bold', color: 'var(--color-gold)' }}>OR</div>
+          <strong>Aadhaar Card</strong>
+          <p>Your Aadhaar Card can be used for quick KYC verification.</p>
+          <div style={{ textAlign: 'left', margin: '0.5rem 0', fontWeight: 'bold', color: 'var(--color-gold)' }}>AND</div>
+          <strong>Address Proof</strong>
+          <p>A valid address proof may be required to complete the process.</p>
+        </>
+      ),
+    },
+    {
+      id: '3',
+      title: 'Complete KYC Verification',
+      content: (
+        <>
+          <p>Complete a secure KYC verification before proceeding with the gold loan release.</p>
+          <strong>Photo ID Proof</strong>
+          <p>A valid government-issued photo ID is required.</p>
+          <strong>Address Proof</strong>
+          <p>A valid address proof is required. Your Aadhaar Card can serve as both.</p>
+          <strong>Verification Call</strong>
+          <p>As an additional security measure, a verification call may be required to confirm the transaction.</p>
+        </>
+      ),
+    },
+    {
+      id: '4',
+      title: 'Check Gold Rate',
+      content: (
+        <>
+          <p>Based on the purity of your gold, we will provide you with a clear quotation. Our gold rate is transparent and communicated upfront.</p>
+        </>
+      ),
+    },
+    {
+      id: '5',
+      title: 'Complete Your Gold Loan Closure',
+      content: (
+        <>
+          <p>Our team will guide you through the required steps to close your existing gold loan and arrange for the release of your pledged gold.</p>
+          <strong>Complete Documentation</strong>
+          <p>Complete the necessary documentation for the loan closure.</p>
+          <strong>Confirm the Applicable Gold Rate</strong>
+          <p>The applicable rate and transaction details will be clearly communicated before proceeding.</p>
+          <strong>Sign the Required Documents</strong>
+          <p>Review and sign the necessary documents(Term Sheet) to complete the process.</p>
+        </>
+      ),
+    },
+    {
+      id: '6',
+      title: 'Meet Our Representative',
+      content: (
+        <>
+          <p>A WhiteAu representative will assist you throughout the gold loan closure process and coordinate with the gold loan provider.</p>
+          <strong>Personal Assistance</strong>
+          <p>Our representative will guide you through the required steps.</p>
+          <strong>Hassle-Free Process</strong>
+          <p>We help simplify the process from documentation to gold release.</p>
+        </>
+      ),
+    },
+    {
+      id: '7',
+      title: 'Check Gold Purity',
+      content: (
+        <>
+          <p>Your gold will be professionally tested to determine its purity accurately. Our testing process is secure, reliable, and transparent.</p>
+          <strong>Tamper-Proof Testing</strong>
+          <p>Secure testing procedures ensure the integrity of the valuation process.</p>
+          <strong>German Testing Machines</strong>
+          <p>We use advanced German testing machines for accurate purity assessment.</p>
+          <strong>Accurate Valuation</strong>
+          <p>The verified purity and weight of your gold help us determine its accurate value.</p>
+        </>
+      ),
+    },
+    {
+      id: '8',
+      title: 'Instant Payment',
+      content: (
+        <>
+          <p>For your security, we transfer the money to your bank account. You can confirm the money transfer before leaving our branch.</p>
+        </>
+      ),
+    },
+    {
+      id: '9',
+      title: 'Customer Satisfaction & Gold Return',
+      content: (
+        <>
+          <p>If you are not satisfied with the transaction or valuation, you can pay us the Gold Release Value plus the applicable percentage deduction and take back your gold.</p>
+        </>
+      ),
     }
   ];
 
@@ -164,6 +186,10 @@ export default function ReleaseGoldSection() {
     {
         "question": "What documents do I need to bring to release my pledged gold?",
         "answer": "To begin the process, you should carry your pledge receipt or gold loan document along with a valid government-issued photo ID. Depending on your specific case, additional documents may be required for KYC, ownership verification, or loan settlement. Our branch team will review your documents and let you know if anything additional is required."
+    },
+    {
+        "question": "What is the process for releasing pledged gold through White AU?",
+        "answer": "The process is designed to be simple and transparent: Step 1 – Visit a White AU Branch. Step 2 – Submit Your Documents. Step 3 – Complete KYC Verification. Step 4 – Understand the Gold Rate and Terms. Step 5 – Confirm the Transaction. Step 6 – Visit the Gold Loan Provider. Step 7 – Gold Purity Assessment. Step 8 – Final Valuation. Step 9 – Final Settlement."
     }
 ];
 
