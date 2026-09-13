@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 interface LogoProps {
   variant?: 'full' | 'mark' | 'secondary';
@@ -16,15 +17,15 @@ export default function Logo({
   size = 52 
 }: LogoProps) {
   const monogram = (
-    <img 
+    <Image 
       src="/gold-logo.webp" 
       alt="WhiteAu Gold Logo" 
+      width={size}
+      height={size}
       style={{ 
         width: `${size}px`, 
-        height: 'auto', 
-        display: 'inline-block', 
-        verticalAlign: 'middle',
-        filter: 'drop-shadow(0 2px 6px rgba(201, 148, 46, 0.25))'
+        height: `${size}px`, 
+        objectFit: 'contain'
       }} 
     />
   );

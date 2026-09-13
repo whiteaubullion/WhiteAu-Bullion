@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import Image from 'next/image';
 import styles from './WhyWhiteAuCards.module.css';
 import { motion } from 'framer-motion';
 
@@ -71,9 +72,11 @@ export default function WhyWhiteAuCards() {
               Great Technology
             </div>
 
-            <img 
+            <Image 
               src="/steps-model.webp" 
               alt="Why Sell to White Gold" 
+              width={500}
+              height={600}
               className={styles.mainImage}
             />
           </motion.div>

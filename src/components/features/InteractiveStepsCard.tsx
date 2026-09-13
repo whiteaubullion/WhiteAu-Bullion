@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import Image from 'next/image';
 import styles from './InteractiveStepsCard.module.css';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -61,7 +62,7 @@ export default function InteractiveStepsCard({
           </div>
 
           <div className={styles.imageWrapper}>
-            <img src={imageSrc} alt="Steps Guide" className={styles.modelImage} />
+            <Image src={imageSrc} alt="Steps Guide" width={300} height={400} className={styles.modelImage} />
           </div>
         </div>
       </div>

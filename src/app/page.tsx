@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import TrustLayer from '@/components/sections/TrustLayer';
@@ -27,9 +28,11 @@ export default function Home() {
             {/* Center Content Panel */}
             <div className={`${styles.heroContentPanel} animate-fade-in-up`}>
               <div className={styles.goldBarWrapper}>
-                <img
+                <Image
                   src="/goldbar.webp"
                   alt="WhiteAu Gold Bar"
+                  width={400}
+                  height={400}
                   className={styles.goldBarImage}
                 />
               </div>
