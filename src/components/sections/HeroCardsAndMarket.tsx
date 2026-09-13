@@ -13,7 +13,7 @@ export default function HeroCardsAndMarket() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "0px 0px -100px 0px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          style={{ width: '100%', maxWidth: '850px', margin: '0 auto', background: 'rgba(255, 255, 255, 0.4)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255, 255, 255, 0.6)', borderRadius: '24px', overflow: 'hidden', display: 'flex', flexWrap: 'wrap', boxShadow: '0 20px 40px rgba(0, 0, 0, 0.05)' }}
+          style={{ width: '100%', maxWidth: '1050px', margin: '0 auto', background: 'rgba(255, 255, 255, 0.4)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255, 255, 255, 0.6)', borderRadius: '24px', overflow: 'hidden', display: 'flex', flexWrap: 'wrap', boxShadow: '0 20px 40px rgba(0, 0, 0, 0.05)' }}
           className={marketStyles.analysisContainer}
         >
           {/* Text Side */}
