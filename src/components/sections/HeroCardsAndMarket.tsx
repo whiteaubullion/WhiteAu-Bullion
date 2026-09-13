@@ -18,25 +18,10 @@ export default function HeroCardsAndMarket() {
         >
           {/* Text Side */}
           <div style={{ flex: 1, minWidth: '300px', padding: '2.5rem', background: 'linear-gradient(135deg, rgba(234, 162, 33, 0.1) 0%, rgba(255, 255, 255, 0) 100%)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: '2rem', color: 'var(--color-black)', marginBottom: '1rem', lineHeight: 1.2 }}>Know What Your Gold Is Worth.</h2>
-            <p style={{ color: 'var(--color-gold)', fontWeight: 600, marginBottom: '2rem', fontSize: '0.95rem' }}>
-              Purity + Weight + Gold Rate = Transparent Valuation
+            <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: '2.2rem', color: 'var(--color-black)', marginBottom: '1rem', lineHeight: 1.2 }}>Get the White Au Gold Rate</h2>
+            <p style={{ color: 'var(--color-gold)', fontWeight: 600, marginBottom: '2rem', fontSize: '1.1rem' }}>
+              Share your details below to know today’s latest rate.
             </p>
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              {[
-                { title: 'Purity', desc: 'Professional gold testing determines the verified purity.' },
-                { title: 'Weight', desc: 'Precision weighing determines the net gold weight.' },
-                { title: 'Rate', desc: 'The applicable gold rate is clearly communicated before the transaction.' }
-              ].map((item, idx) => (
-                <div key={idx} style={{ background: 'rgba(255, 255, 255, 0.5)', border: '1px solid rgba(255, 255, 255, 0.7)', padding: '0.75rem 1rem', borderRadius: '12px', backdropFilter: 'blur(10px)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <div style={{ width: '8px', height: '8px', backgroundColor: 'var(--color-gold)', borderRadius: '50%' }}></div>
-                    <h3 style={{ fontFamily: 'var(--font-cormorant)', color: 'var(--color-black)', fontSize: '1.2rem', margin: 0 }}>{item.title}</h3>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
 
           {/* Form Side */}
@@ -62,7 +47,7 @@ export default function HeroCardsAndMarket() {
               </div>
               
               <button type="submit" style={{ marginTop: '0.5rem', backgroundColor: 'var(--color-gold)', color: 'var(--color-black)', border: 'none', padding: '1rem', borderRadius: '12px', fontSize: '0.95rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', cursor: 'pointer', transition: 'transform 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
-                Request Call Back
+                GET GOLD RATE
               </button>
             </form>
           </div>
