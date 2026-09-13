@@ -28,7 +28,7 @@ export default function Home() {
             <div className={`${styles.heroContentPanel} animate-fade-in-up`}>
               <div className={styles.goldBarWrapper}>
                 <img
-                  src="/goldbar.png"
+                  src="/goldbar.webp"
                   alt="WhiteAu Gold Bar"
                   className={styles.goldBarImage}
                 />

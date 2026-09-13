@@ -17,7 +17,7 @@ export default function Logo({
 }: LogoProps) {
   const monogram = (
     <img 
-      src="/gold-logo.png" 
+      src="/gold-logo.webp" 
       alt="WhiteAu Gold Logo" 
       style={{ 
         width: `${size}px`, 

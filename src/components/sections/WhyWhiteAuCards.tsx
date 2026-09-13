@@ -72,7 +72,7 @@ export default function WhyWhiteAuCards() {
             </div>
 
             <img 
-              src="/steps-model.png" 
+              src="/steps-model.webp" 
               alt="Why Sell to White Gold" 
               className={styles.mainImage}
             />

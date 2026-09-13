@@ -175,7 +175,7 @@ export default function ReleaseGoldSection() {
             title={<>Release Gold Loan<br/><span style={{ color: 'var(--color-gold)' }}>Nine easy steps</span></>}
             subtitle="White AU — Release Your Gold. Move Forward."
             steps={releaseGoldSteps}
-            imageSrc="/why-model.jpg"
+            imageSrc="/why-model.webp"
           />
         </div>
       </section>

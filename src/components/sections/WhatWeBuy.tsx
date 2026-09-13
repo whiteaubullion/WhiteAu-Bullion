@@ -2,10 +2,10 @@ import React from 'react';
 import styles from './WhatWeBuy.module.css';
 
 const items = [
-  { title: "Gold Jewellery", color: "#C1C9C1", textCol: "#ffffff", bgImage: "url('/images/gold-jewellery.png')" },
-  { title: "Gold Coins", color: "#A8A194", textCol: "#ffffff", bgImage: "url('/images/gold-coins.png')" },
-  { title: "Gold Bars", color: "#E7D5BD", textCol: "#ffffff", bgImage: "url('/images/gold-bars.jpg')" },
-  { title: "Other Eligible Gold Articles", color: "#D6B277", textCol: "#ffffff", bgImage: "url('/images/other-gold.jpg')" }
+  { title: "Gold Jewellery", color: "#C1C9C1", textCol: "#ffffff", bgImage: "url('/images/gold-jewellery.webp')" },
+  { title: "Gold Coins", color: "#A8A194", textCol: "#ffffff", bgImage: "url('/images/gold-coins.webp')" },
+  { title: "Gold Bars", color: "#E7D5BD", textCol: "#ffffff", bgImage: "url('/images/gold-bars.webp')" },
+  { title: "Other Eligible Gold Articles", color: "#D6B277", textCol: "#ffffff", bgImage: "url('/images/other-gold.webp')" }
 ];
 
 export default function WhatWeBuy() {

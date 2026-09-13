@@ -239,7 +239,7 @@ export default function SellGoldSection() {
           <InteractiveStepsCard 
             title={<>Sell Gold in Bangalore with<br/><span style={{ color: 'var(--color-gold)' }}>Seven easy steps</span></>}
             steps={sellGoldSteps}
-            imageSrc="/why-model.jpg"
+            imageSrc="/why-model.webp"
           />
         </div>
       </section>
