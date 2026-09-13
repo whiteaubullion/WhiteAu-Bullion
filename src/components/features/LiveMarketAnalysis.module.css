@@ -33,31 +33,22 @@
   font-size: 1.1rem;
 }
 
-.liveBadge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background-color: rgba(234, 162, 33, 0.15);
-  color: #B87E13;
-  padding: 0.5rem 1rem;
-  border-radius: 50px;
-  font-weight: 600;
-  font-size: 0.85rem;
-  border: 1px solid rgba(234, 162, 33, 0.3);
+.getRateBtn {
+  margin-top: 1.5rem;
+  background-color: var(--color-gold);
+  color: var(--color-black);
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 2rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
 }
 
-.pulseDot {
-  width: 8px;
-  height: 8px;
-  background-color: #B87E13;
-  border-radius: 50%;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(184, 126, 19, 0.4); }
-  70% { box-shadow: 0 0 0 6px rgba(184, 126, 19, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(184, 126, 19, 0); }
+.getRateBtn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
 }
 
 .grid {
