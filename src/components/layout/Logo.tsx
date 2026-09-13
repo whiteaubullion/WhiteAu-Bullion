@@ -11,6 +11,7 @@ interface LogoProps {
 export default function Logo({ 
   variant = 'full', 
   className = '', 
+  iconColor = 'var(--color-gold)', 
   textColor = 'var(--color-gold)', 
   size = 52 
 }: LogoProps) {

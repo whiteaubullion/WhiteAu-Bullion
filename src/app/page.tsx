@@ -15,7 +15,6 @@ import PremiumSellButton from '@/components/features/PremiumSellButton';
 import BackgroundMarquee from '@/components/ui/BackgroundMarquee';
 
 import styles from './page.module.css';
-import HeroTrustPanel from '@/components/sections/HeroTrustPanel';
 
 export default function Home() {
   return (
