@@ -59,32 +59,22 @@
 }
 
 .badgeTopLeft {
-  top: 10%;
+  top: 15%;
   left: -5%;
-  background-color: var(--color-gold);
-  color: white;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-}
-
-.badgeTopLeft span {
-  font-size: 0.75rem;
-  opacity: 0.9;
-}
-
-.badgeTopLeft strong {
-  font-size: 1.1rem;
 }
 
 .badgeBottomLeft {
-  bottom: 15%;
+  bottom: 20%;
   left: -5%;
 }
 
-.badgeRight {
-  top: 40%;
+.badgeTopRight {
+  top: 30%;
+  right: -10%;
+}
+
+.badgeBottomRight {
+  bottom: 30%;
   right: -5%;
 }
 
