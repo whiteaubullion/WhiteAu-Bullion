@@ -64,7 +64,7 @@ export default function Home() {
                     color: '#4e342e', /* Dark brown similar to the image */
                     fontSize: '0.75rem' /* Reduced text size */
                   }}>
-                    Our Rate
+                    Our Gold Rate
                   </span>
                 </a>
               </div>
