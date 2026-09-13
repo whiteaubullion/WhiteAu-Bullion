@@ -28,7 +28,8 @@ export default function LiveMarketAnalysis() {
   const [rates, setRates] = useState<RateData[]>([
     { title: '24K GOLD', purity: '(99.9%)', price: '₹7,613', change: '−₹61', isUp: false },
     { title: '22K GOLD', purity: '(91.6%)', price: '₹6,978', change: '−₹56', isUp: false },
-    { title: '18K GOLD', purity: '(75.0%)', price: '₹5,710', change: '−₹45', isUp: false }
+    { title: '18K GOLD', purity: '(75.0%)', price: '₹5,710', change: '−₹45', isUp: false },
+    { title: 'SILVER', purity: '(99.9%)', price: '₹91', change: '+₹0.5', isUp: true }
   ]);
   const [loading, setLoading] = useState(true);
 
@@ -53,9 +54,12 @@ export default function LiveMarketAnalysis() {
         >
           <div className={styles.header}>
             <div>
-              <h2 className={styles.title}>Get the White Au Gold Rate</h2>
-              <p className={styles.subtitle}>Share your details below to know today’s latest rate.</p>
-              <button className={styles.getRateBtn}>GET GOLD RATE</button>
+              <h2 className={styles.title}>Live Market Analysis</h2>
+              <p className={styles.subtitle}>Real-time gold price fluctuation over the last 24 hours</p>
+            </div>
+            <div className={styles.liveBadge}>
+              <span className={styles.pulseDot}></span>
+              24H LIVE
             </div>
           </div>
 
