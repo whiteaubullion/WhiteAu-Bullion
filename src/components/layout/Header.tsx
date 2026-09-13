@@ -29,7 +29,7 @@ export default function Header() {
 
   const links = [
     { href: '/', label: 'HOME' },
-    { href: '/live-rates', label: 'LIVE RATES' },
+    { href: '/live-rates', label: "WHITE AU.'S RATE" },
     { href: '/sell-gold', label: 'SELL GOLD' },
     { href: '/release-gold', label: 'RELEASE GOLD' },
     { href: '/contact', label: 'SUPPORT' },
