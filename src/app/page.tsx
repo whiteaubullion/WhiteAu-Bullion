@@ -1,13 +1,10 @@
 import React from 'react';
 import Header from '@/components/layout/Header';
-import Logo from '@/components/layout/Logo';
 import Footer from '@/components/layout/Footer';
-import Button from '@/components/ui/Button';
 import TrustLayer from '@/components/sections/TrustLayer';
 
 import HeroCardsAndMarket from '@/components/sections/HeroCardsAndMarket';
 import WhyWhiteAuCards from '@/components/sections/WhyWhiteAuCards';
-import ValuationFeature from '@/components/features/ValuationFeature';
 import Testimonials from '@/components/sections/Testimonials';
 import SellGoldSection from '@/components/sections/SellGoldSection';
 import ReleaseGoldSection from '@/components/sections/ReleaseGoldSection';

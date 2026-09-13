@@ -45,7 +45,7 @@ export async function verifyOtp(prevState: any, formData: FormData) {
   if (!email || !token) return { error: 'Email and OTP are required', email, phone }
 
   const supabase = await createClient()
-  const { data, error } = await supabase.auth.verifyOtp({
+  const { error } = await supabase.auth.verifyOtp({
     email,
     token,
     type: 'email',

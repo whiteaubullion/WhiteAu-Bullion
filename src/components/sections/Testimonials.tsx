@@ -4,57 +4,7 @@ import React from 'react';
 import { motion, Variants } from 'framer-motion';
 import styles from './Testimonials.module.css';
 
-interface Review {
-  id: number;
-  name: string;
-  role: string;
-  rating: number;
-  title: string;
-  text: string;
-}
 
-const reviews: Review[] = [
-  {
-    id: 1,
-    name: "Rahul M.",
-    role: "Verified Customer",
-    rating: 5,
-    title: "Extremely transparent and professional!",
-    text: "They tested my gold right in front of me and offered the live market rate."
-  },
-  {
-    id: 2,
-    name: "Sneha K.",
-    role: "Local Client",
-    rating: 5,
-    title: "The instant payment was a lifesaver.",
-    text: "I was skeptical about selling my old jewellery, but the team made it secure and easy."
-  },
-  {
-    id: 3,
-    name: "David T.",
-    role: "Verified Customer",
-    rating: 5,
-    title: "Best valuation in Kerala.",
-    text: "WhiteAu gave me the most honest and highest return for my pledged gold."
-  },
-  {
-    id: 4,
-    name: "Anjali S.",
-    role: "Local Client",
-    rating: 4,
-    title: "Very smooth experience.",
-    text: "The staff explained the purity test clearly. Got money transferred in minutes."
-  },
-  {
-    id: 5,
-    name: "Vikram P.",
-    role: "Verified Customer",
-    rating: 5,
-    title: "Totally hassle-free!",
-    text: "Releasing my pledged gold was a headache until I found them. They handled the bank directly."
-  }
-];
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
