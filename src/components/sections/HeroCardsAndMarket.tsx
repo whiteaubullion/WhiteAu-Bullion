@@ -18,9 +18,9 @@ export default function HeroCardsAndMarket() {
         >
           {/* Text Side */}
           <div style={{ flex: 1, minWidth: '300px', padding: '2.5rem', background: 'linear-gradient(135deg, rgba(234, 162, 33, 0.1) 0%, rgba(255, 255, 255, 0) 100%)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: '2rem', color: 'var(--color-black)', marginBottom: '1rem', lineHeight: 1.2 }}>Know What Your Gold Is Worth.</h2>
+            <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: '2rem', color: 'var(--color-black)', marginBottom: '1rem', lineHeight: 1.2 }}>Get the White Au Gold Rate</h2>
             <p style={{ color: 'var(--color-gold)', fontWeight: 600, marginBottom: '2rem', fontSize: '0.95rem' }}>
-              Purity + Weight + Gold Rate = Transparent Valuation
+              Share your details below to know today’s latest rate.
             </p>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
@@ -62,7 +62,7 @@ export default function HeroCardsAndMarket() {
               </div>
               
               <button type="submit" style={{ marginTop: '0.5rem', backgroundColor: 'var(--color-gold)', color: 'var(--color-black)', border: 'none', padding: '1rem', borderRadius: '12px', fontSize: '0.95rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', cursor: 'pointer', transition: 'transform 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
-                Request Call Back
+                GET GOLD RATE
               </button>
             </form>
           </div>
