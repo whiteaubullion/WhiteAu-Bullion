@@ -32,7 +32,7 @@ export default function Logo({
 
   const wordmark = (
     <span style={{ fontFamily: 'var(--font-cormorant)', fontSize: '1.8rem', fontWeight: 600, lineHeight: 1, color: textColor, display: 'inline-block' }}>
-      White Au.
+      WhiteAu.
     </span>
   );
 

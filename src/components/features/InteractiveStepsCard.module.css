@@ -1,8 +1,8 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  padding: 3rem 0;
+  gap: 1.5rem;
+  padding: 2rem 0;
 }
 
 @media (min-width: 1024px) {
@@ -10,26 +10,45 @@
     flex-direction: row;
     align-items: flex-start;
     gap: 3rem;
+    padding: 3rem 0;
   }
 }
 
 .leftPanel {
-  flex: 0 0 300px;
+  /* on mobile, auto width/height */
+}
+
+@media (min-width: 1024px) {
+  .leftPanel {
+    flex: 0 0 300px;
+  }
 }
 
 .title {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 700;
   color: var(--color-black);
   margin-bottom: 0.5rem;
   line-height: 1.2;
 }
 
+@media (min-width: 1024px) {
+  .title {
+    font-size: 2.5rem;
+  }
+}
+
 .subtitle {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   color: var(--color-gray);
   opacity: 0.8;
   font-weight: 600;
+}
+
+@media (min-width: 1024px) {
+  .subtitle {
+    font-size: 1.5rem;
+  }
 }
 
 .rightPanel {
@@ -39,10 +58,10 @@
 .cardWrapper {
   background-color: #ffffff;
   border-radius: 16px;
-  padding: 1.5rem;
+  padding: 1rem;
   display: flex;
-  flex-direction: column;
-  gap: 2rem;
+  flex-direction: column-reverse; /* image on top on mobile */
+  gap: 1.5rem;
   position: relative;
   overflow: hidden;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
@@ -84,10 +103,16 @@
   background: none;
   border: none;
   color: var(--color-black);
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   text-align: left;
+}
+
+@media (min-width: 768px) {
+  .stepHeader {
+    font-size: 1.1rem;
+  }
 }
 
 .stepItem.active .stepHeader {
@@ -104,6 +129,7 @@
   justify-content: center;
   border-radius: 6px;
   font-size: 0.9rem;
+  flex-shrink: 0;
 }
 
 .stepTitle {
@@ -116,18 +142,31 @@
 }
 
 .stepContent {
-  padding: 0 1rem 1rem 4rem;
+  padding: 0 1rem 1rem 3.5rem;
   color: var(--color-gray);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   line-height: 1.5;
+}
+
+@media (min-width: 768px) {
+  .stepContent {
+    padding: 0 1rem 1rem 4rem;
+    font-size: 0.95rem;
+  }
 }
 
 .stepContent strong {
   display: block;
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: var(--color-black);
   margin-bottom: 0.5rem;
   margin-top: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .stepContent strong {
+    font-size: 1.1rem;
+  }
 }
 
 .stepContent p {
@@ -135,23 +174,40 @@
 }
 
 .imageWrapper {
-  flex: 0 0 250px;
   position: relative;
-  display: none;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 220px;
+  background: var(--color-pearl);
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 @media (min-width: 768px) {
   .imageWrapper {
+    flex: 0 0 250px;
+    height: auto;
+    background: none;
     display: block;
+    overflow: visible;
   }
 }
 
 .modelImage {
-  position: absolute;
-  bottom: -2rem;
-  right: -2rem;
-  width: 300px;
+  position: relative;
+  width: 220px;
   height: auto;
   object-fit: contain;
   z-index: 1;
+  bottom: -1rem;
+}
+
+@media (min-width: 768px) {
+  .modelImage {
+    position: absolute;
+    bottom: -3rem;
+    right: -3rem;
+    width: 400px;
+  }
 }

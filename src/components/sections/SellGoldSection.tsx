@@ -123,19 +123,19 @@ export default function SellGoldSection() {
 
   const sellGoldFaqs = [
     {
-        "question": "What documents do I need to sell my gold to White AU?",
+        "question": "What documents do I need to sell my gold to WhiteAu?",
         "answer": "To sell your gold, you will generally need a valid photo identification document and proof of address. An Aadhaar card can serve both purposes, making the KYC process simple and convenient."
     },
     {
         "question": "Can I receive payment in cash when I sell my gold?",
-        "answer": "White AU processes gold-sale payments through bank transfer. Once the valuation and required KYC formalities are completed, the eligible sale amount can be transferred directly to your bank account."
+        "answer": "WhiteAu processes gold-sale payments through bank transfer. Once the valuation and required KYC formalities are completed, the eligible sale amount can be transferred directly to your bank account."
     },
     {
-        "question": "What are White AU's branch operating hours?",
-        "answer": "Our branches are open from Monday to Saturday, 10:00 AM to 7:00 PM. You can check the White AU website to find the branch nearest to you."
+        "question": "What are WhiteAu's branch operating hours?",
+        "answer": "Our branches are open from Monday to Saturday, 10:00 AM to 7:00 PM. You can check the WhiteAu website to find the branch nearest to you."
     },
     {
-        "question": "Are White AU branches open on Sundays?",
+        "question": "Are WhiteAu branches open on Sundays?",
         "answer": "No. Our branches remain closed on Sundays. You can visit us from Monday through Saturday between 10:00 AM and 7:00 PM."
     },
     {
@@ -143,8 +143,8 @@ export default function SellGoldSection() {
         "answer": "Yes. Unhallmarked gold can still be evaluated and sold. The amount offered will be determined according to the actual purity and weight of the gold established during the valuation process."
     },
     {
-        "question": "Does White AU purchase silver or diamond jewellery?",
-        "answer": "No. White AU specialises in buying gold. We currently do not purchase diamonds or silver."
+        "question": "Does WhiteAu purchase silver or diamond jewellery?",
+        "answer": "No. WhiteAu specialises in buying gold. We currently do not purchase diamonds or silver."
     },
     {
         "question": "How will I receive the money after selling my gold?",
@@ -155,7 +155,7 @@ export default function SellGoldSection() {
         "answer": "The better option depends on your financial requirements. When you sell your gold, you receive the sale value of the eligible gold. With a gold loan, you typically receive only a percentage of the gold's value as a loan and must repay the borrowed amount along with applicable interest. If you no longer need the jewellery and want to permanently dispose of it, selling may provide a higher immediate amount than borrowing against it."
     },
     {
-        "question": "How does White AU determine the value of my gold?",
+        "question": "How does WhiteAu determine the value of my gold?",
         "answer": "Your gold is evaluated by checking its purity and accurately measuring its weight. We use advanced testing equipment and precision weighing technology to determine the gold content. The complete valuation and KYC process generally takes around 10–15 minutes."
     },
     {
@@ -167,7 +167,7 @@ export default function SellGoldSection() {
         "answer": "Gold ownership and documentation requirements can depend on the circumstances and applicable Indian laws and regulations. If you have substantial quantities of gold, keeping purchase invoices and other supporting documents is advisable. For specific legal or tax requirements, please consult a qualified professional or refer to the latest applicable government guidance."
     },
     {
-        "question": "I am visiting from another city. Can I sell my gold at White AU?",
+        "question": "I am visiting from another city. Can I sell my gold at WhiteAu?",
         "answer": "Yes. Customers from outside the local area can approach our branches to sell eligible gold jewellery. You should carry valid photo identification and address proof for the KYC process. An Aadhaar card can make the verification process easier when it contains the required details."
     },
     {
@@ -176,11 +176,11 @@ export default function SellGoldSection() {
     },
     {
         "question": "Can I get my jewellery back after selling it?",
-        "answer": "No. Once the sale has been completed and the transaction has been accepted, the sale is considered final. The jewellery cannot subsequently be reclaimed or repurchased from White AU as the same ornament."
+        "answer": "No. Once the sale has been completed and the transaction has been accepted, the sale is considered final. The jewellery cannot subsequently be reclaimed or repurchased from WhiteAu as the same ornament."
     },
     {
         "question": "Is selling gold a convenient way to access money?",
-        "answer": "Yes. Gold is a widely traded asset and can generally be converted into money relatively easily when you choose a reputable gold buyer. At White AU, we aim to make the process straightforward, transparent and convenient."
+        "answer": "Yes. Gold is a widely traded asset and can generally be converted into money relatively easily when you choose a reputable gold buyer. At WhiteAu, we aim to make the process straightforward, transparent and convenient."
     },
     {
         "question": "Can I sell broken, damaged or old gold jewellery?",
@@ -199,27 +199,27 @@ export default function SellGoldSection() {
         "answer": "The decision to sell should depend on your financial needs as well as the prevailing gold market conditions. If you require funds urgently, selling eligible gold jewellery can be a convenient way to access its value."
     },
     {
-        "question": "Does White AU charge any transaction fee when I sell gold?",
+        "question": "Does WhiteAu charge any transaction fee when I sell gold?",
         "answer": "A 3% transaction fee is applicable to gold-selling transactions. Any applicable charges and the expected payable amount should be clearly communicated during the transaction process."
     },
     {
         "question": "Where can I sell my gold safely?",
-        "answer": "You should choose a gold buyer that follows a transparent valuation process, performs proper KYC verification and clearly explains how the final value is calculated. White AU aims to provide a convenient gold-selling experience with transparent valuation, professional testing and direct bank-transfer payments."
+        "answer": "You should choose a gold buyer that follows a transparent valuation process, performs proper KYC verification and clearly explains how the final value is calculated. WhiteAu aims to provide a convenient gold-selling experience with transparent valuation, professional testing and direct bank-transfer payments."
     },
     {
-        "question": "Is gold valuation free at White AU?",
-        "answer": "Yes. White AU provides gold valuation free of charge. Our team assesses the purity and weight of your gold so you can understand its potential value before proceeding with the sale."
+        "question": "Is gold valuation free at WhiteAu?",
+        "answer": "Yes. WhiteAu provides gold valuation free of charge. Our team assesses the purity and weight of your gold so you can understand its potential value before proceeding with the sale."
     },
     {
         "question": "Can I sell gold belonging to a family member or someone else?",
         "answer": "Gold can only be sold when the ownership and required documentation meet our KYC and transaction requirements. If the gold belongs to your spouse or parents, additional consent or documentation may be required. You cannot simply sell gold belonging to a neighbour, friend or another person without the necessary ownership verification and supporting documents."
     },
     {
-        "question": "Why might White AU reject a gold-selling transaction?",
+        "question": "Why might WhiteAu reject a gold-selling transaction?",
         "answer": "A transaction may be declined if there are issues with the customer's KYC information, the customer does not meet the applicable age requirements, ownership of the gold cannot be satisfactorily established, or the customer is attempting to sell gold on behalf of another person without the required authorization or documentation."
     },
     {
-        "question": "How does White AU make the gold-selling process easier?",
+        "question": "How does WhiteAu make the gold-selling process easier?",
         "answer": "We focus on making gold selling simple, transparent and convenient. Our trained team uses modern gold-testing technology to evaluate your jewellery and explain the valuation process clearly, helping you make an informed decision."
     },
     {
@@ -227,8 +227,8 @@ export default function SellGoldSection() {
         "answer": "Yes, gold may be accepted even when you do not have the original purchase receipt, subject to our KYC and verification requirements. However, if you have the original purchase invoice or supporting documentation, bringing it with you may help establish the history and ownership of the gold."
     },
     {
-        "question": "Why should I choose White AU to sell my old gold?",
-        "answer": "White AU is committed to providing a transparent and convenient gold-selling experience. We offer free valuation, modern testing technology and a straightforward transaction process. If you are looking to convert your old, unused or unwanted gold into money, White AU can help you understand the value of your gold and complete the selling process with clarity and convenience."
+        "question": "Why should I choose WhiteAu to sell my old gold?",
+        "answer": "WhiteAu is committed to providing a transparent and convenient gold-selling experience. We offer free valuation, modern testing technology and a straightforward transaction process. If you are looking to convert your old, unused or unwanted gold into money, WhiteAu can help you understand the value of your gold and complete the selling process with clarity and convenience."
     }
   ];
 
@@ -239,7 +239,7 @@ export default function SellGoldSection() {
           <InteractiveStepsCard 
             title={<>Sell Gold in Bangalore with<br/><span style={{ color: 'var(--color-gold)' }}>Seven easy steps</span></>}
             steps={sellGoldSteps}
-            imageSrc="/why-model.webp"
+            imageSrc="/images/sell-gold-model.png"
           />
         </div>
       </section>

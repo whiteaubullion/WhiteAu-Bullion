@@ -24,7 +24,7 @@ export default function ContactPanel({ type = 'all' }: ContactPanelProps) {
       <div className="container">
         <div className={styles.panelContainer}>
           <div className={styles.contentSide}>
-            <h2 className={styles.title}>Get the White Au Gold Rate</h2>
+            <h2 className={styles.title}>Get the WhiteAu Gold Rate</h2>
             <p className={styles.subtitle} style={{ color: 'var(--color-gold)', fontWeight: 600, marginBottom: '2.5rem' }}>
               Share your details below to know today’s latest rate.
             </p>

@@ -18,7 +18,7 @@ export default function HeroCardsAndMarket() {
         >
           {/* Text Side */}
           <div style={{ flex: 1, minWidth: '300px', padding: '2.5rem', background: 'linear-gradient(135deg, rgba(234, 162, 33, 0.1) 0%, rgba(255, 255, 255, 0) 100%)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: '2rem', color: 'var(--color-black)', marginBottom: '1rem', lineHeight: 1.2 }}>Get the White Au Gold Rate</h2>
+            <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: '2rem', color: 'var(--color-black)', marginBottom: '1rem', lineHeight: 1.2 }}>Get the WhiteAu Gold Rate</h2>
             <p style={{ color: 'var(--color-gold)', fontWeight: 600, marginBottom: '2rem', fontSize: '0.95rem' }}>
               Share your details below to know today’s latest rate.
             </p>
