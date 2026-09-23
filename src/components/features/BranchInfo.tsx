@@ -10,7 +10,7 @@ export default function BranchInfo() {
             Our Flagship <span className={styles.highlight}>Branch</span>
           </h2>
           <p className={styles.description}>
-            Visit our secure, state-of-the-art valuation center in Angamaly for instant, transparent gold testing and immediate payouts.
+            Visit our secure, state-of-the-art valuation center in Cherthala for instant, transparent gold testing and immediate payouts.
           </p>
         </div>
 
@@ -27,9 +27,10 @@ export default function BranchInfo() {
             </div>
 
             <div className={styles.cardBody}>
-              <h3 className={styles.branchName}>Angamaly</h3>
+              <h3 className={styles.branchName}>WhiteAu Bullion Pvt Ltd</h3>
               <p className={styles.branchAddress}>
-                Karayamparambu, Angamaly, Kerala
+                Poonjikkavil, S N Puram P.O.,<br />
+                Cherthala, Kerala — 688582
               </p>
 
               <div className={styles.contactInfo}>
@@ -52,7 +53,7 @@ export default function BranchInfo() {
             <div className={styles.cardFooter}>
               <span className={styles.footerLabel}>Main Branch</span>
               <a 
-                href="https://maps.google.com/?q=WhiteAu+Gold+Angamaly" 
+                href="https://maps.google.com/?q=WhiteAu+Bullion+Pvt+Ltd+Cherthala+Kerala" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className={styles.directionsLink}

@@ -60,8 +60,8 @@ export default function LoginPage() {
         
         {currentStep === 'EMAIL_PHONE' && (
           <>
-            <h1 className={styles.title}>Welcome Back</h1>
-            <p className={styles.subtitle}>Enter your email address and phone number to get started.</p>
+            <h1 className={styles.title}>Get the White Au Gold Rate</h1>
+            <p className={styles.subtitle}>Share your details below to know today’s latest rate.</p>
             <form action={initialAction} className={styles.form}>
               {initialState.error && <div className={styles.error}>{initialState.error}</div>}
               
@@ -96,7 +96,7 @@ export default function LoginPage() {
               </div>
 
               <button type="submit" disabled={isSubmittingInitial} className={styles.submitBtn}>
-                {isSubmittingInitial ? 'Continuing...' : 'Continue'}
+                {isSubmittingInitial ? 'Getting Rate...' : 'GET GOLD RATE'}
               </button>
             </form>
           </>
