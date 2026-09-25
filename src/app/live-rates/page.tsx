@@ -17,6 +17,8 @@ export const metadata = {
   description: 'Real-time gold and silver price fluctuation over the last 24 hours.',
 };
 
+export const dynamic = 'force-dynamic';
+
 export default async function LiveRatesPage() {
   let rates = mockRates;
   let userProfile = null;
