@@ -11,7 +11,7 @@ export type LiveRatesProps = {
     '24K_GOLD'?: RateData;
     '22K_GOLD'?: RateData;
     '18K_GOLD'?: RateData;
-    'SILVER'?: RateData;
+    '14K_GOLD'?: RateData;
   };
 };
 
@@ -44,7 +44,7 @@ export default function LiveRatesPanel({ rates }: LiveRatesProps) {
     { key: '24K_GOLD', label: '24K GOLD (99.9%)' },
     { key: '22K_GOLD', label: '22K GOLD (91.6%)' },
     { key: '18K_GOLD', label: '18K GOLD (75.0%)' },
-    { key: 'SILVER', label: 'SILVER (99.9%)' },
+    { key: '14K_GOLD', label: '14K GOLD (58.5%)' },
   ] as const;
 
   return (

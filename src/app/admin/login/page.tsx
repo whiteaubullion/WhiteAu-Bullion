@@ -1,57 +1,43 @@
-import { login } from './actions'
+'use client'
 
-export default async function LoginPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ error?: string }>
-}) {
-  const params = await searchParams;
-  
+import { useActionState } from 'react'
+import { adminLogin } from './actions'
+
+export default function AdminLoginPage() {
+  const [state, action, isPending] = useActionState(adminLogin, null)
+
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f3f4f6' }}>
-      <div style={{ width: '100%', maxWidth: '400px', padding: '2rem', backgroundColor: 'white', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
-        <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1.5rem', textAlign: 'center', color: '#111827' }}>Admin Login</h1>
+    <main style={{ minHeight: '100vh', backgroundColor: '#0f172a', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div style={{ maxWidth: '400px', width: '100%', padding: '2.5rem', backgroundColor: '#1e293b', borderRadius: '1rem', boxShadow: '0 10px 25px rgba(0,0,0,0.5)', border: '1px solid #334155' }}>
+        
+        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+          <h1 style={{ color: 'white', fontSize: '1.5rem', marginBottom: '0.5rem' }}>WhiteAu Admin</h1>
+          <p style={{ color: '#94a3b8', fontSize: '0.875rem' }}>Secure Portal Access</p>
+        </div>
 
-        {params.error && (
-          <div style={{ padding: '0.75rem', marginBottom: '1.5rem', backgroundColor: '#fee2e2', color: '#b91c1c', borderRadius: '4px', fontSize: '0.875rem' }}>
-            {params.error}
-          </div>
-        )}
-
-        <form action={login} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <div>
-            <label htmlFor="email" style={{ display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#374151', marginBottom: '0.5rem' }}>
-              Email Address
-            </label>
-            <input 
-              id="email" 
-              name="email" 
-              type="email" 
-              required 
-              style={{ width: '100%', padding: '0.75rem', border: '1px solid #d1d5db', borderRadius: '4px', fontSize: '1rem' }}
-              placeholder="admin@whiteau.com"
-            />
+        <form action={action} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          {state?.error && (
+            <div style={{ padding: '0.75rem', backgroundColor: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.2)', borderRadius: '0.5rem', color: '#f87171', fontSize: '0.875rem', textAlign: 'center' }}>
+              {state.error}
+            </div>
+          )}
+          
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <label style={{ color: '#cbd5e1', fontSize: '0.875rem', fontWeight: 500 }}>Admin Email</label>
+            <input type="email" name="email" required style={{ padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: '#0f172a', border: '1px solid #334155', color: 'white', outline: 'none' }} />
           </div>
 
-          <div>
-            <label htmlFor="password" style={{ display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#374151', marginBottom: '0.5rem' }}>
-              Password
-            </label>
-            <input 
-              id="password" 
-              name="password" 
-              type="password" 
-              required 
-              style={{ width: '100%', padding: '0.75rem', border: '1px solid #d1d5db', borderRadius: '4px', fontSize: '1rem' }}
-              placeholder="••••••••"
-            />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <label style={{ color: '#cbd5e1', fontSize: '0.875rem', fontWeight: 500 }}>Password</label>
+            <input type="password" name="password" required style={{ padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: '#0f172a', border: '1px solid #334155', color: 'white', outline: 'none' }} />
           </div>
 
-          <button type="submit" style={{ marginTop: '1rem', width: '100%', padding: '0.75rem', backgroundColor: '#d4af37', color: 'white', border: 'none', borderRadius: '4px', fontSize: '1rem', fontWeight: 'bold', cursor: 'pointer' }}>
-            Sign In
+          <button disabled={isPending} type="submit" style={{ marginTop: '0.5rem', padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: '#eab308', color: '#1e293b', border: 'none', fontWeight: 'bold', cursor: isPending ? 'not-allowed' : 'pointer', opacity: isPending ? 0.7 : 1, transition: 'background-color 0.2s' }}>
+            {isPending ? 'Authenticating...' : 'Secure Login'}
           </button>
         </form>
+
       </div>
-    </div>
+    </main>
   )
 }

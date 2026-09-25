@@ -27,26 +27,41 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
+  // IMPORTANT: Avoid writing any logic between createServerClient and
+  // supabase.auth.getUser(). A simple mistake could make it very hard to debug
+  // issues with users being randomly logged out.
+
   const {
     data: { user },
   } = await supabase.auth.getUser()
 
-  if (!user) {
-    if (
-      request.nextUrl.pathname.startsWith('/admin') &&
-      !request.nextUrl.pathname.startsWith('/admin/login')
-    ) {
-      const url = request.nextUrl.clone()
-      url.pathname = '/admin/login'
-      return NextResponse.redirect(url)
-    }
+  const path = request.nextUrl.pathname
 
-    if (request.nextUrl.pathname.startsWith('/live-rates')) {
-      const url = request.nextUrl.clone()
-      url.pathname = '/login'
-      return NextResponse.redirect(url)
+  // Protect Admin Routes (excluding /admin/login)
+  if (path.startsWith('/admin') && !path.startsWith('/admin/login')) {
+    if (!user) {
+      return NextResponse.redirect(new URL('/admin/login', request.url))
+    }
+    // Fetch user profile to check role
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single()
+      
+    if (profile?.role !== 'admin') {
+      // If logged in but not an admin, send them to the normal portal
+      return NextResponse.redirect(new URL('/live-rates', request.url))
+    }
+  }
+
+  // Protect User Routes (e.g. live-rates)
+  if (path.startsWith('/live-rates')) {
+    if (!user) {
+      return NextResponse.redirect(new URL('/login', request.url))
     }
   }
 
   return supabaseResponse
 }
+

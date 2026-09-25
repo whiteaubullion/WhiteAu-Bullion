@@ -1,198 +1,208 @@
 'use client'
 
-import React, { useActionState, useState } from 'react'
-import { initialAuthSubmit, verifyOtp, saveName, setPassword, loginWithPassword, resendOtp } from './actions'
-import styles from './page.module.css'
-import Logo from '@/components/layout/Logo'
-
-type Step = 'EMAIL_PHONE' | 'VERIFY_OTP' | 'SIGNUP_NAME' | 'SET_PASSWORD' | 'PASSWORD'
+import { useActionState, useState, useEffect } from 'react'
+import { login, signup, verifyOtp, resendOtp, resetPassword } from './actions'
+import Link from 'next/link'
 
 export default function LoginPage() {
-  const [currentStep, setCurrentStep] = useState<Step>('EMAIL_PHONE')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [countryCode, setCountryCode] = useState('+91')
-  const [name, setName] = useState('')
-  const [isResending, setIsResending] = useState(false)
-  const [resendMessage, setResendMessage] = useState('')
+  const [activeTab, setActiveTab] = useState<'LOGIN' | 'SIGNUP' | 'VERIFY_OTP' | 'FORGOT_PASSWORD'>('LOGIN')
+  const [registeredEmail, setRegisteredEmail] = useState('')
+  const [countdown, setCountdown] = useState(0)
 
-  // Action states
-  const [initialState, initialAction, isSubmittingInitial] = useActionState(async (prev: any, formData: FormData) => {
-    // Combine country code and phone before submitting
-    const fullPhone = `${countryCode} ${formData.get('phone')}`
-    formData.set('phone', fullPhone)
-    
-    const res = await initialAuthSubmit(prev, formData)
-    if (res.step) setCurrentStep(res.step as Step)
-    return res
-  }, { error: '', email: '', phone: '', exists: false } as any)
+  // Login Action State
+  const [loginState, loginAction, isLoginPending] = useActionState(login, null)
+  
+  // Signup Action State
+  const [signupState, signupAction, isSignupPending] = useActionState(signup, null)
+  
+  // Verify Action State
+  const [verifyState, verifyAction, isVerifyPending] = useActionState(verifyOtp, null)
+  
+  // Reset Action State
+  const [resetState, resetAction, isResetPending] = useActionState(resetPassword, null)
 
-  const [verifyState, verifyAction, isVerifying] = useActionState(async (prev: any, formData: FormData) => {
-    const res = await verifyOtp(prev, formData)
-    if (res.step) setCurrentStep(res.step as Step)
-    return res
-  }, { error: '', email: '', phone: '' })
+  // Handle state changes based on server responses
+  useEffect(() => {
+    if (signupState?.success && signupState.step === 'VERIFY_OTP') {
+      setActiveTab('VERIFY_OTP')
+      setRegisteredEmail(signupState.email)
+      setCountdown(60) // Start 60s countdown for resend
+    }
+  }, [signupState])
 
-  const [nameState, nameAction, isSavingName] = useActionState(async (prev: any, formData: FormData) => {
-    const res = await saveName(prev, formData)
-    if (res.step) setCurrentStep(res.step as Step)
-    return res
-  }, { error: '', email: '', phone: '', name: '' })
+  useEffect(() => {
+    if (verifyState?.error && verifyState.step === 'VERIFY_OTP') {
+      setActiveTab('VERIFY_OTP')
+      if (verifyState.email) setRegisteredEmail(verifyState.email)
+    }
+  }, [verifyState])
 
-  const [passwordState, passwordAction, isSettingPassword] = useActionState(setPassword, { error: '' })
-  const [loginState, loginAction, isLoggingIn] = useActionState(loginWithPassword, { error: '', email: '' })
+  useEffect(() => {
+    if (resetState?.step) {
+      setActiveTab(resetState.step)
+    }
+  }, [resetState])
 
-  const handleResend = async () => {
-    setIsResending(true)
-    setResendMessage('')
-    const res = await resendOtp(email)
-    if (res.error) setResendMessage(res.error)
-    else setResendMessage('OTP resent successfully!')
-    setIsResending(false)
+  // Countdown timer effect
+  useEffect(() => {
+    if (countdown > 0) {
+      const timer = setTimeout(() => setCountdown(countdown - 1), 1000)
+      return () => clearTimeout(timer)
+    }
+  }, [countdown])
+
+  const handleResendOtp = async () => {
+    if (countdown > 0) return
+    const res = await resendOtp(registeredEmail)
+    if (res.success) {
+      setCountdown(60)
+    } else {
+      alert(res.error || 'Failed to resend OTP')
+    }
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.card}>
-        <div className={styles.logoWrapper}>
-          <Logo />
-        </div>
+    <main style={{ minHeight: '100vh', paddingTop: '120px', backgroundColor: 'var(--primary-dark)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div style={{ maxWidth: '500px', width: '100%', padding: '2rem', backgroundColor: 'rgba(10, 10, 10, 0.8)', border: '1px solid rgba(212, 175, 55, 0.2)', borderRadius: '1rem', backdropFilter: 'blur(10px)' }}>
         
-        {currentStep === 'EMAIL_PHONE' && (
-          <>
-            <h1 className={styles.title}>Get the White Au Gold Rate</h1>
-            <p className={styles.subtitle}>Share your details below to know today’s latest rate.</p>
-            <form action={initialAction} className={styles.form}>
-              {initialState.error && <div className={styles.error}>{initialState.error}</div>}
-              
-              <div className={styles.inputGroup}>
-                <label htmlFor="email">Email Address</label>
-                <input 
-                  id="email" name="email" type="email" required className={styles.input}
-                  value={email} onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-
-              <div className={styles.inputGroup}>
-                <label htmlFor="phone">Phone Number</label>
-                <div style={{ display: 'flex', gap: '0.5rem' }}>
-                  <select 
-                    value={countryCode} 
-                    onChange={(e) => setCountryCode(e.target.value)}
-                    className={styles.input}
-                    style={{ width: '80px', padding: '0.75rem 0.5rem' }}
-                  >
-                    <option value="+91">+91 (IN)</option>
-                    <option value="+1">+1 (US)</option>
-                    <option value="+44">+44 (UK)</option>
-                    <option value="+971">+971 (UAE)</option>
-                  </select>
-                  <input 
-                    id="phone" name="phone" type="tel" required className={styles.input} style={{ flex: 1 }}
-                    value={phone} onChange={(e) => setPhone(e.target.value)}
-                    placeholder="Enter phone number"
-                  />
-                </div>
-              </div>
-
-              <button type="submit" disabled={isSubmittingInitial} className={styles.submitBtn}>
-                {isSubmittingInitial ? 'Getting Rate...' : 'GET GOLD RATE'}
-              </button>
-            </form>
-          </>
+        {/* Header & Tabs */}
+        {(activeTab === 'LOGIN' || activeTab === 'SIGNUP') && (
+          <div style={{ display: 'flex', marginBottom: '2rem', borderBottom: '1px solid rgba(212, 175, 55, 0.2)' }}>
+            <button 
+              onClick={() => setActiveTab('LOGIN')}
+              style={{ flex: 1, padding: '1rem', backgroundColor: 'transparent', border: 'none', color: activeTab === 'LOGIN' ? 'var(--color-gold)' : 'white', borderBottom: activeTab === 'LOGIN' ? '2px solid var(--color-gold)' : '2px solid transparent', cursor: 'pointer', fontWeight: 'bold' }}
+            >
+              Sign In
+            </button>
+            <button 
+              onClick={() => setActiveTab('SIGNUP')}
+              style={{ flex: 1, padding: '1rem', backgroundColor: 'transparent', border: 'none', color: activeTab === 'SIGNUP' ? 'var(--color-gold)' : 'white', borderBottom: activeTab === 'SIGNUP' ? '2px solid var(--color-gold)' : '2px solid transparent', cursor: 'pointer', fontWeight: 'bold' }}
+            >
+              Register
+            </button>
+          </div>
         )}
 
-        {currentStep === 'VERIFY_OTP' && (
-          <>
-            <h1 className={styles.title}>Verify Email</h1>
-            <p className={styles.subtitle}>We've sent a code to {email}</p>
-            <form action={verifyAction} className={styles.form}>
-              {verifyState.error && <div className={styles.error}>{verifyState.error}</div>}
-              <input type="hidden" name="email" value={email} />
-              <input type="hidden" name="phone" value={`${countryCode} ${phone}`} />
-              <div className={styles.inputGroup}>
-                <label htmlFor="token">OTP Code</label>
-                <input 
-                  id="token" name="token" type="text" inputMode="numeric" pattern="[0-9]*" maxLength={8} required 
-                  className={styles.input} style={{ letterSpacing: '0.5em', textAlign: 'center', fontSize: '1.25rem' }}
-                />
-              </div>
-              <button type="submit" disabled={isVerifying} className={styles.submitBtn}>
-                {isVerifying ? 'Verifying...' : 'Verify'}
-              </button>
-            </form>
+        {/* LOGIN FORM */}
+        {activeTab === 'LOGIN' && (
+          <form action={loginAction} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <h2 style={{ color: 'white', textAlign: 'center' }}>Welcome Back</h2>
+            {loginState?.error && <p style={{ color: '#ff6b6b', fontSize: '0.875rem', textAlign: 'center' }}>{loginState.error}</p>}
+            {resetState?.message && <p style={{ color: '#51cf66', fontSize: '0.875rem', textAlign: 'center' }}>{resetState.message}</p>}
             
-            <div style={{ marginTop: '1rem', textAlign: 'center' }}>
-              <button 
-                type="button" 
-                onClick={handleResend} 
-                disabled={isResending}
-                style={{ background: 'none', border: 'none', color: '#d4af37', cursor: 'pointer', fontSize: '0.875rem', fontWeight: '500' }}
-              >
-                {isResending ? 'Resending...' : 'Resend OTP'}
-              </button>
-              {resendMessage && <p style={{ fontSize: '0.75rem', color: resendMessage.includes('error') ? '#ef4444' : '#10b981', marginTop: '0.5rem' }}>{resendMessage}</p>}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.875rem' }}>Email Address</label>
+              <input type="email" name="email" required style={{ padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
             </div>
-          </>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.875rem' }}>Password</label>
+              <input type="password" name="password" required style={{ padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <button type="button" onClick={() => setActiveTab('FORGOT_PASSWORD')} style={{ background: 'none', border: 'none', color: 'var(--color-gold)', cursor: 'pointer', fontSize: '0.875rem' }}>
+                Forgot Password?
+              </button>
+            </div>
+
+            <button disabled={isLoginPending} type="submit" style={{ padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: 'var(--color-gold)', color: 'black', border: 'none', fontWeight: 'bold', cursor: isLoginPending ? 'not-allowed' : 'pointer', opacity: isLoginPending ? 0.7 : 1 }}>
+              {isLoginPending ? 'Signing In...' : 'Sign In'}
+            </button>
+          </form>
         )}
 
-        {currentStep === 'SIGNUP_NAME' && (
-          <>
-            <h1 className={styles.title}>Create Account</h1>
-            <p className={styles.subtitle}>Email verified! Please enter your name to continue.</p>
-            <form action={nameAction} className={styles.form}>
-              {nameState.error && <div className={styles.error}>{nameState.error}</div>}
-              <input type="hidden" name="email" value={email} />
-              <input type="hidden" name="phone" value={`${countryCode} ${phone}`} />
-              <div className={styles.inputGroup}>
-                <label htmlFor="name">Full Name</label>
-                <input 
-                  id="name" name="name" type="text" required className={styles.input}
-                  value={name} onChange={(e) => setName(e.target.value)}
-                />
-              </div>
-              <button type="submit" disabled={isSavingName} className={styles.submitBtn}>
-                {isSavingName ? 'Saving...' : 'Continue'}
-              </button>
-            </form>
-          </>
+        {/* SIGNUP FORM */}
+        {activeTab === 'SIGNUP' && (
+          <form action={signupAction} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <h2 style={{ color: 'white', textAlign: 'center' }}>Create an Account</h2>
+            {signupState?.error && <p style={{ color: '#ff6b6b', fontSize: '0.875rem', textAlign: 'center' }}>{signupState.error}</p>}
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.875rem' }}>Full Name</label>
+              <input type="text" name="fullName" required style={{ padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.875rem' }}>Email Address</label>
+              <input type="email" name="email" required style={{ padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
+            </div>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.875rem' }}>Phone Number</label>
+              <input type="tel" name="phone" required style={{ padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.875rem' }}>Password</label>
+              <input type="password" name="password" required minLength={6} style={{ padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
+            </div>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.875rem' }}>Confirm Password</label>
+              <input type="password" name="confirmPassword" required minLength={6} style={{ padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
+            </div>
+
+            <button disabled={isSignupPending} type="submit" style={{ padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: 'var(--color-gold)', color: 'black', border: 'none', fontWeight: 'bold', cursor: isSignupPending ? 'not-allowed' : 'pointer', opacity: isSignupPending ? 0.7 : 1 }}>
+              {isSignupPending ? 'Creating Account...' : 'Register'}
+            </button>
+          </form>
         )}
 
-        {currentStep === 'SET_PASSWORD' && (
-          <>
-            <h1 className={styles.title}>Set Password</h1>
-            <p className={styles.subtitle}>Create a password for your new account.</p>
-            <form action={passwordAction} className={styles.form}>
-              {passwordState.error && <div className={styles.error}>{passwordState.error}</div>}
-              <div className={styles.inputGroup}>
-                <label htmlFor="password">New Password</label>
-                <input id="password" name="password" type="password" required minLength={6} className={styles.input} />
-              </div>
-              <button type="submit" disabled={isSettingPassword} className={styles.submitBtn}>
-                {isSettingPassword ? 'Saving...' : 'Save & Login'}
-              </button>
-            </form>
-          </>
+        {/* OTP VERIFICATION FORM */}
+        {activeTab === 'VERIFY_OTP' && (
+          <form action={verifyAction} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <h2 style={{ color: 'white', textAlign: 'center' }}>Verify Email</h2>
+            <p style={{ color: 'rgba(255,255,255,0.7)', textAlign: 'center', fontSize: '0.875rem' }}>We've sent a verification code to {registeredEmail}.</p>
+            {verifyState?.error && <p style={{ color: '#ff6b6b', fontSize: '0.875rem', textAlign: 'center' }}>{verifyState.error}</p>}
+            
+            <input type="hidden" name="email" value={registeredEmail} />
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.875rem' }}>OTP Code</label>
+              <input type="text" name="token" required placeholder="123456" style={{ padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', textAlign: 'center', fontSize: '1.5rem', letterSpacing: '0.25rem' }} />
+            </div>
+
+            <button disabled={isVerifyPending} type="submit" style={{ padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: 'var(--color-gold)', color: 'black', border: 'none', fontWeight: 'bold', cursor: isVerifyPending ? 'not-allowed' : 'pointer', opacity: isVerifyPending ? 0.7 : 1 }}>
+              {isVerifyPending ? 'Verifying...' : 'Verify & Continue'}
+            </button>
+            
+            <div style={{ textAlign: 'center', marginTop: '1rem' }}>
+              <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.875rem' }}>
+                Didn't receive the code? <br />
+                <button type="button" onClick={handleResendOtp} disabled={countdown > 0} style={{ background: 'none', border: 'none', color: countdown > 0 ? 'rgba(255,255,255,0.3)' : 'var(--color-gold)', cursor: countdown > 0 ? 'not-allowed' : 'pointer', marginTop: '0.5rem', fontWeight: 'bold' }}>
+                  {countdown > 0 ? `Resend in ${countdown}s` : 'Resend OTP'}
+                </button>
+              </p>
+            </div>
+          </form>
         )}
 
-        {currentStep === 'PASSWORD' && (
-          <>
-            <h1 className={styles.title}>Enter Password</h1>
-            <p className={styles.subtitle}>Welcome back, {email}</p>
-            <form action={loginAction} className={styles.form}>
-              {loginState.error && <div className={styles.error}>{loginState.error}</div>}
-              <input type="hidden" name="email" value={email} />
-              <div className={styles.inputGroup}>
-                <label htmlFor="password">Password</label>
-                <input id="password" name="password" type="password" required className={styles.input} />
-              </div>
-              <button type="submit" disabled={isLoggingIn} className={styles.submitBtn}>
-                {isLoggingIn ? 'Logging in...' : 'Log In'}
+        {/* FORGOT PASSWORD FORM */}
+        {activeTab === 'FORGOT_PASSWORD' && (
+          <form action={resetAction} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <h2 style={{ color: 'white', textAlign: 'center' }}>Reset Password</h2>
+            <p style={{ color: 'rgba(255,255,255,0.7)', textAlign: 'center', fontSize: '0.875rem' }}>Enter your email and we'll send you a password reset link.</p>
+            {resetState?.error && <p style={{ color: '#ff6b6b', fontSize: '0.875rem', textAlign: 'center' }}>{resetState.error}</p>}
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.875rem' }}>Email Address</label>
+              <input type="email" name="email" required style={{ padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
+            </div>
+
+            <button disabled={isResetPending} type="submit" style={{ padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: 'var(--color-gold)', color: 'black', border: 'none', fontWeight: 'bold', cursor: isResetPending ? 'not-allowed' : 'pointer', opacity: isResetPending ? 0.7 : 1 }}>
+              {isResetPending ? 'Sending...' : 'Send Reset Link'}
+            </button>
+            
+            <div style={{ textAlign: 'center', marginTop: '0.5rem' }}>
+              <button type="button" onClick={() => setActiveTab('LOGIN')} style={{ background: 'none', border: 'none', color: 'var(--color-gold)', cursor: 'pointer', fontSize: '0.875rem' }}>
+                Back to Login
               </button>
-            </form>
-          </>
+            </div>
+          </form>
         )}
+
       </div>
-    </div>
+    </main>
   )
 }

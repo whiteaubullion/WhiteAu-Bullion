@@ -2,13 +2,14 @@ import React from 'react';
 import { createClient } from '@/utils/supabase/server';
 import LiveRatesPanel, { RateData } from '@/components/features/LiveRatesPanel';
 import ContactPanel from '@/components/sections/ContactPanel'; // Reuse existing contact panel if suitable
+import { redirect } from 'next/navigation';
 
 // Fallback mock data based on the design provided
 const mockRates: Record<string, RateData> = {
-  '24K_GOLD': { price: 15691, fluctuation: -59 },
-  '22K_GOLD': { price: 14379, fluctuation: -51 },
-  '18K_GOLD': { price: 11881, fluctuation: -39 },
-  'SILVER': { price: 234, fluctuation: 16.5 },
+  '24K_GOLD': { price: 0, fluctuation: 0 },
+  '22K_GOLD': { price: 0, fluctuation: 0 },
+  '18K_GOLD': { price: 0, fluctuation: 0 },
+  '14K_GOLD': { price: 0, fluctuation: 0 },
 };
 
 export const metadata = {
@@ -18,36 +19,46 @@ export const metadata = {
 
 export default async function LiveRatesPage() {
   let rates = mockRates;
+  let userProfile = null;
 
   try {
     const supabase = await createClient();
     
-    // Fetch the latest 10 ACTIVE rates
+    // Make sure user is authenticated and get their profile
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) {
+      redirect('/login');
+    }
+
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', user.id)
+      .single();
+      
+    userProfile = profile;
+    
+    // Fetch the active rates
     const { data: rawRates, error } = await supabase
       .from('gold_rates')
       .select('*')
-      .eq('status', 'ACTIVE')
-      .order('effective_at', { ascending: false })
-      .limit(10);
+      .eq('is_active', true)
+      .order('created_at', { ascending: false })
+      .limit(20);
 
     if (!error && rawRates && rawRates.length > 0) {
       const processedRates: Record<string, RateData> = {};
-      const itemTypes = ['24K_GOLD', '22K_GOLD', '18K_GOLD', 'SILVER'];
+      const itemTypes = ['24K_GOLD', '22K_GOLD', '18K_GOLD', '14K_GOLD'];
       
       itemTypes.forEach(type => {
-        const itemRates = rawRates.filter(r => r.item_type === type);
+        const itemRates = rawRates.filter(r => r.gold_type === type);
         if (itemRates.length > 0) {
-          const currentPrice = Number(itemRates[0].rate_value);
-          let fluctuation = 0;
-          
-          if (itemRates.length > 1) {
-            const previousPrice = Number(itemRates[1].rate_value);
-            fluctuation = currentPrice - previousPrice;
-          }
+          const currentPrice = Number(itemRates[0].rate_per_gram);
           
           processedRates[type] = {
             price: currentPrice,
-            fluctuation: fluctuation
+            fluctuation: 0 // Optional: Calculate from history
           };
         }
       });
@@ -57,12 +68,13 @@ export default async function LiveRatesPage() {
       }
     }
   } catch (err) {
-    console.error('Failed to fetch live rates, using mock data fallback', err);
+    console.error('Failed to fetch live rates', err);
   }
 
   return (
     <main style={{ minHeight: '100vh', paddingTop: '120px', backgroundColor: 'var(--primary-dark)' }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px', display: 'flex', justifyContent: 'flex-end', marginBottom: '1.5rem' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+        <h2 style={{ color: 'white', fontSize: '1.25rem' }}>Welcome, {userProfile?.full_name || 'User'}</h2>
         <form action="/auth/signout" method="post">
           <button type="submit" style={{ padding: '0.5rem 1rem', backgroundColor: 'rgba(212, 175, 55, 0.1)', border: '1px solid var(--color-gold)', color: 'var(--color-gold)', borderRadius: '0.5rem', cursor: 'pointer', fontSize: '0.875rem', fontWeight: 'bold' }}>
             Sign Out
@@ -73,9 +85,9 @@ export default async function LiveRatesPage() {
         <LiveRatesPanel rates={rates} />
       </div>
       
-      {/* Adding some spacing before footer or other sections */}
       <div style={{ height: '80px' }} />
       <ContactPanel />
     </main>
   );
 }
+
