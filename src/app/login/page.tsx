@@ -62,7 +62,12 @@ export default function LoginPage() {
   }
 
   return (
-    <main style={{ minHeight: '100vh', paddingTop: '120px', backgroundColor: 'var(--primary-dark)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <main style={{ minHeight: '100vh', padding: '6rem 1.5rem 2rem', backgroundColor: 'var(--primary-dark)', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+      <div style={{ width: '100%', maxWidth: '500px', marginBottom: '1rem' }}>
+        <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: '0.9rem' }}>
+          ← Back to Home
+        </Link>
+      </div>
       <div style={{ maxWidth: '500px', width: '100%', padding: '2rem', backgroundColor: 'rgba(10, 10, 10, 0.8)', border: '1px solid rgba(212, 175, 55, 0.2)', borderRadius: '1rem', backdropFilter: 'blur(10px)' }}>
         
         {/* Header & Tabs */}

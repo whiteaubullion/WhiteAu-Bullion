@@ -1,21 +1,36 @@
 .footer {
   background-color: #ffffff;
   color: var(--color-black);
-  padding: 8rem 0 4rem; /* Increased padding */
+  padding: 4rem 0 2rem; 
   margin-top: 0;
-  border-top: 1px solid rgba(234, 162, 33, 0.2); /* subtle gold border */
+  border-top: 1px solid rgba(234, 162, 33, 0.2); 
+}
+
+@media (min-width: 768px) {
+  .footer {
+    padding: 6rem 0 3rem;
+  }
 }
 
 .footerGrid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 3rem;
-  margin-bottom: 3rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.brandCol {
+  grid-column: 1 / -1;
 }
 
 @media (min-width: 768px) {
   .footerGrid {
     grid-template-columns: 1.5fr 1fr 1.5fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+  .brandCol {
+    grid-column: auto;
   }
 }
 
@@ -40,7 +55,7 @@
 }
 
 .linksCol nav a {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   opacity: 0.8;
   transition: opacity 0.2s, color 0.2s;
 }
@@ -51,10 +66,10 @@
 }
 
 .contactCol p {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   opacity: 0.8;
   margin-bottom: 1rem;
-  line-height: 1.8;
+  line-height: 1.6;
 }
 
 .contactCol a {

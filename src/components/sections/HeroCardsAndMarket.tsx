@@ -17,7 +17,7 @@ export default function HeroCardsAndMarket() {
           className={marketStyles.analysisContainer}
         >
           {/* Text Side */}
-          <div style={{ flex: 1, minWidth: '300px', padding: '2.5rem', background: 'linear-gradient(135deg, rgba(234, 162, 33, 0.1) 0%, rgba(255, 255, 255, 0) 100%)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <div style={{ flex: 1, minWidth: '250px', padding: '1.5rem', background: 'linear-gradient(135deg, rgba(234, 162, 33, 0.1) 0%, rgba(255, 255, 255, 0) 100%)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <h2 style={{ fontFamily: 'var(--font-cormorant)', fontSize: '2rem', color: 'var(--color-black)', marginBottom: '1rem', lineHeight: 1.2 }}>Get the WhiteAu Gold Rate</h2>
             <p style={{ color: 'var(--color-gold)', fontWeight: 600, marginBottom: '2rem', fontSize: '0.95rem' }}>
               Share your details below to know today’s latest rate.
@@ -40,7 +40,7 @@ export default function HeroCardsAndMarket() {
           </div>
 
           {/* Form Side */}
-          <div style={{ flex: 1, minWidth: '300px', padding: '2.5rem', background: 'rgba(255, 255, 255, 0.6)' }}>
+          <div style={{ flex: 1, minWidth: '250px', padding: '1.5rem', background: 'rgba(255, 255, 255, 0.6)' }}>
             <form onSubmit={(e) => { e.preventDefault(); alert('Thank you! Our executive will contact you shortly.'); }} style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', height: '100%', justifyContent: 'center' }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
                 <label htmlFor="name" style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--color-black)' }}>Full Name</label>
