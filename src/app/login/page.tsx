@@ -64,7 +64,7 @@ export default function LoginPage() {
   return (
     <main style={{ minHeight: '100vh', padding: '6rem 1.5rem 2rem', backgroundColor: 'var(--primary-dark)', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
       <div style={{ width: '100%', maxWidth: '500px', marginBottom: '1rem' }}>
-        <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: '0.9rem' }}>
+        <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: '#000000', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 'bold' }}>
           ← Back to Home
         </Link>
       </div>

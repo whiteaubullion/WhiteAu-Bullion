@@ -13,6 +13,7 @@ import ReleaseGoldSection from '@/components/sections/ReleaseGoldSection';
 import Founder from '@/components/sections/Founder';
 import BranchInfo from '@/components/features/BranchInfo';
 import PremiumSellButton from '@/components/features/PremiumSellButton';
+import BuyGoldButton from '@/components/features/BuyGoldButton';
 import BackgroundMarquee from '@/components/ui/BackgroundMarquee';
 
 import styles from './page.module.css';
@@ -82,6 +83,9 @@ export default function Home() {
               <div className={styles.heroButtons}>
                 <PremiumSellButton href="/sell-gold">SELL YOUR GOLD</PremiumSellButton>
                 <PremiumSellButton href="/release-gold" variant="white">RELEASE GOLD</PremiumSellButton>
+              </div>
+              <div className={styles.heroButtons} style={{ marginTop: '1rem', justifyContent: 'center' }}>
+                <BuyGoldButton />
               </div>
             </div>
           </div>

@@ -5,8 +5,16 @@ export default async function ActivityPage() {
   const { data: activity } = await supabase
     .from('login_activity')
     .select('*, profiles(full_name, email)')
-    .order('login_at', { ascending: false })
-    .limit(100)
+    .order('login_at', { ascending: true }) // Fetch ascending to calculate counts
+
+  // Calculate iteration counts
+  const userCounts: Record<string, number> = {}
+  const processedActivity = activity?.map(log => {
+    const userId = log.user_id
+    if (!userCounts[userId]) userCounts[userId] = 0
+    userCounts[userId]++
+    return { ...log, iteration: userCounts[userId] }
+  }).reverse() || [] // Reverse to show latest first
 
   return (
     <div>
@@ -24,10 +32,12 @@ export default async function ActivityPage() {
             </tr>
           </thead>
           <tbody>
-            {activity?.map((log) => (
+            {processedActivity.slice(0, 100).map((log) => (
               <tr key={log.id} style={{ borderBottom: '1px solid rgba(51, 65, 85, 0.5)' }}>
                 <td style={tdStyle}>{new Date(log.login_at).toLocaleString()}</td>
-                <td style={tdStyle}>{log.profiles?.full_name || 'Unknown'}</td>
+                <td style={tdStyle}>
+                  {log.profiles?.full_name ? `${log.profiles.full_name} (${log.iteration})` : 'Unknown'}
+                </td>
                 <td style={tdStyle}>{log.profiles?.email || 'Unknown'}</td>
                 <td style={tdStyle}>{log.login_method}</td>
                 <td style={tdStyle}>

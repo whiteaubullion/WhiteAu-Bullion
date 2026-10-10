@@ -90,8 +90,24 @@ export default function Testimonials() {
     }, 2000);
   };
 
+  React.useEffect(() => {
+    const handleScroll = () => {
+      if (isModalOpen) {
+        setIsModalOpen(false);
+      }
+    };
+    
+    if (isModalOpen) {
+      window.addEventListener('scroll', handleScroll, { passive: true });
+    }
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isModalOpen]);
+
   return (
-    <section className={styles.testimonialsSection}>
+    <section className={styles.testimonialsSection} style={isModalOpen ? { zIndex: 99999 } : undefined}>
       <div className="container">
         <div className={styles.header}>
           <h2>What Our Clients Say</h2>
