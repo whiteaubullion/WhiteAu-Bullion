@@ -57,7 +57,8 @@ export async function updateSession(request: NextRequest) {
 
   // Protect User Routes (e.g. live-rates)
   if (path.startsWith('/live-rates')) {
-    if (!user) {
+    const customerSession = request.cookies.get('whiteau_customer_session')?.value
+    if (!user && !customerSession) {
       return NextResponse.redirect(new URL('/login', request.url))
     }
   }

@@ -38,7 +38,7 @@ export default function Home() {
                 />
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.5rem', marginTop: '0.5rem', position: 'relative', zIndex: 10 }}>
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem', marginTop: '0.5rem', position: 'relative', zIndex: 10, flexWrap: 'wrap' }}>
                 <a 
                   href="/live-rates" 
                   style={{ 
@@ -68,6 +68,7 @@ export default function Home() {
                     Our Gold Rate
                   </span>
                 </a>
+                <BuyGoldButton />
               </div>
 
               <h1 className={styles.heroTitle}>
@@ -83,9 +84,6 @@ export default function Home() {
               <div className={styles.heroButtons}>
                 <PremiumSellButton href="/sell-gold">SELL YOUR GOLD</PremiumSellButton>
                 <PremiumSellButton href="/release-gold" variant="white">RELEASE GOLD</PremiumSellButton>
-              </div>
-              <div className={styles.heroButtons} style={{ marginTop: '1rem', justifyContent: 'center' }}>
-                <BuyGoldButton />
               </div>
             </div>
           </div>

@@ -1,152 +1,121 @@
 'use server'
 
 import { createClient } from '@/utils/supabase/server'
+import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
-export async function login(prevState: any, formData: FormData) {
-  const email = formData.get('email') as string
-  const password = formData.get('password') as string
+export async function submitLeadAction(prevState: any, formData: FormData) {
+  const fullName = (formData.get('fullName') as string || '').trim()
+  const email = (formData.get('email') as string || '').trim().toLowerCase()
+  const phone = (formData.get('phone') as string || '').trim()
 
-  if (!email || !password) {
-    return { error: 'Email and password are required' }
+  if (!fullName || !email || !phone) {
+    return { error: 'Please enter your Full Name, Email Address, and Mobile Number.' }
   }
 
-  const supabase = await createClient()
-
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  })
-
-  if (error) {
-    return { error: error.message }
+  // Basic email validation
+  if (!email.includes('@') || !email.includes('.')) {
+    return { error: 'Please enter a valid email address.' }
   }
 
-  // Record login activity
-  if (data.user) {
-    await supabase.from('login_activity').insert({
-      user_id: data.user.id,
-      login_method: 'email/password',
-      login_status: 'success'
-    })
+  // Helper to ensure database calls don't hang if Supabase is unreachable
+  const withTimeout = <T>(promise: Promise<T>, ms: number = 3000): Promise<T> => {
+    return Promise.race([
+      promise,
+      new Promise<never>((_, reject) => setTimeout(() => reject(new Error('DB_TIMEOUT')), ms))
+    ])
   }
 
-  redirect('/live-rates')
-}
+  let leadRecord: any = null
+  let currentVisitCount = 1
 
-export async function signup(prevState: any, formData: FormData) {
-  const email = formData.get('email') as string
-  const password = formData.get('password') as string
-  const fullName = formData.get('fullName') as string
-  const phone = formData.get('phone') as string
-  const confirmPassword = formData.get('confirmPassword') as string
+  try {
+    const supabase = await createClient()
 
-  if (!email || !password || !fullName || !phone) {
-    return { error: 'All fields are required' }
-  }
+    // 1. Check if this customer lead already exists by email
+    const { data: existingLead } = await withTimeout(
+      supabase
+        .from('customer_leads')
+        .select('*')
+        .eq('email', email)
+        .maybeSingle()
+    )
 
-  if (password !== confirmPassword) {
-    return { error: 'Passwords do not match' }
-  }
-
-  const supabase = await createClient()
-
-  // Sign up the user. This will send an OTP to their email.
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      data: {
-        full_name: fullName,
-        phone_number: phone,
-      },
-    },
-  })
-
-  if (error) {
-    return { error: error.message }
-  }
-
-  return { success: true, step: 'VERIFY_OTP', email }
-}
-
-export async function verifyOtp(prevState: any, formData: FormData) {
-  const email = formData.get('email') as string
-  const token = formData.get('token') as string
-
-  if (!email || !token) {
-    return { error: 'Email and OTP are required', step: 'VERIFY_OTP', email }
-  }
-
-  const supabase = await createClient()
-
-  const { data, error } = await supabase.auth.verifyOtp({
-    email,
-    token,
-    type: 'signup',
-  })
-
-  if (error) {
-    return { error: error.message, step: 'VERIFY_OTP', email }
-  }
-
-  // After successful verification, create the profile
-  if (data.user) {
-    const { full_name, phone_number } = data.user.user_metadata
-    
-    // We do an upsert or check first because auth triggers might be added later
-    const { error: profileError } = await supabase.from('profiles').upsert({
-      id: data.user.id,
-      full_name: full_name || 'User',
-      email: data.user.email,
-      phone_number: phone_number || null,
-      role: 'user',
-      account_status: 'active'
-    })
-
-    if (profileError) {
-      console.error('Error creating profile:', profileError)
+    if (existingLead) {
+      currentVisitCount = (existingLead.visit_count || 1) + 1
+      const { data: updatedLead } = await withTimeout(
+        supabase
+          .from('customer_leads')
+          .update({
+            full_name: fullName || existingLead.full_name,
+            phone_number: phone || existingLead.phone_number,
+            visit_count: currentVisitCount,
+            last_login_at: new Date().toISOString()
+          })
+          .eq('id', existingLead.id)
+          .select()
+          .single()
+      )
+      leadRecord = updatedLead || existingLead
+    } else {
+      const { data: newLead } = await withTimeout(
+        supabase
+          .from('customer_leads')
+          .insert({
+            full_name: fullName,
+            email: email,
+            phone_number: phone,
+            visit_count: 1,
+            last_login_at: new Date().toISOString()
+          })
+          .select()
+          .single()
+      )
+      leadRecord = newLead
+      currentVisitCount = 1
     }
 
-    // Record login activity
-    await supabase.from('login_activity').insert({
-      user_id: data.user.id,
-      login_method: 'otp_verification',
-      login_status: 'success'
-    })
+    // 2. Insert into customer_rate_access log table
+    if (leadRecord?.id) {
+      await withTimeout(
+        supabase.from('customer_rate_access').insert({
+          lead_id: leadRecord.id,
+          full_name: fullName,
+          email: email,
+          phone_number: phone,
+          visit_number: currentVisitCount,
+          accessed_at: new Date().toISOString()
+        })
+      )
+    }
+  } catch (dbErr) {
+    console.warn('Database access timed out or failed, proceeding with session:', dbErr)
   }
+
+  // 3. Set a secure customer session cookie so user stays authenticated to view live rates
+  const cookieStore = await cookies()
+  const customerSession = JSON.stringify({
+    leadId: leadRecord?.id,
+    fullName: fullName,
+    email: email,
+    phone: phone,
+    visitCount: currentVisitCount
+  })
+
+  cookieStore.set('whiteau_customer_session', customerSession, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    maxAge: 60 * 60 * 24 * 30, // 30 days
+    path: '/'
+  })
 
   redirect('/live-rates')
 }
 
-export async function resendOtp(email: string) {
-  const supabase = await createClient()
-  const { error } = await supabase.auth.resend({
-    type: 'signup',
-    email,
-  })
-  
-  if (error) {
-    return { error: error.message }
-  }
-  return { success: true }
-}
-
-export async function resetPassword(prevState: any, formData: FormData) {
-  const email = formData.get('email') as string
-
-  if (!email) {
-    return { error: 'Email is required', step: 'FORGOT_PASSWORD' }
-  }
-
-  const supabase = await createClient()
-  
-  // Note: For a real app you'd want a proper reset flow with a custom redirect URL
-  const { error } = await supabase.auth.resetPasswordForEmail(email)
-
-  if (error) {
-    return { error: error.message, step: 'FORGOT_PASSWORD' }
-  }
-
-  return { success: true, message: 'Password reset link sent to your email.', step: 'LOGIN' }
+// Fallback signout
+export async function customerSignOut() {
+  const cookieStore = await cookies()
+  cookieStore.delete('whiteau_customer_session')
+  redirect('/login')
 }

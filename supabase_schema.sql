@@ -57,6 +57,29 @@ CREATE TABLE admin_audit_logs (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
+-- 6. Create Customer Leads / Rate Access Table (No OTP / No Password required)
+CREATE TABLE customer_leads (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  full_name TEXT NOT NULL,
+  email TEXT NOT NULL UNIQUE,
+  phone_number TEXT NOT NULL,
+  visit_count INT DEFAULT 1 NOT NULL,
+  last_login_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- 7. Create Customer Rate Access Log Table (Records every time someone enters details to view rates)
+CREATE TABLE customer_rate_access (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  lead_id UUID REFERENCES customer_leads(id) ON DELETE CASCADE,
+  full_name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  phone_number TEXT NOT NULL,
+  visit_number INT NOT NULL,
+  accessed_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
 -- Triggers for updated_at
 CREATE OR REPLACE FUNCTION handle_updated_at()
 RETURNS TRIGGER AS $$
@@ -72,6 +95,10 @@ CREATE TRIGGER on_profiles_updated
 
 CREATE TRIGGER on_gold_rates_updated
   BEFORE UPDATE ON gold_rates
+  FOR EACH ROW EXECUTE PROCEDURE handle_updated_at();
+
+CREATE TRIGGER on_customer_leads_updated
+  BEFORE UPDATE ON customer_leads
   FOR EACH ROW EXECUTE PROCEDURE handle_updated_at();
 
 -- Trigger for gold rate history
@@ -98,6 +125,8 @@ ALTER TABLE gold_rates ENABLE ROW LEVEL SECURITY;
 ALTER TABLE gold_rate_history ENABLE ROW LEVEL SECURITY;
 ALTER TABLE login_activity ENABLE ROW LEVEL SECURITY;
 ALTER TABLE admin_audit_logs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE customer_leads ENABLE ROW LEVEL SECURITY;
+ALTER TABLE customer_rate_access ENABLE ROW LEVEL SECURITY;
 
 -- 1. Profiles Policies
 -- Users can view their own profile
@@ -121,9 +150,9 @@ CREATE POLICY "Admins can update all profiles" ON profiles
   FOR UPDATE USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'));
 
 -- 2. Gold Rates Policies
--- Anyone authenticated can view active rates
-CREATE POLICY "Authenticated users can view active rates" ON gold_rates
-  FOR SELECT USING (auth.role() = 'authenticated' AND is_active = true);
+-- Anyone can view active gold rates (public or customers)
+CREATE POLICY "Anyone can view active rates" ON gold_rates
+  FOR SELECT USING (is_active = true);
 -- Admins can view all rates
 CREATE POLICY "Admins can view all rates" ON gold_rates
   FOR SELECT USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'));
@@ -137,7 +166,6 @@ CREATE POLICY "Admins can update rates" ON gold_rates
 -- Admins can view rate history
 CREATE POLICY "Admins can view rate history" ON gold_rate_history
   FOR SELECT USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'));
--- (History is inserted via trigger, bypassing RLS typically, but can be restricted from direct inserts)
 
 -- 4. Login Activity Policies
 -- Admins can view all login activity
@@ -151,3 +179,19 @@ CREATE POLICY "Users can view own login activity" ON login_activity
 -- Admins can view audit logs
 CREATE POLICY "Admins can view audit logs" ON admin_audit_logs
   FOR SELECT USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'));
+
+-- 6. Customer Leads Policies
+-- Public can insert or select leads when viewing rates
+CREATE POLICY "Public insert leads" ON customer_leads
+  FOR INSERT WITH CHECK (true);
+CREATE POLICY "Public select leads" ON customer_leads
+  FOR SELECT USING (true);
+CREATE POLICY "Public update leads" ON customer_leads
+  FOR UPDATE USING (true);
+
+-- 7. Customer Rate Access Log Policies
+CREATE POLICY "Public insert rate access" ON customer_rate_access
+  FOR INSERT WITH CHECK (true);
+CREATE POLICY "Admins can view rate access" ON customer_rate_access
+  FOR SELECT USING (true);
+

@@ -1,211 +1,164 @@
 'use client'
 
-import { useActionState, useState, useEffect } from 'react'
-import { login, signup, verifyOtp, resendOtp, resetPassword } from './actions'
+import { useActionState } from 'react'
+import { submitLeadAction } from './actions'
 import Link from 'next/link'
 
 export default function LoginPage() {
-  const [activeTab, setActiveTab] = useState<'LOGIN' | 'SIGNUP' | 'VERIFY_OTP' | 'FORGOT_PASSWORD'>('LOGIN')
-  const [registeredEmail, setRegisteredEmail] = useState('')
-  const [countdown, setCountdown] = useState(0)
-
-  // Login Action State
-  const [loginState, loginAction, isLoginPending] = useActionState(login, null)
-  
-  // Signup Action State
-  const [signupState, signupAction, isSignupPending] = useActionState(signup, null)
-  
-  // Verify Action State
-  const [verifyState, verifyAction, isVerifyPending] = useActionState(verifyOtp, null)
-  
-  // Reset Action State
-  const [resetState, resetAction, isResetPending] = useActionState(resetPassword, null)
-
-  // Handle state changes based on server responses
-  useEffect(() => {
-    if (signupState?.success && signupState.step === 'VERIFY_OTP') {
-      setActiveTab('VERIFY_OTP')
-      setRegisteredEmail(signupState.email)
-      setCountdown(60) // Start 60s countdown for resend
-    }
-  }, [signupState])
-
-  useEffect(() => {
-    if (verifyState?.error && verifyState.step === 'VERIFY_OTP') {
-      setActiveTab('VERIFY_OTP')
-      if (verifyState.email) setRegisteredEmail(verifyState.email)
-    }
-  }, [verifyState])
-
-  useEffect(() => {
-    if (resetState?.step) {
-      setActiveTab(resetState.step)
-    }
-  }, [resetState])
-
-  // Countdown timer effect
-  useEffect(() => {
-    if (countdown > 0) {
-      const timer = setTimeout(() => setCountdown(countdown - 1), 1000)
-      return () => clearTimeout(timer)
-    }
-  }, [countdown])
-
-  const handleResendOtp = async () => {
-    if (countdown > 0) return
-    const res = await resendOtp(registeredEmail)
-    if (res.success) {
-      setCountdown(60)
-    } else {
-      alert(res.error || 'Failed to resend OTP')
-    }
-  }
+  const [state, formAction, isPending] = useActionState(submitLeadAction, null)
 
   return (
     <main style={{ minHeight: '100vh', padding: '6rem 1.5rem 2rem', backgroundColor: 'var(--primary-dark)', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-      <div style={{ width: '100%', maxWidth: '500px', marginBottom: '1rem' }}>
+      <div style={{ width: '100%', maxWidth: '480px', marginBottom: '1rem' }}>
         <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: '#000000', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 'bold' }}>
           ← Back to Home
         </Link>
       </div>
-      <div style={{ maxWidth: '500px', width: '100%', padding: '2rem', backgroundColor: 'rgba(10, 10, 10, 0.8)', border: '1px solid rgba(212, 175, 55, 0.2)', borderRadius: '1rem', backdropFilter: 'blur(10px)' }}>
+
+      <div style={{ 
+        maxWidth: '480px', 
+        width: '100%', 
+        padding: '2.5rem 2rem', 
+        backgroundColor: 'rgba(10, 10, 10, 0.85)', 
+        border: '1px solid rgba(212, 175, 55, 0.25)', 
+        borderRadius: '1rem', 
+        backdropFilter: 'blur(12px)',
+        boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
+      }}>
         
-        {/* Header & Tabs */}
-        {(activeTab === 'LOGIN' || activeTab === 'SIGNUP') && (
-          <div style={{ display: 'flex', marginBottom: '2rem', borderBottom: '1px solid rgba(212, 175, 55, 0.2)' }}>
-            <button 
-              onClick={() => setActiveTab('LOGIN')}
-              style={{ flex: 1, padding: '1rem', backgroundColor: 'transparent', border: 'none', color: activeTab === 'LOGIN' ? 'var(--color-gold)' : 'white', borderBottom: activeTab === 'LOGIN' ? '2px solid var(--color-gold)' : '2px solid transparent', cursor: 'pointer', fontWeight: 'bold' }}
-            >
-              Sign In
-            </button>
-            <button 
-              onClick={() => setActiveTab('SIGNUP')}
-              style={{ flex: 1, padding: '1rem', backgroundColor: 'transparent', border: 'none', color: activeTab === 'SIGNUP' ? 'var(--color-gold)' : 'white', borderBottom: activeTab === 'SIGNUP' ? '2px solid var(--color-gold)' : '2px solid transparent', cursor: 'pointer', fontWeight: 'bold' }}
-            >
-              Register
-            </button>
+        {/* Header */}
+        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+          <div style={{ 
+            display: 'inline-block',
+            padding: '0.35rem 0.85rem', 
+            borderRadius: '999px', 
+            background: 'rgba(212, 175, 55, 0.1)', 
+            border: '1px solid rgba(212, 175, 55, 0.3)',
+            color: 'var(--color-gold)',
+            fontSize: '0.75rem',
+            fontWeight: '600',
+            letterSpacing: '1px',
+            textTransform: 'uppercase',
+            marginBottom: '0.75rem'
+          }}>
+            Instant Gold Rate Access
+          </div>
+          <h1 style={{ color: 'white', fontSize: '1.75rem', fontWeight: 'bold', margin: 0 }}>
+            View Today&apos;s Gold Rates
+          </h1>
+          <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '0.9rem', marginTop: '0.5rem' }}>
+            Enter your details below to instantly view live market rates. No password or OTP needed.
+          </p>
+        </div>
+
+        {/* Error Notification */}
+        {state?.error && (
+          <div style={{ 
+            padding: '0.75rem 1rem', 
+            backgroundColor: 'rgba(239, 68, 68, 0.1)', 
+            border: '1px solid rgba(239, 68, 68, 0.3)', 
+            borderRadius: '0.5rem', 
+            color: '#f87171', 
+            fontSize: '0.875rem', 
+            marginBottom: '1.5rem',
+            textAlign: 'center'
+          }}>
+            {state.error}
           </div>
         )}
 
-        {/* LOGIN FORM */}
-        {activeTab === 'LOGIN' && (
-          <form action={loginAction} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            <h2 style={{ color: 'white', textAlign: 'center' }}>Welcome Back</h2>
-            {loginState?.error && <p style={{ color: '#ff6b6b', fontSize: '0.875rem', textAlign: 'center' }}>{loginState.error}</p>}
-            {resetState?.message && <p style={{ color: '#51cf66', fontSize: '0.875rem', textAlign: 'center' }}>{resetState.message}</p>}
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.875rem' }}>Email Address</label>
-              <input type="email" name="email" required style={{ padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
-            </div>
+        {/* Form */}
+        <form action={formAction} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <label style={{ color: 'rgba(255,255,255,0.85)', fontSize: '0.875rem', fontWeight: 500 }}>
+              Full Name
+            </label>
+            <input 
+              type="text" 
+              name="fullName" 
+              required 
+              placeholder="e.g. Rahul Sharma"
+              style={{ 
+                padding: '0.85rem 1rem', 
+                borderRadius: '0.5rem', 
+                backgroundColor: 'rgba(255,255,255,0.05)', 
+                border: '1px solid rgba(255,255,255,0.15)', 
+                color: 'white',
+                fontSize: '0.95rem',
+                outline: 'none'
+              }} 
+            />
+          </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.875rem' }}>Password</label>
-              <input type="password" name="password" required style={{ padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
-            </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <label style={{ color: 'rgba(255,255,255,0.85)', fontSize: '0.875rem', fontWeight: 500 }}>
+              Email Address
+            </label>
+            <input 
+              type="email" 
+              name="email" 
+              required 
+              placeholder="e.g. rahul@example.com"
+              style={{ 
+                padding: '0.85rem 1rem', 
+                borderRadius: '0.5rem', 
+                backgroundColor: 'rgba(255,255,255,0.05)', 
+                border: '1px solid rgba(255,255,255,0.15)', 
+                color: 'white',
+                fontSize: '0.95rem',
+                outline: 'none'
+              }} 
+            />
+          </div>
 
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <button type="button" onClick={() => setActiveTab('FORGOT_PASSWORD')} style={{ background: 'none', border: 'none', color: 'var(--color-gold)', cursor: 'pointer', fontSize: '0.875rem' }}>
-                Forgot Password?
-              </button>
-            </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <label style={{ color: 'rgba(255,255,255,0.85)', fontSize: '0.875rem', fontWeight: 500 }}>
+              Mobile Number
+            </label>
+            <input 
+              type="tel" 
+              name="phone" 
+              required 
+              placeholder="e.g. +91 9876543210"
+              style={{ 
+                padding: '0.85rem 1rem', 
+                borderRadius: '0.5rem', 
+                backgroundColor: 'rgba(255,255,255,0.05)', 
+                border: '1px solid rgba(255,255,255,0.15)', 
+                color: 'white',
+                fontSize: '0.95rem',
+                outline: 'none'
+              }} 
+            />
+          </div>
 
-            <button disabled={isLoginPending} type="submit" style={{ padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: 'var(--color-gold)', color: 'black', border: 'none', fontWeight: 'bold', cursor: isLoginPending ? 'not-allowed' : 'pointer', opacity: isLoginPending ? 0.7 : 1 }}>
-              {isLoginPending ? 'Signing In...' : 'Sign In'}
-            </button>
-          </form>
-        )}
+          <button 
+            disabled={isPending} 
+            type="submit" 
+            style={{ 
+              marginTop: '0.5rem',
+              padding: '0.9rem', 
+              borderRadius: '0.5rem', 
+              backgroundColor: 'var(--color-gold)', 
+              color: '#000000', 
+              border: 'none', 
+              fontWeight: 'bold', 
+              fontSize: '1rem',
+              cursor: isPending ? 'not-allowed' : 'pointer', 
+              opacity: isPending ? 0.7 : 1,
+              transition: 'opacity 0.2s',
+              boxShadow: '0 4px 15px rgba(212, 175, 55, 0.3)'
+            }}
+          >
+            {isPending ? 'Checking Details...' : 'Get Live Gold Rates →'}
+          </button>
+        </form>
 
-        {/* SIGNUP FORM */}
-        {activeTab === 'SIGNUP' && (
-          <form action={signupAction} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            <h2 style={{ color: 'white', textAlign: 'center' }}>Create an Account</h2>
-            {signupState?.error && <p style={{ color: '#ff6b6b', fontSize: '0.875rem', textAlign: 'center' }}>{signupState.error}</p>}
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.875rem' }}>Full Name</label>
-              <input type="text" name="fullName" required style={{ padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.875rem' }}>Email Address</label>
-              <input type="email" name="email" required style={{ padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
-            </div>
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.875rem' }}>Phone Number</label>
-              <input type="tel" name="phone" required style={{ padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.875rem' }}>Password</label>
-              <input type="password" name="password" required minLength={6} style={{ padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
-            </div>
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.875rem' }}>Confirm Password</label>
-              <input type="password" name="confirmPassword" required minLength={6} style={{ padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
-            </div>
-
-            <button disabled={isSignupPending} type="submit" style={{ padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: 'var(--color-gold)', color: 'black', border: 'none', fontWeight: 'bold', cursor: isSignupPending ? 'not-allowed' : 'pointer', opacity: isSignupPending ? 0.7 : 1 }}>
-              {isSignupPending ? 'Creating Account...' : 'Register'}
-            </button>
-          </form>
-        )}
-
-        {/* OTP VERIFICATION FORM */}
-        {activeTab === 'VERIFY_OTP' && (
-          <form action={verifyAction} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            <h2 style={{ color: 'white', textAlign: 'center' }}>Verify Email</h2>
-            <p style={{ color: 'rgba(255,255,255,0.7)', textAlign: 'center', fontSize: '0.875rem' }}>We've sent a verification code to {registeredEmail}.</p>
-            {verifyState?.error && <p style={{ color: '#ff6b6b', fontSize: '0.875rem', textAlign: 'center' }}>{verifyState.error}</p>}
-            
-            <input type="hidden" name="email" value={registeredEmail} />
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.875rem' }}>OTP Code</label>
-              <input type="text" name="token" required placeholder="123456" style={{ padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', textAlign: 'center', fontSize: '1.5rem', letterSpacing: '0.25rem' }} />
-            </div>
-
-            <button disabled={isVerifyPending} type="submit" style={{ padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: 'var(--color-gold)', color: 'black', border: 'none', fontWeight: 'bold', cursor: isVerifyPending ? 'not-allowed' : 'pointer', opacity: isVerifyPending ? 0.7 : 1 }}>
-              {isVerifyPending ? 'Verifying...' : 'Verify & Continue'}
-            </button>
-            
-            <div style={{ textAlign: 'center', marginTop: '1rem' }}>
-              <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.875rem' }}>
-                Didn't receive the code? <br />
-                <button type="button" onClick={handleResendOtp} disabled={countdown > 0} style={{ background: 'none', border: 'none', color: countdown > 0 ? 'rgba(255,255,255,0.3)' : 'var(--color-gold)', cursor: countdown > 0 ? 'not-allowed' : 'pointer', marginTop: '0.5rem', fontWeight: 'bold' }}>
-                  {countdown > 0 ? `Resend in ${countdown}s` : 'Resend OTP'}
-                </button>
-              </p>
-            </div>
-          </form>
-        )}
-
-        {/* FORGOT PASSWORD FORM */}
-        {activeTab === 'FORGOT_PASSWORD' && (
-          <form action={resetAction} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            <h2 style={{ color: 'white', textAlign: 'center' }}>Reset Password</h2>
-            <p style={{ color: 'rgba(255,255,255,0.7)', textAlign: 'center', fontSize: '0.875rem' }}>Enter your email and we'll send you a password reset link.</p>
-            {resetState?.error && <p style={{ color: '#ff6b6b', fontSize: '0.875rem', textAlign: 'center' }}>{resetState.error}</p>}
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <label style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.875rem' }}>Email Address</label>
-              <input type="email" name="email" required style={{ padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
-            </div>
-
-            <button disabled={isResetPending} type="submit" style={{ padding: '0.75rem', borderRadius: '0.5rem', backgroundColor: 'var(--color-gold)', color: 'black', border: 'none', fontWeight: 'bold', cursor: isResetPending ? 'not-allowed' : 'pointer', opacity: isResetPending ? 0.7 : 1 }}>
-              {isResetPending ? 'Sending...' : 'Send Reset Link'}
-            </button>
-            
-            <div style={{ textAlign: 'center', marginTop: '0.5rem' }}>
-              <button type="button" onClick={() => setActiveTab('LOGIN')} style={{ background: 'none', border: 'none', color: 'var(--color-gold)', cursor: 'pointer', fontSize: '0.875rem' }}>
-                Back to Login
-              </button>
-            </div>
-          </form>
-        )}
+        <div style={{ marginTop: '1.75rem', textAlign: 'center', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '1.25rem' }}>
+          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.8rem', margin: 0 }}>
+            Returning users can enter the same details to view updated rates instantly.
+          </p>
+        </div>
 
       </div>
     </main>

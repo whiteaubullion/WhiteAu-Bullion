@@ -8,6 +8,10 @@ export async function POST(request: Request) {
     data: { session },
   } = await supabase.auth.getSession()
 
+  const { cookies } = await import('next/headers')
+  const cookieStore = await cookies()
+  cookieStore.delete('whiteau_customer_session')
+
   if (session) {
     await supabase.auth.signOut()
   }

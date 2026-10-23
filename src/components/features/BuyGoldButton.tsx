@@ -23,21 +23,35 @@ export default function BuyGoldButton() {
       <button 
         onClick={() => setIsModalOpen(true)}
         style={{
-          backgroundColor: '#000000',
-          color: '#ffffff',
-          padding: '0.875rem 2.5rem',
+          background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.22) 0%, rgba(245, 215, 110, 0.12) 100%)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          border: '1px solid rgba(212, 175, 55, 0.45)',
+          color: '#4e342e',
+          padding: '0.5rem 1.4rem',
           borderRadius: '9999px',
-          fontWeight: '600',
+          fontWeight: '700',
           textDecoration: 'none',
-          letterSpacing: '0.05em',
-          boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+          letterSpacing: '0.1em',
+          boxShadow: '0 4px 15px rgba(212, 175, 55, 0.15)',
           transition: 'all 0.3s ease',
-          display: 'inline-block',
-          fontSize: '0.95rem',
-          border: 'none',
-          cursor: 'pointer'
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '0.45rem',
+          fontSize: '0.75rem',
+          cursor: 'pointer',
+          textTransform: 'uppercase'
         }}
       >
+        <span style={{ 
+          display: 'inline-block', 
+          width: '7px', 
+          height: '7px', 
+          borderRadius: '50%', 
+          backgroundColor: '#d4af37', 
+          boxShadow: '0 0 8px #d4af37' 
+        }}></span>
         BUY GOLD
       </button>
 

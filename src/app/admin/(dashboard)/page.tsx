@@ -6,21 +6,37 @@ export default async function AdminDashboardPage() {
   // Fetch metrics in parallel
   const [
     { count: totalUsers },
-    { count: activeUsers },
+    { count: totalCustomerLeads },
     { data: recentLogins },
+    { data: recentCustomerAccess },
     { count: totalRates },
     { data: latestRates },
-    { data: recentRegistrations },
     { data: rateHistory }
   ] = await Promise.all([
     supabase.from('profiles').select('*', { count: 'exact', head: true }),
-    supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('account_status', 'active'),
+    supabase.from('customer_leads').select('*', { count: 'exact', head: true }),
     supabase.from('login_activity').select('*, profiles(full_name)').order('login_at', { ascending: false }).limit(5),
+    supabase.from('customer_rate_access').select('*').order('accessed_at', { ascending: false }).limit(5),
     supabase.from('gold_rates').select('*', { count: 'exact', head: true }).eq('is_active', true),
     supabase.from('gold_rates').select('*').eq('is_active', true).order('updated_at', { ascending: false }).limit(4),
-    supabase.from('profiles').select('*').order('created_at', { ascending: false }).limit(5),
     supabase.from('gold_rate_history').select('*, profiles(full_name)').order('updated_at', { ascending: false }).limit(5)
   ])
+
+  // Combine recent logins
+  const combinedLogins = [
+    ...(recentCustomerAccess?.map(c => ({
+      id: c.id,
+      name: c.full_name,
+      method: `Customer (Visit #${c.visit_number})`,
+      time: c.accessed_at
+    })) || []),
+    ...(recentLogins?.map(l => ({
+      id: l.id,
+      name: l.profiles?.full_name || 'Admin',
+      method: l.login_method,
+      time: l.login_at
+    })) || [])
+  ].sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()).slice(0, 5)
 
   return (
     <div>
@@ -28,10 +44,10 @@ export default async function AdminDashboardPage() {
       
       {/* Metrics Cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.5rem', marginBottom: '2.5rem' }}>
-        <MetricCard title="Total Users" value={totalUsers || 0} />
-        <MetricCard title="Active Users" value={activeUsers || 0} />
+        <MetricCard title="Total Customers" value={totalCustomerLeads || 0} />
+        <MetricCard title="System Users" value={totalUsers || 0} />
         <MetricCard title="Active Gold Categories" value={totalRates || 0} />
-        <MetricCard title="Recent Logins (24h)" value={recentLogins?.length || 0} />
+        <MetricCard title="Recent Access Events" value={combinedLogins.length} />
       </div>
 
       {/* Grid Layout for tables */}
@@ -59,46 +75,34 @@ export default async function AdminDashboardPage() {
           </table>
         </DashboardSection>
 
-        {/* Recent Registrations */}
-        <DashboardSection title="Recent Registrations">
-          <table style={tableStyle}>
-            <thead>
-              <tr style={thRowStyle}>
-                <th style={thStyle}>Name</th>
-                <th style={thStyle}>Email</th>
-                <th style={thStyle}>Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {recentRegistrations?.map(user => (
-                <tr key={user.id} style={tdRowStyle}>
-                  <td style={tdStyle}>{user.full_name}</td>
-                  <td style={tdStyle}>{user.email}</td>
-                  <td style={tdStyle}>{new Date(user.created_at).toLocaleDateString()}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </DashboardSection>
-
         {/* Recent Logins */}
         <DashboardSection title="Recent Login Activity">
           <table style={tableStyle}>
             <thead>
               <tr style={thRowStyle}>
-                <th style={thStyle}>User</th>
-                <th style={thStyle}>Method</th>
+                <th style={thStyle}>User / Customer</th>
+                <th style={thStyle}>Method / Visit</th>
                 <th style={thStyle}>Time</th>
               </tr>
             </thead>
             <tbody>
-              {recentLogins?.map(login => (
-                <tr key={login.id} style={tdRowStyle}>
-                  <td style={tdStyle}>{login.profiles?.full_name || 'Unknown'}</td>
-                  <td style={tdStyle}>{login.login_method}</td>
-                  <td style={tdStyle}>{new Date(login.login_at).toLocaleString()}</td>
+              {combinedLogins.length === 0 ? (
+                <tr>
+                  <td colSpan={3} style={{ ...tdStyle, textAlign: 'center', color: '#64748b' }}>
+                    No recent logins.
+                  </td>
                 </tr>
-              ))}
+              ) : (
+                combinedLogins.map(login => (
+                  <tr key={login.id} style={tdRowStyle}>
+                    <td style={{ ...tdStyle, fontWeight: '500' }}>{login.name}</td>
+                    <td style={tdStyle}>
+                      <span style={{ color: '#38bdf8' }}>{login.method}</span>
+                    </td>
+                    <td style={tdStyle}>{new Date(login.time).toLocaleString()}</td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </DashboardSection>

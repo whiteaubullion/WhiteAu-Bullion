@@ -40,6 +40,7 @@ export default async function AdminLayout({
         
         <nav style={{ padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1 }}>
           <NavLink href="/admin" label="Dashboard Overview" />
+          <NavLink href="/admin/customer-access" label="Customer Rate Access" />
           <NavLink href="/admin/rates" label="Gold Rate Management" />
           <NavLink href="/admin/history" label="Gold Rate History" />
           <NavLink href="/admin/users" label="Registered Users" />
