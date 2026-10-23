@@ -1,13 +1,19 @@
 .faqSection {
   background-color: var(--color-pearl);
   color: var(--color-black);
-  padding: 4rem 0;
+  padding: 2.5rem 0 3.5rem;
+}
+
+@media (min-width: 1024px) {
+  .faqSection {
+    padding: 4rem 0;
+  }
 }
 
 .faqContainer {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 @media (min-width: 1024px) {

@@ -237,7 +237,7 @@ export default function SellGoldSection() {
       <section className="section-padding">
         <div className="container">
           <InteractiveStepsCard 
-            title={<>Sell Gold in Bangalore with<br/><span style={{ color: 'var(--color-gold)' }}>Seven easy steps</span></>}
+            title={<>Sell Gold with<br/><span style={{ color: 'var(--color-gold)' }}>Seven easy steps</span></>}
             steps={sellGoldSteps}
             imageSrc="/images/sell-gold-model.png"
           />
