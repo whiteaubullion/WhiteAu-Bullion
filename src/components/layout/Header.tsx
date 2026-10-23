@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Logo from '@/components/layout/Logo';
+import BuyGoldButton from '@/components/features/BuyGoldButton';
 import styles from './Header.module.css';
 
 export default function Header() {
@@ -32,7 +33,6 @@ export default function Header() {
     { href: '/live-rates', label: "WHITEAU RATE" },
     { href: '/sell-gold', label: 'SELL GOLD' },
     { href: '/release-gold', label: 'RELEASE GOLD' },
-    { href: '/contact', label: 'SUPPORT' },
   ];
 
   return (
@@ -60,6 +60,9 @@ export default function Header() {
               )}
             </Link>
           ))}
+          <BuyGoldButton className={styles.navLink}>
+            BUY GOLD
+          </BuyGoldButton>
         </nav>
 
         {/* CTA */}
@@ -81,6 +84,11 @@ export default function Header() {
               {label}
             </Link>
           ))}
+          <div onClick={() => setMenuOpen(false)} style={{ display: 'contents' }}>
+            <BuyGoldButton className={styles.mobileLink}>
+              BUY GOLD
+            </BuyGoldButton>
+          </div>
           <Link href="/contact" className={styles.mobileCta} onClick={() => setMenuOpen(false)}>
             Contact Our Branch ↗
           </Link>
