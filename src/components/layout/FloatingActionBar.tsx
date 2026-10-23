@@ -24,6 +24,10 @@ export default function FloatingActionBar() {
         Release Gold
       </Link>
 
+      <Link href="/buy-gold" className={`${styles.actionButton} ${styles.buyGold}`}>
+        Buy Gold
+      </Link>
+
       <div style={{ color: '#52525b', padding: '0 0.25rem' }}>⋮</div>
 
       <a href="https://wa.me/919590704444" target="_blank" rel="noopener noreferrer" className={`${styles.iconButton} ${styles.whatsappButton}`}>

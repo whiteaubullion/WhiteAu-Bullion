@@ -18,6 +18,7 @@ export default function Footer() {
             <Link href="/">Home</Link>
             <Link href="/sell-gold">Sell Gold</Link>
             <Link href="/release-gold">Release Gold</Link>
+            <Link href="/buy-gold">Buy Gold</Link>
             <Link href="/why-whiteau">Why WhiteAu</Link>
             <Link href="/faqs">FAQs</Link>
             <Link href="/contact">Contact</Link>

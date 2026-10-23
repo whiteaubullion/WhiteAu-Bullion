@@ -2,9 +2,15 @@
 import React from 'react';
 import InteractiveStepsCard, { StepItem } from '@/components/features/InteractiveStepsCard';
 import Accordion from '@/components/ui/Accordion';
+import ContactPanel from '@/components/sections/ContactPanel';
 import faqStyles from './TwoColumnFaq.module.css';
 
-export default function SellGoldSection() {
+interface SellGoldSectionProps {
+  showContactPanel?: boolean;
+  children?: React.ReactNode;
+}
+
+export default function SellGoldSection({ showContactPanel = false, children }: SellGoldSectionProps = {}) {
   const [showAllFaqs, setShowAllFaqs] = React.useState(false);
 
   const sellGoldSteps: StepItem[] = [
@@ -243,6 +249,9 @@ export default function SellGoldSection() {
           />
         </div>
       </section>
+
+      {showContactPanel && <ContactPanel type="sell" />}
+      {children}
 
       <section className={faqStyles.faqSection}>
         <div className="container">

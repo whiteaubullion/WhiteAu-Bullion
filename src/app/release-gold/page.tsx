@@ -1,7 +1,6 @@
 import React from 'react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import ContactPanel from '@/components/sections/ContactPanel';
 import ReleaseGoldSection from '@/components/sections/ReleaseGoldSection';
 
 export const metadata = {
@@ -15,8 +14,7 @@ export default function ReleaseGold() {
       <Header />
       
       <main style={{ paddingTop: '80px' }}>
-        <ReleaseGoldSection />
-        <ContactPanel type="release" />
+        <ReleaseGoldSection showContactPanel={true} />
       </main>
 
       <Footer />

@@ -80,6 +80,14 @@
   opacity: 0.9;
 }
 
+.buyGold {
+  background: linear-gradient(135deg, #c9942e, #e2b755);
+  color: #1a1a1a;
+}
+.buyGold:hover {
+  opacity: 0.9;
+}
+
 .iconButton {
   width: 40px;
   height: 40px;

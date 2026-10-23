@@ -3,14 +3,14 @@ import React, { useState } from 'react';
 import styles from './ContactPanel.module.css';
 
 type ContactPanelProps = {
-  type?: 'sell' | 'release' | 'all';
+  type?: 'sell' | 'release' | 'buy' | 'all';
 };
 
 export default function ContactPanel({ type = 'all' }: ContactPanelProps) {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
-    service: type === 'all' ? 'sell' : type as string,
+    service: type === 'all' ? 'sell' : (type as string),
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -19,14 +19,18 @@ export default function ContactPanel({ type = 'all' }: ContactPanelProps) {
     alert('Thank you! Our executive will contact you shortly.');
   };
 
+  const isBuy = type === 'buy';
+
   return (
     <section className="section-padding">
       <div className="container">
         <div className={styles.panelContainer}>
           <div className={styles.contentSide}>
-            <h2 className={styles.title}>Get the WhiteAu Gold Rate</h2>
+            <h2 className={styles.title}>
+              {isBuy ? 'Buy Gold from WhiteAu' : 'Get the WhiteAu Gold Rate'}
+            </h2>
             <p className={styles.subtitle} style={{ color: 'var(--color-gold)', fontWeight: 600, marginBottom: '2.5rem' }}>
-              Share your details below to know today’s latest rate.
+              {isBuy ? 'Share your details below to book at today’s latest rate.' : 'Share your details below to know today’s latest rate.'}
             </p>
             
             <div className={styles.valuationGrid}>
@@ -35,23 +39,23 @@ export default function ContactPanel({ type = 'all' }: ContactPanelProps) {
                   <div className={styles.itemDot}></div>
                   <h3>Purity</h3>
                 </div>
-                <p>Professional gold testing determines the verified purity.</p>
+                <p>{isBuy ? 'Imported 999-purity certified gold bars (99.9% pure gold).' : 'Professional gold testing determines the verified purity.'}</p>
               </div>
               
               <div className={styles.valuationItem}>
                 <div className={styles.itemHeader}>
                   <div className={styles.itemDot}></div>
-                  <h3>Weight</h3>
+                  <h3>{isBuy ? 'Pricing' : 'Weight'}</h3>
                 </div>
-                <p>Precision weighing determines the net gold weight.</p>
+                <p>{isBuy ? 'Competitive market rates inclusive of GST with clear price breakdown.' : 'Precision weighing determines the net gold weight.'}</p>
               </div>
               
               <div className={styles.valuationItem}>
                 <div className={styles.itemHeader}>
                   <div className={styles.itemDot}></div>
-                  <h3>Rate</h3>
+                  <h3>{isBuy ? 'Delivery' : 'Rate'}</h3>
                 </div>
-                <p>The applicable gold rate is clearly communicated before the transaction.</p>
+                <p>{isBuy ? 'Secure destination courier delivery or convenient branch collection.' : 'The applicable gold rate is clearly communicated before the transaction.'}</p>
               </div>
             </div>
           </div>
@@ -92,14 +96,15 @@ export default function ContactPanel({ type = 'all' }: ContactPanelProps) {
                   value={formData.service}
                   onChange={(e) => setFormData({...formData, service: e.target.value})}
                 >
-                  {(type === 'all' || type === 'sell') && <option value="sell">Sell Gold</option>}
-                  {(type === 'all' || type === 'release') && <option value="release">Release Pledged Gold</option>}
-                  {type === 'all' && <option value="other">General Enquiry</option>}
+                  <option value="sell">Sell Gold</option>
+                  <option value="release">Release Pledged Gold</option>
+                  <option value="pledge">Pledge Gold</option>
+                  <option value="buy">Buy Gold</option>
                 </select>
               </div>
               
               <button type="submit" className={styles.submitBtn}>
-                GET GOLD RATE
+                {formData.service === 'buy' ? 'ENQUIRE BUY GOLD' : 'GET GOLD RATE'}
               </button>
             </form>
           </div>
