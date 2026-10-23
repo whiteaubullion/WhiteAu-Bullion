@@ -47,7 +47,7 @@ export default function LoginPage() {
             View Today&apos;s Gold Rates
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '0.9rem', marginTop: '0.5rem' }}>
-            Enter your details below to instantly view live market rates. No password or OTP needed.
+            Enter your details below to instantly view live market rates.
           </p>
         </div>
 
