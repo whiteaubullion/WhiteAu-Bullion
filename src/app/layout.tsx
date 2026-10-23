@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Playfair_Display, Jost } from "next/font/google";
 import "./globals.css";
 import FloatingWhatsApp from '@/components/ui/FloatingWhatsApp';
+import SmoothScroll from '@/components/ui/SmoothScroll';
 
 const playfair = Playfair_Display({
   variable: "--font-cormorant",
@@ -42,12 +43,15 @@ export default function RootLayout({
             zIndex: -1,
             top: 0,
             left: 0,
-            transform: "scale(1.05)"
+            transform: "scale(1.05) translateZ(0)",
+            willChange: "transform",
+            pointerEvents: "none",
           }}
         >
           <source src="/hero-bg-hq.mp4" type="video/mp4" />
         </video>
         {children}
+        <SmoothScroll />
         <FloatingWhatsApp />
       </body>
     </html>
