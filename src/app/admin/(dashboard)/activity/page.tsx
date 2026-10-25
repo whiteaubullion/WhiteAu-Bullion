@@ -1,4 +1,5 @@
 import { createClient } from '@/utils/supabase/server'
+import DeleteActivityButton from './DeleteActivityButton'
 
 export default async function ActivityPage() {
   const supabase = await createClient()
@@ -26,6 +27,7 @@ export default async function ActivityPage() {
     phone: string
     method: string
     status: string
+    type: 'customer' | 'admin'
     iteration?: number
   }
 
@@ -40,6 +42,7 @@ export default async function ActivityPage() {
       phone: c.phone_number || '-',
       method: 'Customer Rate Access',
       status: 'success',
+      type: 'customer',
       iteration: c.visit_number
     })
   })
@@ -52,7 +55,8 @@ export default async function ActivityPage() {
       email: a.profiles?.email || '-',
       phone: a.profiles?.phone_number || '-',
       method: a.login_method || 'admin_login',
-      status: a.login_status || 'success'
+      status: a.login_status || 'success',
+      type: 'admin'
     })
   })
 
@@ -78,12 +82,13 @@ export default async function ActivityPage() {
               <th style={thStyle}>Mobile Number</th>
               <th style={thStyle}>Method</th>
               <th style={thStyle}>Status</th>
+              <th style={{ ...thStyle, textAlign: 'right' }}>Action</th>
             </tr>
           </thead>
           <tbody>
             {logs.length === 0 ? (
               <tr>
-                <td colSpan={6} style={{ padding: '2rem', textAlign: 'center', color: '#64748b' }}>
+                <td colSpan={7} style={{ padding: '2rem', textAlign: 'center', color: '#64748b' }}>
                   No login activity recorded yet.
                 </td>
               </tr>
@@ -123,6 +128,9 @@ export default async function ActivityPage() {
                     }}>
                       {log.status}
                     </span>
+                  </td>
+                  <td style={{ ...tdStyle, textAlign: 'right' }}>
+                    <DeleteActivityButton id={log.id} type={log.type} />
                   </td>
                 </tr>
               ))

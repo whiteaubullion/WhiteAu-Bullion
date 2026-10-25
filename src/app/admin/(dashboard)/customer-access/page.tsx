@@ -1,4 +1,5 @@
 import { createClient } from '@/utils/supabase/server'
+import { DeleteLeadButton, DeleteAccessLogButton } from './DeleteButtons'
 
 export const dynamic = 'force-dynamic'
 
@@ -56,12 +57,13 @@ export default async function CustomerRateAccessPage() {
                 <th style={thStyle}>Times Logged In</th>
                 <th style={thStyle}>First Visit</th>
                 <th style={thStyle}>Last Login</th>
+                <th style={{ ...thStyle, textAlign: 'right' }}>Action</th>
               </tr>
             </thead>
             <tbody>
               {(!leads || leads.length === 0) ? (
                 <tr>
-                  <td colSpan={6} style={{ padding: '2rem', textAlign: 'center', color: '#64748b' }}>
+                  <td colSpan={7} style={{ padding: '2rem', textAlign: 'center', color: '#64748b' }}>
                     No customer logins recorded yet.
                   </td>
                 </tr>
@@ -89,6 +91,9 @@ export default async function CustomerRateAccessPage() {
                     </td>
                     <td style={tdStyle}>{new Date(lead.created_at).toLocaleDateString()}</td>
                     <td style={tdStyle}>{new Date(lead.last_login_at || lead.created_at).toLocaleString()}</td>
+                    <td style={{ ...tdStyle, textAlign: 'right' }}>
+                      <DeleteLeadButton id={lead.id} />
+                    </td>
                   </tr>
                 ))
               )}
@@ -111,12 +116,13 @@ export default async function CustomerRateAccessPage() {
                 <th style={thStyle}>Email</th>
                 <th style={thStyle}>Mobile Number</th>
                 <th style={thStyle}>Visit #</th>
+                <th style={{ ...thStyle, textAlign: 'right' }}>Action</th>
               </tr>
             </thead>
             <tbody>
               {(!accessLogs || accessLogs.length === 0) ? (
                 <tr>
-                  <td colSpan={5} style={{ padding: '2rem', textAlign: 'center', color: '#64748b' }}>
+                  <td colSpan={6} style={{ padding: '2rem', textAlign: 'center', color: '#64748b' }}>
                     No access events recorded yet.
                   </td>
                 </tr>
@@ -131,6 +137,9 @@ export default async function CustomerRateAccessPage() {
                       <span style={{ color: '#cbd5e1', fontWeight: 'bold' }}>
                         Visit #{log.visit_number}
                       </span>
+                    </td>
+                    <td style={{ ...tdStyle, textAlign: 'right' }}>
+                      <DeleteAccessLogButton id={log.id} />
                     </td>
                   </tr>
                 ))
