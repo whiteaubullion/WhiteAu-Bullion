@@ -3,6 +3,7 @@ import { Playfair_Display, Jost } from "next/font/google";
 import "./globals.css";
 import FloatingWhatsApp from '@/components/ui/FloatingWhatsApp';
 import SmoothScroll from '@/components/ui/SmoothScroll';
+import PageLoader from '@/components/ui/PageLoader';
 
 const playfair = Playfair_Display({
   variable: "--font-cormorant",
@@ -50,6 +51,7 @@ export default function RootLayout({
         >
           <source src="/hero-bg-hq.mp4" type="video/mp4" />
         </video>
+        <PageLoader />
         {children}
         <SmoothScroll />
         <FloatingWhatsApp />

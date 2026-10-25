@@ -119,7 +119,26 @@ export default function LoginPage() {
               type="tel" 
               name="phone" 
               required 
-              placeholder="e.g. +91 9876543210"
+              inputMode="numeric"
+              pattern="[0-9]{10,15}"
+              maxLength={15}
+              placeholder="e.g. 9876543210"
+              onKeyDown={(e) => {
+                // Allow control keys (backspace, delete, tab, arrows, copy/paste)
+                if (['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight'].includes(e.key) ||
+                    (e.ctrlKey || e.metaKey)) {
+                  return
+                }
+                // Only allow digit keys
+                if (!/^[0-9]$/.test(e.key)) {
+                  e.preventDefault()
+                }
+              }}
+              onInput={(e) => {
+                // Remove non-digit characters in case of paste or autofill
+                const input = e.currentTarget
+                input.value = input.value.replace(/\D/g, '')
+              }}
               style={{ 
                 padding: '0.85rem 1rem', 
                 borderRadius: '0.5rem', 

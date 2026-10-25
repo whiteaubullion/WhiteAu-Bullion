@@ -1,0 +1,149 @@
+.loaderOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999999;
+  /* Luxurious warm ivory/champagne/rose-gold gradient matching the website */
+  background: radial-gradient(circle at 50% 45%, #FFFDF8 0%, #F8F4EA 40%, #F3E3C1 75%, #ECD9B3 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  opacity: 1;
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.loaderOverlay.fadeOut {
+  opacity: 0;
+  transform: scale(1.02);
+  pointer-events: none;
+}
+
+.ambientGlow {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201, 148, 46, 0.25) 0%, rgba(243, 227, 193, 0.4) 45%, transparent 70%);
+  filter: blur(50px);
+  animation: glowPulse 3.5s infinite ease-in-out;
+  pointer-events: none;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.goldBarWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.auraRing {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(217, 164, 65, 0.28) 0%, rgba(201, 148, 46, 0.05) 60%, transparent 80%);
+  animation: ringBreathe 2.8s infinite ease-in-out;
+}
+
+.goldBarImage {
+  width: 210px;
+  max-width: 75vw;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 14px 28px rgba(180, 130, 40, 0.32));
+  animation: barFloat 3s infinite ease-in-out;
+}
+
+.brandGroup {
+  margin-bottom: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.brandTitle {
+  font-family: var(--font-cormorant), 'Playfair Display', Georgia, serif;
+  font-size: 2.6rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin: 0;
+  background: linear-gradient(135deg, #c9942e 0%, #dfb252 35%, #b37e1b 70%, #d4a338 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 10px rgba(201, 148, 46, 0.25));
+}
+
+.progressContainer {
+  width: 130px;
+  height: 3px;
+  background: rgba(74, 46, 24, 0.1);
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progressBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #D9A441, #F2C45C, #C9942E);
+  box-shadow: 0 0 10px rgba(201, 148, 46, 0.5);
+  animation: progressFill 1.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    transform: scale(0.95);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.95;
+  }
+}
+
+@keyframes ringBreathe {
+  0%, 100% {
+    transform: scale(0.9);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.9;
+  }
+}
+
+@keyframes barFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes progressFill {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(-25%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}

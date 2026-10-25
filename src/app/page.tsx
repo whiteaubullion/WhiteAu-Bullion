@@ -9,6 +9,7 @@ import WhyWhiteAuCards from '@/components/sections/WhyWhiteAuCards';
 import Testimonials from '@/components/sections/Testimonials';
 import SellGoldSection from '@/components/sections/SellGoldSection';
 import ReleaseGoldSection from '@/components/sections/ReleaseGoldSection';
+import BuyGoldSection from '@/components/sections/BuyGoldSection';
 
 import Founder from '@/components/sections/Founder';
 import BranchInfo from '@/components/features/BranchInfo';
@@ -98,6 +99,7 @@ export default function Home() {
           <div style={{ position: 'relative', zIndex: 2 }}>
             <SellGoldSection />
             <ReleaseGoldSection />
+            <BuyGoldSection showContactPanel={false} />
             <WhyWhiteAuCards />
 
             <Founder />

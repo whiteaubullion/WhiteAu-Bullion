@@ -83,7 +83,9 @@ export default function ContactPanel({ type = 'all' }: ContactPanelProps) {
                   className={styles.input}
                   placeholder="Enter your phone number"
                   value={formData.phone}
-                  onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                  inputMode="numeric"
+                  maxLength={15}
+                  onChange={(e) => setFormData({...formData, phone: e.target.value.replace(/\D/g, '')})}
                   required
                 />
               </div>

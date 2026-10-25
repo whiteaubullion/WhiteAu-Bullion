@@ -49,12 +49,23 @@ export default function HeroCardsAndMarket() {
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
                 <label htmlFor="phone" style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--color-black)' }}>Phone Number</label>
-                <input type="tel" id="phone" placeholder="Enter your phone number" required style={{ padding: '0.85rem 1rem', border: '1px solid rgba(0, 0, 0, 0.1)', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.8)', fontFamily: 'var(--font-montserrat), sans-serif', fontSize: '0.95rem', color: 'var(--color-black)', outline: 'none' }} />
+                <input 
+                  type="tel" 
+                  id="phone" 
+                  placeholder="Enter your phone number" 
+                  required 
+                  inputMode="numeric"
+                  pattern="[0-9]{10,15}"
+                  maxLength={15}
+                  onInput={(e) => { e.currentTarget.value = e.currentTarget.value.replace(/\D/g, '') }}
+                  style={{ padding: '0.85rem 1rem', border: '1px solid rgba(0, 0, 0, 0.1)', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.8)', fontFamily: 'var(--font-montserrat), sans-serif', fontSize: '0.95rem', color: 'var(--color-black)', outline: 'none' }} 
+                />
               </div>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
                 <label htmlFor="service" style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--color-black)' }}>I want to</label>
                 <select id="service" style={{ padding: '0.85rem 1rem', border: '1px solid rgba(0, 0, 0, 0.1)', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.8)', fontFamily: 'var(--font-montserrat), sans-serif', fontSize: '0.95rem', color: 'var(--color-black)', outline: 'none' }}>
+                  <option value="buy">Buy Gold</option>
                   <option value="sell">Sell Gold</option>
                   <option value="release">Release Pledged Gold</option>
                   <option value="other">General Enquiry</option>

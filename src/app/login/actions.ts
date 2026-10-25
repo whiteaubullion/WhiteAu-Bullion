@@ -13,15 +13,21 @@ export async function submitLeadAction(prevState: any, formData: FormData) {
     return { error: 'Please enter your Full Name, Email Address, and Mobile Number.' }
   }
 
+  // Validate phone number (digits only, 10 to 15 digits)
+  const cleanPhone = phone.replace(/\D/g, '')
+  if (cleanPhone.length < 10 || cleanPhone.length > 15 || !/^\d+$/.test(phone)) {
+    return { error: 'Please enter a valid mobile number (10 to 15 digits only).' }
+  }
+
   // Basic email validation
   if (!email.includes('@') || !email.includes('.')) {
     return { error: 'Please enter a valid email address.' }
   }
 
   // Helper to ensure database calls don't hang if Supabase is unreachable
-  const withTimeout = <T>(promise: Promise<T>, ms: number = 3000): Promise<T> => {
+  const withTimeout = <T>(promise: PromiseLike<T> | Promise<T>, ms: number = 3000): Promise<T> => {
     return Promise.race([
-      promise,
+      Promise.resolve(promise),
       new Promise<never>((_, reject) => setTimeout(() => reject(new Error('DB_TIMEOUT')), ms))
     ])
   }

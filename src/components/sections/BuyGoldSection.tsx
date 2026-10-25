@@ -96,36 +96,64 @@ export default function BuyGoldSection({ showContactPanel = true, children }: Bu
 
   const buyGoldFaqs = [
     {
-      question: "What form and purity of gold can I buy from WhiteAu?",
-      answer: "All our gold is available in the form of imported 999-purity gold bars (99.9% pure gold). You can purchase any required quantity in grams."
+      question: "What type of gold bars does WhiteAu sell?",
+      answer: "WhiteAu offers imported 999-purity gold bars, containing 99.9% pure gold. All products are subject to availability and the specifications stated in their accompanying documentation."
     },
     {
-      question: "How is the gold purchase price calculated?",
-      answer: "WhiteAu provides highly competitive market prices, inclusive of applicable GST. We offer a transparent, itemised price breakdown before you confirm your trade with complete transparency."
+      question: "How can I purchase gold bars from WhiteAu?",
+      answer: "Contact us through our website, WhatsApp, phone or an authorised branch. Select your required quantity in grams, receive a detailed price quotation, complete KYC verification and confirm your booking."
     },
     {
-      question: "What is the payment deadline after booking gold?",
-      answer: "Payment must be completed within one day of the trade date through WhiteAu's approved payment methods. Once payment is received and verified, your transaction is confirmed and an official invoice is issued."
+      question: "What quantities of gold can I purchase?",
+      answer: "You can enquire about the quantity of gold you wish to purchase in grams. Available quantities are subject to stock, supplier availability and confirmation by our team."
     },
     {
-      question: "Is there a fine for delayed payment?",
-      answer: "Yes. If payment is delayed beyond the stipulated one-day period, a late payment fine of ₹500 per day per 100 grams of gold will apply until the outstanding payment is settled in full."
+      question: "How is the gold price calculated?",
+      answer: "Your quotation is based on the applicable gold rate, the quantity purchased and relevant charges. WhiteAu provides a detailed price breakdown, including applicable GST, before you confirm your trade."
     },
     {
-      question: "What KYC verification is required to buy gold?",
-      answer: "All customers must complete KYC verification by providing a valid government-issued photo ID (such as an Aadhaar Card or Passport) and address proof in accordance with legal and regulatory requirements."
+      question: "Does the quoted price include GST?",
+      answer: "Yes. The quotation provided to you will clearly show the applicable GST and the total amount payable before you confirm your booking."
     },
     {
-      question: "How do I receive my gold bars?",
-      answer: "You can receive your imported 999-purity gold bars delivered securely to your specified destination through authorised courier partners, or collect them directly from an authorised WhiteAu branch."
+      question: "How long do I have to pay after booking?",
+      answer: "Payment for booked gold trades must be completed within one day of the trade date. Please confirm the applicable deadline with our team when your booking is finalised."
     },
     {
-      question: "Will I get a certificate and invoice for my gold purchase?",
-      answer: "Yes. Every purchase is accompanied by the applicable purchase invoice and imported 999-purity gold bar certificate along with all relevant product documentation."
+      question: "What happens if I pay late?",
+      answer: "A late payment fine of ₹500 per day per 100 grams of gold applies to overdue trades, in accordance with the agreed trade terms. The applicable calculation and payment deadline will be communicated at booking."
     },
     {
-      question: "How do I get in touch to start a purchase?",
-      answer: "You can reach us through phone, WhatsApp (+91 70122 88794), our website enquiry form, or by visiting any authorised WhiteAu branch."
+      question: "Is KYC verification mandatory?",
+      answer: "Yes. Customers must complete the required KYC verification and submit valid identification and other requested information before proceeding, in accordance with applicable legal and regulatory requirements."
+    },
+    {
+      question: "What payment methods can I use?",
+      answer: "Payment can be made through WhiteAu's approved payment methods. Our team will share the available options and payment instructions when your trade is confirmed."
+    },
+    {
+      question: "Can I collect my gold in person?",
+      answer: "Yes. You can collect your gold bars from an authorised WhiteAu branch, subject to confirmation of your order, payment and collection arrangements."
+    },
+    {
+      question: "Does WhiteAu provide home delivery?",
+      answer: "Yes. Delivery can be arranged to your specified destination through an authorised courier partner, subject to service availability, security procedures and agreed delivery terms."
+    },
+    {
+      question: "What documents will I receive with my gold bars?",
+      answer: "Your purchase will include the applicable sales invoice and the imported 999-purity gold bar certificate or product documentation available for the specific bar."
+    },
+    {
+      question: "How can I verify the purity of my gold bar?",
+      answer: "Check the purity markings, weight, serial number where applicable, and accompanying certificate or refinery documentation. Contact WhiteAu if you need assistance verifying the documents supplied with your purchase."
+    },
+    {
+      question: "Can I book gold bars in advance?",
+      answer: "You can enquire about advance bookings with our team. Bookings are subject to availability, the agreed gold rate, payment deadline and applicable trade terms."
+    },
+    {
+      question: "How do I contact WhiteAu for assistance?",
+      answer: "Contact our team through the official WhiteAu website, WhatsApp, phone or an authorised branch for current rates, quotations, bookings, payment instructions and delivery information."
     }
   ];
 

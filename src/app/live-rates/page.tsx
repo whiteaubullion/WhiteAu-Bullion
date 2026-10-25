@@ -17,9 +17,9 @@ export const metadata = {
   description: 'Real-time gold and silver price fluctuation over the last 24 hours.',
 };
 
-function withTimeout<T>(promise: Promise<T>, ms: number = 2500): Promise<T> {
+function withTimeout<T>(promise: PromiseLike<T> | Promise<T>, ms: number = 2500): Promise<T> {
   return Promise.race([
-    promise,
+    Promise.resolve(promise),
     new Promise<never>((_, reject) => setTimeout(() => reject(new Error('TIMEOUT')), ms))
   ])
 }
@@ -70,7 +70,7 @@ export default async function LiveRatesPage() {
     }
     
     // Fetch the active rates with a fast timeout so page loads instantly
-    const { data: rawRates, error } = await withTimeout(
+    const { data: rawRates, error }: any = await withTimeout(
       supabase
         .from('gold_rates')
         .select('*')
@@ -84,7 +84,7 @@ export default async function LiveRatesPage() {
       const itemTypes = ['24K_GOLD', '22K_GOLD', '18K_GOLD', '14K_GOLD'];
       
       itemTypes.forEach(type => {
-        const itemRates = rawRates.filter(r => r.gold_type === type);
+        const itemRates = rawRates.filter((r: any) => r.gold_type === type);
         if (itemRates.length > 0) {
           const currentPrice = Number(itemRates[0].rate_per_gram);
           

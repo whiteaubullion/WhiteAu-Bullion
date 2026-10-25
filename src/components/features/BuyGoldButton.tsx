@@ -46,9 +46,24 @@ export default function BuyGoldButton({
     };
   }, [isModalOpen]);
 
+  const [error, setError] = useState('');
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const text = `Hi WhiteAu, I want to buy gold.\n\nName: ${name}\nPhone: ${phone}\nQuantity: ${quantity} Grams`;
+    const cleanName = name.trim();
+    const cleanPhone = phone.replace(/\D/g, '');
+
+    if (!cleanName) {
+      setError('Please enter your full name.');
+      return;
+    }
+    if (!cleanPhone || cleanPhone.length < 10) {
+      setError('Please enter a valid 10-digit mobile number.');
+      return;
+    }
+
+    setError('');
+    const text = `Hi WhiteAu, I want to buy gold.\n\nName: ${cleanName}\nPhone: ${cleanPhone}\nQuantity: ${quantity} Grams`;
     const encodedText = encodeURIComponent(text);
     const whatsappUrl = `https://wa.me/917012288794?text=${encodedText}`;
     window.open(whatsappUrl, '_blank');
@@ -178,28 +193,58 @@ export default function BuyGoldButton({
               </h3>
             </div>
 
+            {error && (
+              <div style={{
+                padding: '0.65rem 0.85rem',
+                backgroundColor: '#fee2e2',
+                border: '1px solid #f87171',
+                borderRadius: '8px',
+                color: '#b91c1c',
+                fontSize: '0.85rem',
+                marginBottom: '1rem',
+                textAlign: 'center'
+              }}>
+                {error}
+              </div>
+            )}
+
             <form className={styles.form} onSubmit={handleSubmit}>
               <div className={styles.formGroup}>
-                <label htmlFor="buy-name">Full Name</label>
+                <label htmlFor="buy-name">
+                  Full Name <span style={{ color: '#ef4444' }}>*</span>
+                </label>
                 <input 
                   type="text" 
                   id="buy-name" 
                   placeholder="e.g. Rahul Sharma" 
                   required 
+                  minLength={2}
                   value={name} 
-                  onChange={e => setName(e.target.value)} 
+                  onChange={e => {
+                    setName(e.target.value);
+                    if (error) setError('');
+                  }} 
                 />
               </div>
 
               <div className={styles.formGroup}>
-                <label htmlFor="buy-phone">Phone Number</label>
+                <label htmlFor="buy-phone">
+                  Phone Number <span style={{ color: '#ef4444' }}>*</span>
+                </label>
                 <input 
                   type="tel" 
                   id="buy-phone" 
-                  placeholder="e.g. +91 98765 43210" 
+                  placeholder="e.g. 9876543210" 
                   required 
+                  inputMode="numeric"
+                  pattern="[0-9]{10,15}"
+                  minLength={10}
+                  maxLength={15}
                   value={phone} 
-                  onChange={e => setPhone(e.target.value)} 
+                  onChange={e => {
+                    setPhone(e.target.value.replace(/\D/g, ''));
+                    if (error) setError('');
+                  }} 
                 />
               </div>
 

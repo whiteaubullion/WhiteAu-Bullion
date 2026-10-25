@@ -8,21 +8,22 @@ interface ButtonProps {
   href?: string;
   onClick?: () => void;
   className?: string;
+  style?: React.CSSProperties;
 }
 
-export default function Button({ children, variant = 'primary', href, onClick, className = '' }: ButtonProps) {
+export default function Button({ children, variant = 'primary', href, onClick, className = '', style }: ButtonProps) {
   const btnClass = `${styles.button} ${styles[variant]} ${className}`;
   
   if (href) {
     return (
-      <Link href={href} className={btnClass}>
+      <Link href={href} className={btnClass} style={style}>
         {children}
       </Link>
     );
   }
 
   return (
-    <button onClick={onClick} className={btnClass}>
+    <button onClick={onClick} className={btnClass} style={style}>
       {children}
     </button>
   );

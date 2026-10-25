@@ -24,7 +24,16 @@ export default function ContactForm() {
       </div>
       <div className={styles.formGroup}>
         <label htmlFor="phone">Phone</label>
-        <input type="tel" id="phone" placeholder="Your Phone Number" required value={phone} onChange={e => setPhone(e.target.value)} />
+        <input 
+          type="tel" 
+          id="phone" 
+          placeholder="Your Phone Number" 
+          required 
+          inputMode="numeric"
+          maxLength={15}
+          value={phone} 
+          onChange={e => setPhone(e.target.value.replace(/\D/g, ''))} 
+        />
       </div>
       <div className={styles.formGroup}>
         <label htmlFor="message">Message</label>
