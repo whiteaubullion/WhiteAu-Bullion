@@ -66,6 +66,25 @@
   animation: barFloat 3s infinite ease-in-out;
 }
 
+@media (min-width: 768px) {
+  .auraRing {
+    width: 280px;
+    height: 280px;
+  }
+
+  .goldBarImage {
+    width: 320px;
+  }
+
+  .brandTitle {
+    font-size: 3rem;
+  }
+
+  .progressContainer {
+    width: 160px;
+  }
+}
+
 .brandGroup {
   margin-bottom: 1.6rem;
   display: flex;

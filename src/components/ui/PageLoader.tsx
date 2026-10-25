@@ -34,8 +34,8 @@ export default function PageLoader() {
           <Image
             src="/goldbar.webp"
             alt="WhiteAu Gold Bar"
-            width={240}
-            height={240}
+            width={380}
+            height={380}
             priority
             className={styles.goldBarImage}
           />
