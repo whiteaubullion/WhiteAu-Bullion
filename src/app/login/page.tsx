@@ -1,11 +1,12 @@
 'use client'
 
-import { useActionState } from 'react'
+import { useActionState, useState } from 'react'
 import { submitLeadAction } from './actions'
 import Link from 'next/link'
 
 export default function LoginPage() {
   const [state, formAction, isPending] = useActionState(submitLeadAction, null)
+  const [phone, setPhone] = useState('')
 
   return (
     <main style={{ minHeight: '100vh', padding: '6rem 1.5rem 2rem', backgroundColor: 'var(--primary-dark)', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
@@ -113,16 +114,18 @@ export default function LoginPage() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             <label style={{ color: 'rgba(255,255,255,0.85)', fontSize: '0.875rem', fontWeight: 500 }}>
-              Mobile Number
+              Mobile Number (10 digits)
             </label>
             <input 
               type="tel" 
               name="phone" 
               required 
               inputMode="numeric"
-              pattern="[0-9]{10,15}"
-              maxLength={15}
+              pattern="[0-9]{10}"
+              maxLength={10}
               placeholder="e.g. 9876543210"
+              title="Please enter a 10-digit mobile number"
+              value={phone}
               onKeyDown={(e) => {
                 // Allow control keys (backspace, delete, tab, arrows, copy/paste)
                 if (['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight'].includes(e.key) ||
@@ -132,12 +135,17 @@ export default function LoginPage() {
                 // Only allow digit keys
                 if (!/^[0-9]$/.test(e.key)) {
                   e.preventDefault()
+                  return
+                }
+                // Prevent typing more than 10 digits
+                const target = e.currentTarget
+                if (target.value.length >= 10 && target.selectionStart === target.selectionEnd) {
+                  e.preventDefault()
                 }
               }}
-              onInput={(e) => {
-                // Remove non-digit characters in case of paste or autofill
-                const input = e.currentTarget
-                input.value = input.value.replace(/\D/g, '')
+              onChange={(e) => {
+                // Remove non-digit characters in case of paste or autofill, limit strictly to 10 digits
+                setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))
               }}
               style={{ 
                 padding: '0.85rem 1rem', 

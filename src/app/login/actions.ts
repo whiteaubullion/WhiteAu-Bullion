@@ -14,10 +14,10 @@ export async function submitLeadAction(prevState: any, formData: FormData) {
     return { error: 'Please enter your Full Name, Email Address, and Mobile Number.' }
   }
 
-  // Validate phone number (digits only, 10 to 15 digits)
+  // Validate phone number (digits only, exactly 10 digits)
   const cleanPhone = phone.replace(/\D/g, '')
-  if (cleanPhone.length < 10 || cleanPhone.length > 15 || !/^\d+$/.test(phone)) {
-    return { error: 'Please enter a valid mobile number (10 to 15 digits only).' }
+  if (cleanPhone.length !== 10 || !/^\d{10}$/.test(cleanPhone)) {
+    return { error: 'Please enter a valid 10-digit mobile number.' }
   }
 
   // Basic email validation
@@ -53,7 +53,7 @@ export async function submitLeadAction(prevState: any, formData: FormData) {
           .from('customer_leads')
           .update({
             full_name: fullName || existingLead.full_name,
-            phone_number: phone || existingLead.phone_number,
+            phone_number: cleanPhone || existingLead.phone_number,
             visit_count: currentVisitCount,
             last_login_at: now
           })
@@ -64,7 +64,7 @@ export async function submitLeadAction(prevState: any, formData: FormData) {
             lead_id: existingLead.id,
             full_name: fullName,
             email: email,
-            phone_number: phone,
+            phone_number: cleanPhone,
             visit_number: currentVisitCount,
             accessed_at: now
           })
@@ -76,7 +76,7 @@ export async function submitLeadAction(prevState: any, formData: FormData) {
         .insert({
           full_name: fullName,
           email: email,
-          phone_number: phone,
+          phone_number: cleanPhone,
           visit_count: 1,
           last_login_at: now
         })
@@ -100,7 +100,7 @@ export async function submitLeadAction(prevState: any, formData: FormData) {
               .from('customer_leads')
               .update({
                 full_name: fullName,
-                phone_number: phone,
+                phone_number: cleanPhone,
                 visit_count: currentVisitCount,
                 last_login_at: now
               })
@@ -111,7 +111,7 @@ export async function submitLeadAction(prevState: any, formData: FormData) {
                 lead_id: fallbackLead.id,
                 full_name: fullName,
                 email: email,
-                phone_number: phone,
+                phone_number: cleanPhone,
                 visit_number: currentVisitCount,
                 accessed_at: now
               })
@@ -126,7 +126,7 @@ export async function submitLeadAction(prevState: any, formData: FormData) {
             lead_id: newLead.id,
             full_name: fullName,
             email: email,
-            phone_number: phone,
+            phone_number: cleanPhone,
             visit_number: 1,
             accessed_at: now
           })
@@ -152,7 +152,7 @@ export async function submitLeadAction(prevState: any, formData: FormData) {
     leadId: leadRecord?.id,
     fullName: fullName,
     email: email,
-    phone: phone,
+    phone: cleanPhone,
     visitCount: currentVisitCount
   })
 

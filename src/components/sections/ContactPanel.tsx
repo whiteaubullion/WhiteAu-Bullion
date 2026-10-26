@@ -30,10 +30,22 @@ export default function ContactPanel({ type = 'all' }: ContactPanelProps) {
       ? `\nQuantity: ${formData.quantity === 'custom' ? `${formData.customQuantity || 'Custom'} Grams` : `${formData.quantity} Grams`}`
       : '';
 
-    const text = `Hi WhiteAu, I have an enquiry from your website.\n\nEnquiry Type: ${selectedService}\nName: ${formData.name}\nPhone: ${formData.phone}${qtyText}`;
+    const cleanPhone = formData.phone.replace(/\D/g, '');
+    if (cleanPhone.length !== 10) {
+      alert('Please enter a valid 10-digit mobile number.');
+      return;
+    }
+
+    const text = `Hi WhiteAu, I have an enquiry from your website.\n\nEnquiry Type: ${selectedService}\nName: ${formData.name}\nPhone: ${cleanPhone}${qtyText}`;
     const encodedText = encodeURIComponent(text);
-    const whatsappUrl = `https://wa.me/917012288794?text=${encodedText}`;
-    window.open(whatsappUrl, '_blank');
+    try {
+      const win = window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+      if (!win || win.closed || typeof win.closed === 'undefined') {
+        window.location.href = whatsappUrl;
+      }
+    } catch {
+      window.location.href = whatsappUrl;
+    }
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 5000);
   };
@@ -116,11 +128,18 @@ export default function ContactPanel({ type = 'all' }: ContactPanelProps) {
                     type="tel" 
                     id="phone"
                     className={styles.input}
-                    placeholder="Enter your phone number"
+                    placeholder="10-digit Mobile Number"
                     value={formData.phone}
                     inputMode="numeric"
-                    maxLength={15}
-                    onChange={(e) => setFormData({...formData, phone: e.target.value.replace(/\D/g, '')})}
+                    pattern="[0-9]{10}"
+                    maxLength={10}
+                    title="Please enter a 10-digit mobile number"
+                    onKeyDown={(e) => {
+                      if (['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight'].includes(e.key) || (e.ctrlKey || e.metaKey)) return;
+                      if (!/^[0-9]$/.test(e.key)) { e.preventDefault(); return; }
+                      if (e.currentTarget.value.length >= 10 && e.currentTarget.selectionStart === e.currentTarget.selectionEnd) { e.preventDefault(); }
+                    }}
+                    onChange={(e) => setFormData({...formData, phone: e.target.value.replace(/\D/g, '').slice(0, 10)})}
                     required
                   />
                 </div>

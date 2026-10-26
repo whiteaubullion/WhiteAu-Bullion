@@ -57,7 +57,7 @@ export default function BuyGoldButton({
       setError('Please enter your full name.');
       return;
     }
-    if (!cleanPhone || cleanPhone.length < 10) {
+    if (!cleanPhone || cleanPhone.length !== 10) {
       setError('Please enter a valid 10-digit mobile number.');
       return;
     }
@@ -66,7 +66,14 @@ export default function BuyGoldButton({
     const text = `Hi WhiteAu, I want to buy gold.\n\nName: ${cleanName}\nPhone: ${cleanPhone}\nQuantity: ${quantity} Grams`;
     const encodedText = encodeURIComponent(text);
     const whatsappUrl = `https://wa.me/917012288794?text=${encodedText}`;
-    window.open(whatsappUrl, '_blank');
+    try {
+      const win = window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+      if (!win || win.closed || typeof win.closed === 'undefined') {
+        window.location.href = whatsappUrl;
+      }
+    } catch {
+      window.location.href = whatsappUrl;
+    }
     setIsModalOpen(false);
   };
 
@@ -237,12 +244,17 @@ export default function BuyGoldButton({
                   placeholder="e.g. 9876543210" 
                   required 
                   inputMode="numeric"
-                  pattern="[0-9]{10,15}"
-                  minLength={10}
-                  maxLength={15}
+                  pattern="[0-9]{10}"
+                  maxLength={10}
+                  title="Please enter a 10-digit mobile number"
                   value={phone} 
+                  onKeyDown={(e) => {
+                    if (['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight'].includes(e.key) || (e.ctrlKey || e.metaKey)) return;
+                    if (!/^[0-9]$/.test(e.key)) { e.preventDefault(); return; }
+                    if (e.currentTarget.value.length >= 10 && e.currentTarget.selectionStart === e.currentTarget.selectionEnd) { e.preventDefault(); }
+                  }}
                   onChange={e => {
-                    setPhone(e.target.value.replace(/\D/g, ''));
+                    setPhone(e.target.value.replace(/\D/g, '').slice(0, 10));
                     if (error) setError('');
                   }} 
                 />

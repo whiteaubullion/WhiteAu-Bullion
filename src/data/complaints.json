@@ -1,0 +1,13 @@
+[
+  {
+    "id": "comp-1729904400000",
+    "name": "Kiran Kumar",
+    "phone": "9847123456",
+    "email": "kiran.k@example.com",
+    "category": "Valuation Dispute",
+    "branch": "Cherthala",
+    "message": "I visited the branch to sell an old gold chain. The initial purity readout was slightly lower than my previous hallmark certificate. Requested a second check.",
+    "status": "pending",
+    "created_at": "2026-10-25T14:20:00.000Z"
+  }
+]

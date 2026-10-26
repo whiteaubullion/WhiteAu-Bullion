@@ -195,3 +195,59 @@ CREATE POLICY "Public insert rate access" ON customer_rate_access
 CREATE POLICY "Admins can view rate access" ON customer_rate_access
   FOR SELECT USING (true);
 
+-- 8. Customer Reviews Table
+CREATE TABLE customer_reviews (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  role TEXT DEFAULT 'Verified Customer',
+  rating INT DEFAULT 5 NOT NULL,
+  title TEXT,
+  text TEXT NOT NULL,
+  date TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+ALTER TABLE customer_reviews ENABLE ROW LEVEL SECURITY;
+
+-- Anyone can view reviews
+CREATE POLICY "Public select reviews" ON customer_reviews
+  FOR SELECT USING (true);
+
+-- Anyone can submit a review
+CREATE POLICY "Public insert reviews" ON customer_reviews
+  FOR INSERT WITH CHECK (true);
+
+-- Only admins can delete reviews
+CREATE POLICY "Admins can delete reviews" ON customer_reviews
+  FOR DELETE USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'));
+
+-- 9. Customer Complaints Table
+CREATE TABLE customer_complaints (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  phone TEXT NOT NULL,
+  email TEXT,
+  category TEXT NOT NULL,
+  branch TEXT DEFAULT 'General',
+  message TEXT NOT NULL,
+  status TEXT DEFAULT 'pending' NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+ALTER TABLE customer_complaints ENABLE ROW LEVEL SECURITY;
+
+-- Anyone can submit a complaint
+CREATE POLICY "Public insert complaints" ON customer_complaints
+  FOR INSERT WITH CHECK (true);
+
+-- Only admins can view, update, or delete complaints
+CREATE POLICY "Admins can view complaints" ON customer_complaints
+  FOR SELECT USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'));
+
+CREATE POLICY "Admins can update complaints" ON customer_complaints
+  FOR UPDATE USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'));
+
+CREATE POLICY "Admins can delete complaints" ON customer_complaints
+  FOR DELETE USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'));
+
+

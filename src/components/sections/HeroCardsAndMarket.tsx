@@ -1,10 +1,57 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import marketStyles from '../features/LiveMarketAnalysis.module.css';
 
 export default function HeroCardsAndMarket() {
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [service, setService] = useState('sell');
+  const [isRedirecting, setIsRedirecting] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const cleanName = name.trim();
+    const cleanPhone = phone.replace(/\D/g, '');
+
+    if (!cleanName) {
+      alert('Please enter your full name.');
+      return;
+    }
+    if (cleanPhone.length !== 10) {
+      alert('Please enter a valid 10-digit mobile number.');
+      return;
+    }
+
+    const serviceLabels: Record<string, string> = {
+      buy: 'Buy Gold',
+      sell: 'Sell Gold',
+      release: 'Release Pledged Gold',
+      other: 'General Enquiry',
+    };
+
+    const text = `Hi WhiteAu, I have an enquiry from your website.\n\nEnquiry Type: ${serviceLabels[service] || service}\nName: ${cleanName}\nPhone: ${cleanPhone}`;
+    const encodedText = encodeURIComponent(text);
+    const whatsappUrl = `https://wa.me/917012288794?text=${encodedText}`;
+
+    setIsRedirecting(true);
+
+    // Reliable redirect: try opening WhatsApp tab, fallback to direct location change if blocked
+    try {
+      const win = window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+      if (!win || win.closed || typeof win.closed === 'undefined') {
+        window.location.href = whatsappUrl;
+      }
+    } catch {
+      window.location.href = whatsappUrl;
+    }
+
+    setTimeout(() => {
+      setIsRedirecting(false);
+    }, 4000);
+  };
+
   return (
     <div style={{ position: 'relative' }}>
       <div style={{ minHeight: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '4rem 0', position: 'relative', zIndex: 20 }}>
@@ -41,10 +88,18 @@ export default function HeroCardsAndMarket() {
 
           {/* Form Side */}
           <div style={{ flex: 1, minWidth: '250px', padding: '1.5rem', background: 'rgba(255, 255, 255, 0.6)' }}>
-            <form onSubmit={(e) => { e.preventDefault(); alert('Thank you! Our executive will contact you shortly.'); }} style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', height: '100%', justifyContent: 'center' }}>
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', height: '100%', justifyContent: 'center' }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
                 <label htmlFor="name" style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--color-black)' }}>Full Name</label>
-                <input type="text" id="name" placeholder="Enter your name" required style={{ padding: '0.85rem 1rem', border: '1px solid rgba(0, 0, 0, 0.1)', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.8)', fontFamily: 'var(--font-montserrat), sans-serif', fontSize: '0.95rem', color: 'var(--color-black)', outline: 'none' }} />
+                <input 
+                  type="text" 
+                  id="name" 
+                  placeholder="Enter your name" 
+                  required 
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  style={{ padding: '0.85rem 1rem', border: '1px solid rgba(0, 0, 0, 0.1)', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.8)', fontFamily: 'var(--font-montserrat), sans-serif', fontSize: '0.95rem', color: 'var(--color-black)', outline: 'none' }} 
+                />
               </div>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
@@ -52,19 +107,31 @@ export default function HeroCardsAndMarket() {
                 <input 
                   type="tel" 
                   id="phone" 
-                  placeholder="Enter your phone number" 
+                  placeholder="Enter 10-digit phone number" 
                   required 
                   inputMode="numeric"
-                  pattern="[0-9]{10,15}"
-                  maxLength={15}
-                  onInput={(e) => { e.currentTarget.value = e.currentTarget.value.replace(/\D/g, '') }}
+                  pattern="[0-9]{10}"
+                  maxLength={10}
+                  title="Please enter a 10-digit mobile number"
+                  value={phone}
+                  onKeyDown={(e) => {
+                    if (['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight'].includes(e.key) || (e.ctrlKey || e.metaKey)) return
+                    if (!/^[0-9]$/.test(e.key)) { e.preventDefault(); return }
+                    if (e.currentTarget.value.length >= 10 && e.currentTarget.selectionStart === e.currentTarget.selectionEnd) { e.preventDefault() }
+                  }}
+                  onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
                   style={{ padding: '0.85rem 1rem', border: '1px solid rgba(0, 0, 0, 0.1)', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.8)', fontFamily: 'var(--font-montserrat), sans-serif', fontSize: '0.95rem', color: 'var(--color-black)', outline: 'none' }} 
                 />
               </div>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
                 <label htmlFor="service" style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--color-black)' }}>I want to</label>
-                <select id="service" style={{ padding: '0.85rem 1rem', border: '1px solid rgba(0, 0, 0, 0.1)', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.8)', fontFamily: 'var(--font-montserrat), sans-serif', fontSize: '0.95rem', color: 'var(--color-black)', outline: 'none' }}>
+                <select 
+                  id="service" 
+                  value={service}
+                  onChange={(e) => setService(e.target.value)}
+                  style={{ padding: '0.85rem 1rem', border: '1px solid rgba(0, 0, 0, 0.1)', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.8)', fontFamily: 'var(--font-montserrat), sans-serif', fontSize: '0.95rem', color: 'var(--color-black)', outline: 'none' }}
+                >
                   <option value="buy">Buy Gold</option>
                   <option value="sell">Sell Gold</option>
                   <option value="release">Release Pledged Gold</option>
@@ -72,8 +139,31 @@ export default function HeroCardsAndMarket() {
                 </select>
               </div>
               
-              <button type="submit" style={{ marginTop: '0.5rem', backgroundColor: 'var(--color-gold)', color: 'var(--color-black)', border: 'none', padding: '1rem', borderRadius: '12px', fontSize: '0.95rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', cursor: 'pointer', transition: 'transform 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
-                GET GOLD RATE
+              <button 
+                type="submit" 
+                disabled={isRedirecting}
+                style={{ 
+                  marginTop: '0.5rem', 
+                  backgroundColor: isRedirecting ? '#16a34a' : 'var(--color-gold)', 
+                  color: isRedirecting ? '#ffffff' : 'var(--color-black)', 
+                  border: 'none', 
+                  padding: '1rem', 
+                  borderRadius: '12px', 
+                  fontSize: '0.95rem', 
+                  fontWeight: 600, 
+                  textTransform: 'uppercase', 
+                  letterSpacing: '0.05em', 
+                  cursor: isRedirecting ? 'default' : 'pointer', 
+                  transition: 'all 0.25s ease',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.5rem'
+                }} 
+                onMouseEnter={(e) => { if (!isRedirecting) e.currentTarget.style.transform = 'translateY(-2px)' }} 
+                onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)' }}
+              >
+                {isRedirecting ? 'Connecting to WhatsApp...' : 'GET GOLD RATE'}
               </button>
             </form>
           </div>

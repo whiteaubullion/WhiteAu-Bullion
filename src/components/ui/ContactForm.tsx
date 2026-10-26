@@ -26,10 +26,23 @@ export default function ContactForm() {
       : '';
     const msgText = message.trim() ? `\nMessage: ${message}` : '';
 
-    const text = `Hi WhiteAu, I have an enquiry from your website.\n\nEnquiry Type: ${selectedService}\nName: ${name}\nPhone: ${phone}${qtyText}${msgText}`;
+    const cleanPhone = phone.replace(/\D/g, '');
+    if (cleanPhone.length !== 10) {
+      alert('Please enter a valid 10-digit mobile number.');
+      return;
+    }
+
+    const text = `Hi WhiteAu, I have an enquiry from your website.\n\nEnquiry Type: ${selectedService}\nName: ${name}\nPhone: ${cleanPhone}${qtyText}${msgText}`;
     const encodedText = encodeURIComponent(text);
     const whatsappUrl = `https://wa.me/917012288794?text=${encodedText}`;
-    window.open(whatsappUrl, '_blank');
+    try {
+      const win = window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+      if (!win || win.closed || typeof win.closed === 'undefined') {
+        window.location.href = whatsappUrl;
+      }
+    } catch {
+      window.location.href = whatsappUrl;
+    }
   };
 
   return (
@@ -47,16 +60,23 @@ export default function ContactForm() {
       </div>
 
       <div className={styles.formGroup}>
-        <label htmlFor="phone">Phone</label>
+        <label htmlFor="phone">Phone Number</label>
         <input 
           type="tel" 
           id="phone" 
-          placeholder="Your Phone Number" 
+          placeholder="10-digit Mobile Number" 
           required 
           inputMode="numeric" 
-          maxLength={15}
+          pattern="[0-9]{10}"
+          maxLength={10}
+          title="Please enter a 10-digit mobile number"
           value={phone} 
-          onChange={e => setPhone(e.target.value.replace(/\D/g, ''))} 
+          onKeyDown={(e) => {
+            if (['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight'].includes(e.key) || (e.ctrlKey || e.metaKey)) return;
+            if (!/^[0-9]$/.test(e.key)) { e.preventDefault(); return; }
+            if (e.currentTarget.value.length >= 10 && e.currentTarget.selectionStart === e.currentTarget.selectionEnd) { e.preventDefault(); }
+          }}
+          onChange={e => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))} 
         />
       </div>
 

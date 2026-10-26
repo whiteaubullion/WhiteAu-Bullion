@@ -96,37 +96,20 @@ export default function Testimonials() {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [isSubmitted, setIsSubmitted] = React.useState(false);
 
-  // Load reviews on mount from localStorage and /api/reviews
+  // Load reviews on mount from /api/reviews
   React.useEffect(() => {
-    let localRev: Review[] = [];
-    try {
-      const stored = localStorage.getItem('whiteau_user_reviews');
-      if (stored) {
-        localRev = JSON.parse(stored);
-      }
-    } catch (e) {
-      console.error('Error loading local reviews:', e);
-    }
-
     fetch('/api/reviews')
       .then((res) => res.json())
       .then((data) => {
-        if (data?.reviews && Array.isArray(data.reviews)) {
-          const ids = new Set(localRev.map((r) => String(r.id)));
-          const merged = [...localRev, ...data.reviews.filter((r: Review) => !ids.has(String(r.id)))];
-          setReviewsList(merged.length > 0 ? merged : INITIAL_REVIEWS);
-        } else if (localRev.length > 0) {
-          const ids = new Set(localRev.map((r) => String(r.id)));
-          const merged = [...localRev, ...INITIAL_REVIEWS.filter((r) => !ids.has(String(r.id)))];
-          setReviewsList(merged);
+        if (data?.reviews && Array.isArray(data.reviews) && data.reviews.length > 0) {
+          setReviewsList(data.reviews);
+        } else {
+          setReviewsList(INITIAL_REVIEWS);
         }
       })
-      .catch(() => {
-        if (localRev.length > 0) {
-          const ids = new Set(localRev.map((r) => String(r.id)));
-          const merged = [...localRev, ...INITIAL_REVIEWS.filter((r) => !ids.has(String(r.id)))];
-          setReviewsList(merged);
-        }
+      .catch((e) => {
+        console.error('Error loading reviews from backend:', e);
+        setReviewsList(INITIAL_REVIEWS);
       });
   }, []);
 
@@ -147,42 +130,47 @@ export default function Testimonials() {
 
     setIsSubmitting(true);
 
-    const newReview: Review = {
-      id: `rev-${Date.now()}`,
+    const newReviewPayload = {
       name: name.trim(),
       role: 'Verified Customer',
       rating,
       title: title.trim() || 'Great Customer Experience',
       text: reviewText.trim(),
-      date: 'Just now',
-      isNew: true
     };
 
-    // Update state immediately
-    const updated = [newReview, ...reviewsList];
-    setReviewsList(updated);
-    setShowMore(true);
-
-    // Save to localStorage
+    // Post to backend API
     try {
-      const stored = localStorage.getItem('whiteau_user_reviews');
-      const existing: Review[] = stored ? JSON.parse(stored) : [];
-      localStorage.setItem('whiteau_user_reviews', JSON.stringify([newReview, ...existing]));
-    } catch (err) {
-      console.error('Failed saving review to localStorage:', err);
-    }
-
-    // Post to API route
-    try {
-      await fetch('/api/reviews', {
+      const res = await fetch('/api/reviews', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newReview)
+        body: JSON.stringify(newReviewPayload)
       });
+      if (res.ok) {
+        const data = await res.json();
+        if (data?.reviews && Array.isArray(data.reviews)) {
+          setReviewsList(data.reviews);
+        } else if (data?.review) {
+          setReviewsList((prev) => [data.review, ...prev]);
+        }
+      } else {
+        // Fallback optimistic update
+        const fallbackReview: Review = {
+          id: `rev-${Date.now()}`,
+          name: name.trim(),
+          role: 'Verified Customer',
+          rating,
+          title: title.trim() || 'Great Customer Experience',
+          text: reviewText.trim(),
+          date: 'Just now',
+          isNew: true
+        };
+        setReviewsList((prev) => [fallbackReview, ...prev]);
+      }
     } catch (err) {
-      console.error('Failed saving review to API:', err);
+      console.error('Failed saving review to backend:', err);
     }
 
+    setShowMore(true);
     setIsSubmitting(false);
     setIsSubmitted(true);
 
