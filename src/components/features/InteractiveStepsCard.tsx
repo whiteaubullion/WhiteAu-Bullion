@@ -14,12 +14,14 @@ export default function InteractiveStepsCard({
   title, 
   subtitle, 
   steps, 
-  imageSrc 
+  imageSrc,
+  imagePosition = 'right'
 }: { 
   title: React.ReactNode;
   subtitle?: React.ReactNode;
   steps: StepItem[];
   imageSrc: string;
+  imagePosition?: 'left' | 'right';
 }) {
   const [activeStep, setActiveStep] = useState(0);
 
@@ -31,7 +33,7 @@ export default function InteractiveStepsCard({
       </div>
 
       <div className={styles.rightPanel}>
-        <div className={styles.cardWrapper}>
+        <div className={`${styles.cardWrapper} ${imagePosition === 'left' ? styles.cardWrapperImageLeft : ''}`}>
           <div className={styles.stepsList}>
             {steps.map((step, idx) => {
               const isActive = activeStep === idx;
@@ -61,8 +63,14 @@ export default function InteractiveStepsCard({
             })}
           </div>
 
-          <div className={styles.imageWrapper}>
-            <Image src={imageSrc} alt="Steps Guide" width={300} height={400} className={styles.modelImage} />
+          <div className={`${styles.imageWrapper} ${imagePosition === 'left' ? styles.imageWrapperLeft : ''}`}>
+            <Image 
+              src={imageSrc} 
+              alt="Steps Guide" 
+              width={360} 
+              height={450} 
+              className={`${styles.modelImage} ${imagePosition === 'left' ? styles.modelImageLeft : ''}`} 
+            />
           </div>
         </div>
       </div>

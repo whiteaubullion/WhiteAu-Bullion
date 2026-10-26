@@ -37,7 +37,6 @@ export default function RootLayout({
           loop 
           muted 
           playsInline
-          poster="/hero-bg.webp"
           preload="auto"
           style={{
             position: "fixed",

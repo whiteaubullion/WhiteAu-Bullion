@@ -165,7 +165,8 @@ export default function BuyGoldSection({ showContactPanel = true, children }: Bu
             title={<>Buy Gold from WhiteAu<br/><span style={{ color: 'var(--color-gold)' }}>In Seven Easy Steps</span></>}
             subtitle="WhiteAu — Your Trusted Gold Partner."
             steps={buyGoldSteps}
-            imageSrc="/images/sell-gold-model.webp"
+            imageSrc="/images/buy-gold-model-midthigh.png"
+            imagePosition="left"
           />
         </div>
       </section>

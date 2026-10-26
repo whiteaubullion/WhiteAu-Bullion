@@ -5,36 +5,39 @@ import Image from 'next/image';
 import styles from './PageLoader.module.css';
 
 export default function PageLoader() {
-  const [loading, setLoading] = useState(false);
   const [fading, setFading] = useState(false);
+  const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
-    // Only show brief luxury intro on first session visit
+    // Check if previously loaded in this session
     if (typeof window !== 'undefined' && sessionStorage.getItem('whiteau_loaded')) {
+      setHidden(true);
       return;
     }
 
-    setLoading(true);
     try {
       sessionStorage.setItem('whiteau_loaded', 'true');
     } catch {
       // ignore
     }
 
+    // Keep loader visible for ~1.1s, then fade out smoothly
     const timer = setTimeout(() => {
       setFading(true);
       setTimeout(() => {
-        setLoading(false);
-      }, 350);
-    }, 350);
+        setHidden(true);
+      }, 700);
+    }, 1100);
 
     return () => clearTimeout(timer);
   }, []);
 
-  if (!loading) return null;
-
   return (
-    <div className={`${styles.loaderOverlay} ${fading ? styles.fadeOut : ''}`}>
+    <div 
+      className={`${styles.loaderOverlay} ${fading ? styles.fadeOut : ''}`}
+      style={{ display: hidden ? 'none' : 'flex' }}
+      aria-hidden={hidden}
+    >
       {/* Warm champagne / gold ambient glow */}
       <div className={styles.ambientGlow} />
 
