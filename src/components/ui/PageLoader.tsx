@@ -6,14 +6,19 @@ import styles from './PageLoader.module.css';
 
 export default function PageLoader() {
   const [fading, setFading] = useState(false);
-  const [hidden, setHidden] = useState(false);
+  const [hidden, setHidden] = useState(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        return !!sessionStorage.getItem('whiteau_loaded');
+      } catch {
+        return false;
+      }
+    }
+    return false;
+  });
 
   useEffect(() => {
-    // Check if previously loaded in this session
-    if (typeof window !== 'undefined' && sessionStorage.getItem('whiteau_loaded')) {
-      setHidden(true);
-      return;
-    }
+    if (hidden) return;
 
     try {
       sessionStorage.setItem('whiteau_loaded', 'true');

@@ -1,8 +1,10 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useSyncExternalStore } from 'react';
 import { createPortal } from 'react-dom';
 import Button from '@/components/ui/Button';
 import styles from '@/app/contact/page.module.css';
+
+const emptySubscribe = () => () => {};
 
 export default function BuyGoldButton({
   className,
@@ -14,7 +16,7 @@ export default function BuyGoldButton({
   children?: React.ReactNode;
 } = {}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [quantity, setQuantity] = useState('50');
@@ -30,10 +32,6 @@ export default function BuyGoldButton({
     4150, 4200, 4250, 4300, 4350, 4400, 4450, 4500, 4550, 4600, 4650, 4700, 4750,
     4800, 4850, 4900, 4950, 5000
   ];
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     if (isModalOpen) {

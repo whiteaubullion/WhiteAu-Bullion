@@ -38,6 +38,7 @@ export default function ContactPanel({ type = 'all' }: ContactPanelProps) {
 
     const text = `Hi WhiteAu, I have an enquiry from your website.\n\nEnquiry Type: ${selectedService}\nName: ${formData.name}\nPhone: ${cleanPhone}${qtyText}`;
     const encodedText = encodeURIComponent(text);
+    const whatsappUrl = `https://wa.me/917012288794?text=${encodedText}`;
     try {
       const win = window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
       if (!win || win.closed || typeof win.closed === 'undefined') {
