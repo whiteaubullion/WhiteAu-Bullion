@@ -84,11 +84,11 @@ export default function FAQs() {
     },
     {
         "question": "What are WhiteAu's branch operating hours?",
-        "answer": "Our branches are open from Monday to Saturday, 10:00 AM to 7:00 PM. You can check the WhiteAu website to find the branch nearest to you."
+        "answer": "Our branches are open from Monday to Friday, 10:00 AM to 8:00 PM. You can check the WhiteAu website to find the branch nearest to you."
     },
     {
-        "question": "Are WhiteAu branches open on Sundays?",
-        "answer": "No. Our branches remain closed on Sundays. You can visit us from Monday through Saturday between 10:00 AM and 7:00 PM."
+        "question": "Are WhiteAu branches open on weekends?",
+        "answer": "No. Our branches remain closed on Saturdays and Sundays. You can visit us from Monday through Friday between 10:00 AM and 8:00 PM."
     },
     {
         "question": "Can I sell gold jewellery that does not have a hallmark?",

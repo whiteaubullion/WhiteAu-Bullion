@@ -8,14 +8,15 @@ import PageLoader from '@/components/ui/PageLoader';
 const playfair = Playfair_Display({
   variable: "--font-cormorant",
   weight: ["400", "500", "600", "700", "800"],
-  style: ["normal", "italic"],
   subsets: ["latin"],
+  display: "swap",
 });
 
 const jost = Jost({
   variable: "--font-montserrat",
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -36,6 +37,8 @@ export default function RootLayout({
           loop 
           muted 
           playsInline
+          poster="/hero-bg.webp"
+          preload="auto"
           style={{
             position: "fixed",
             width: "100%",
@@ -49,7 +52,8 @@ export default function RootLayout({
             pointerEvents: "none",
           }}
         >
-          <source src="/hero-bg-hq.mp4" type="video/mp4" />
+          <source src="/hero-bg-mobile.mp4" media="(max-width: 768px)" type="video/mp4" />
+          <source src="/hero-bg-1080p.mp4" type="video/mp4" />
         </video>
         <PageLoader />
         {children}

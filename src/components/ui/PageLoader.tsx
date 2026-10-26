@@ -5,17 +5,28 @@ import Image from 'next/image';
 import styles from './PageLoader.module.css';
 
 export default function PageLoader() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [fading, setFading] = useState(false);
 
   useEffect(() => {
-    // Show smooth luxury loader on initial entry / refresh
+    // Only show brief luxury intro on first session visit
+    if (typeof window !== 'undefined' && sessionStorage.getItem('whiteau_loaded')) {
+      return;
+    }
+
+    setLoading(true);
+    try {
+      sessionStorage.setItem('whiteau_loaded', 'true');
+    } catch {
+      // ignore
+    }
+
     const timer = setTimeout(() => {
       setFading(true);
       setTimeout(() => {
         setLoading(false);
-      }, 700);
-    }, 1700);
+      }, 350);
+    }, 350);
 
     return () => clearTimeout(timer);
   }, []);

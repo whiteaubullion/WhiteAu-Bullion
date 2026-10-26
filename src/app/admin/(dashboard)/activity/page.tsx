@@ -1,6 +1,8 @@
 import { createClient } from '@/utils/supabase/server'
 import DeleteActivityButton from './DeleteActivityButton'
 
+export const dynamic = 'force-dynamic'
+
 export default async function ActivityPage() {
   const supabase = await createClient()
 

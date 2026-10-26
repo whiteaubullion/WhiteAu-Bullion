@@ -204,25 +204,220 @@
 .ctaContainer {
   text-align: center;
   margin-top: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
 }
 
 .reviewBtn {
-  display: inline-block;
-  background-color: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: var(--color-gold);
   color: var(--color-black);
   border: 2px solid var(--color-gold);
-  padding: 1rem 2.5rem;
+  padding: 0.85rem 2rem;
   border-radius: 50px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  font-size: 0.9rem;
+  cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .reviewBtn:hover {
-  background-color: var(--color-gold);
+  background-color: #d4931c;
+  border-color: #d4931c;
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(234, 162, 33, 0.2);
+  box-shadow: 0 10px 20px rgba(234, 162, 33, 0.25);
+}
+
+.moreReviewsBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background-color: transparent;
+  color: #2F2117;
+  border: 2px solid #2F2117;
+  padding: 0.85rem 1.75rem;
+  border-radius: 50px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.moreReviewsBtn:hover {
+  background-color: #2F2117;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(47, 33, 23, 0.15);
+}
+
+.countBadge {
+  background: rgba(234, 162, 33, 0.3);
+  color: #2F2117;
+  padding: 0.15rem 0.55rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.moreReviewsBtn:hover .countBadge {
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+/* More Reviews Expandable Section */
+.moreReviewsSection {
+  margin-top: 3rem;
+  padding-top: 2.5rem;
+  border-top: 1px dashed rgba(47, 33, 23, 0.2);
+}
+
+.moreReviewsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.moreReviewsHeader h3 {
+  font-family: var(--font-cormorant), serif;
+  font-size: 2rem;
+  color: #2F2117;
+  font-weight: 700;
+  margin: 0;
+}
+
+.moreReviewsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.moreReviewCard {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.moreReviewCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
+  border-color: rgba(234, 162, 33, 0.4);
+}
+
+.newReviewBadge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: #10b981;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.reviewCardTop {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.reviewAvatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #faeccf 0%, #eaa221 100%);
+  color: #2F2117;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.reviewMeta {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.reviewerName {
+  font-weight: 700;
+  color: #1a1a1a;
+  font-size: 0.95rem;
+}
+
+.reviewerRole {
+  font-size: 0.78rem;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.reviewStars {
+  color: var(--color-gold);
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.6rem;
+}
+
+.reviewTitle {
+  font-family: var(--font-montserrat);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #2F2117;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.4;
+}
+
+.reviewBody {
+  color: rgba(0, 0, 0, 0.75);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.reviewDate {
+  font-size: 0.75rem;
+  color: rgba(0, 0, 0, 0.45);
+  margin-top: 1rem;
+  text-align: right;
+}
+
+@media (max-width: 992px) {
+  .moreReviewsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .moreReviewsGrid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 900px) {

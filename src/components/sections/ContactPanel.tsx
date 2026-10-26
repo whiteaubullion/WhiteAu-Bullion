@@ -11,15 +11,34 @@ export default function ContactPanel({ type = 'all' }: ContactPanelProps) {
     name: '',
     phone: '',
     service: type === 'all' ? 'sell' : (type as string),
+    quantity: '50',
+    customQuantity: '',
   });
+  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Placeholder for actual form submission logic
-    alert('Thank you! Our executive will contact you shortly.');
+    const serviceLabels: Record<string, string> = {
+      buy: 'Buy Gold',
+      sell: 'Sell Gold',
+      release: 'Release Pledged Gold',
+      general: 'General Enquiry',
+    };
+
+    const selectedService = serviceLabels[formData.service] || formData.service;
+    const qtyText = formData.service === 'buy'
+      ? `\nQuantity: ${formData.quantity === 'custom' ? `${formData.customQuantity || 'Custom'} Grams` : `${formData.quantity} Grams`}`
+      : '';
+
+    const text = `Hi WhiteAu, I have an enquiry from your website.\n\nEnquiry Type: ${selectedService}\nName: ${formData.name}\nPhone: ${formData.phone}${qtyText}`;
+    const encodedText = encodeURIComponent(text);
+    const whatsappUrl = `https://wa.me/917012288794?text=${encodedText}`;
+    window.open(whatsappUrl, '_blank');
+    setSubmitted(true);
+    setTimeout(() => setSubmitted(false), 5000);
   };
 
-  const isBuy = type === 'buy';
+  const isBuy = formData.service === 'buy';
 
   return (
     <section className="section-padding">
@@ -61,54 +80,108 @@ export default function ContactPanel({ type = 'all' }: ContactPanelProps) {
           </div>
           
           <div className={styles.formSide}>
-            <form onSubmit={handleSubmit} className={styles.contactForm}>
-              <div className={styles.formGroup}>
-                <label htmlFor="name" className={styles.label}>Full Name</label>
-                <input 
-                  type="text" 
-                  id="name"
-                  className={styles.input}
-                  placeholder="Enter your name"
-                  value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  required
-                />
-              </div>
-              
-              <div className={styles.formGroup}>
-                <label htmlFor="phone" className={styles.label}>Phone Number</label>
-                <input 
-                  type="tel" 
-                  id="phone"
-                  className={styles.input}
-                  placeholder="Enter your phone number"
-                  value={formData.phone}
-                  inputMode="numeric"
-                  maxLength={15}
-                  onChange={(e) => setFormData({...formData, phone: e.target.value.replace(/\D/g, '')})}
-                  required
-                />
-              </div>
-              
-              <div className={styles.formGroup}>
-                <label htmlFor="service" className={styles.label}>I want to</label>
-                <select 
-                  id="service"
-                  className={styles.select}
-                  value={formData.service}
-                  onChange={(e) => setFormData({...formData, service: e.target.value})}
+            {submitted ? (
+              <div style={{ textAlign: 'center', padding: '2rem 1rem' }}>
+                <div style={{ fontSize: '3rem', color: '#10b981', marginBottom: '1rem' }}>✓</div>
+                <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', color: 'var(--color-black)' }}>Enquiry Sent!</h3>
+                <p style={{ color: 'rgba(0,0,0,0.7)', marginBottom: '1.5rem' }}>
+                  Thank you! Our executive will connect with you on WhatsApp / Phone shortly.
+                </p>
+                <button 
+                  type="button" 
+                  onClick={() => setSubmitted(false)} 
+                  className={styles.submitBtn}
                 >
-                  <option value="sell">Sell Gold</option>
-                  <option value="release">Release Pledged Gold</option>
-                  <option value="pledge">Pledge Gold</option>
-                  <option value="buy">Buy Gold</option>
-                </select>
+                  Send Another Enquiry
+                </button>
               </div>
-              
-              <button type="submit" className={styles.submitBtn}>
-                {formData.service === 'buy' ? 'ENQUIRE BUY GOLD' : 'GET GOLD RATE'}
-              </button>
-            </form>
+            ) : (
+              <form onSubmit={handleSubmit} className={styles.contactForm}>
+                <div className={styles.formGroup}>
+                  <label htmlFor="name" className={styles.label}>Full Name</label>
+                  <input 
+                    type="text" 
+                    id="name"
+                    className={styles.input}
+                    placeholder="Enter your name"
+                    value={formData.name}
+                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    required
+                  />
+                </div>
+                
+                <div className={styles.formGroup}>
+                  <label htmlFor="phone" className={styles.label}>Phone Number</label>
+                  <input 
+                    type="tel" 
+                    id="phone"
+                    className={styles.input}
+                    placeholder="Enter your phone number"
+                    value={formData.phone}
+                    inputMode="numeric"
+                    maxLength={15}
+                    onChange={(e) => setFormData({...formData, phone: e.target.value.replace(/\D/g, '')})}
+                    required
+                  />
+                </div>
+                
+                <div className={styles.formGroup}>
+                  <label htmlFor="service" className={styles.label}>I want to</label>
+                  <select 
+                    id="service"
+                    className={styles.select}
+                    value={formData.service}
+                    onChange={(e) => setFormData({...formData, service: e.target.value})}
+                  >
+                    <option value="buy">Buy Gold</option>
+                    <option value="sell">Sell Gold</option>
+                    <option value="release">Release Pledged Gold</option>
+                    <option value="general">General Enquiry</option>
+                  </select>
+                </div>
+
+                {formData.service === 'buy' && (
+                  <div className={styles.formGroup}>
+                    <label htmlFor="quantity" className={styles.label}>
+                      Quantity to Buy (in Grams)
+                    </label>
+                    <select
+                      id="quantity"
+                      className={styles.select}
+                      value={formData.quantity}
+                      onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
+                    >
+                      <option value="20">20 Grams</option>
+                      <option value="50">50 Grams</option>
+                      <option value="100">100 Grams</option>
+                      <option value="250">250 Grams</option>
+                      <option value="500">500 Grams</option>
+                      <option value="1000">1000 Grams (1 kg)</option>
+                      <option value="2000">2000 Grams (2 kg)</option>
+                      <option value="5000">5000 Grams (5 kg)</option>
+                      <option value="custom">Other / Custom Quantity</option>
+                    </select>
+
+                    {formData.quantity === 'custom' && (
+                      <input
+                        type="number"
+                        min="1"
+                        className={styles.input}
+                        placeholder="Enter quantity in grams (e.g. 75)"
+                        style={{ marginTop: '0.5rem' }}
+                        value={formData.customQuantity}
+                        onChange={(e) => setFormData({ ...formData, customQuantity: e.target.value })}
+                        required
+                      />
+                    )}
+                  </div>
+                )}
+                
+                <button type="submit" className={styles.submitBtn}>
+                  {formData.service === 'buy' ? 'ENQUIRE BUY GOLD' : 'SUBMIT ENQUIRY'}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </div>

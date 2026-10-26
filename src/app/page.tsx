@@ -35,6 +35,7 @@ export default function Home() {
                   alt="WhiteAu Gold Bar"
                   width={400}
                   height={400}
+                  priority
                   className={styles.goldBarImage}
                 />
               </div>

@@ -3,6 +3,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { revalidatePath } from 'next/cache'
 
 export async function submitLeadAction(prevState: any, formData: FormData) {
   const fullName = (formData.get('fullName') as string || '').trim()
@@ -24,14 +25,7 @@ export async function submitLeadAction(prevState: any, formData: FormData) {
     return { error: 'Please enter a valid email address.' }
   }
 
-  // Helper to ensure database calls don't hang if Supabase is unreachable
-  const withTimeout = <T>(promise: PromiseLike<T> | Promise<T>, ms: number = 3000): Promise<T> => {
-    return Promise.race([
-      Promise.resolve(promise),
-      new Promise<never>((_, reject) => setTimeout(() => reject(new Error('DB_TIMEOUT')), ms))
-    ])
-  }
-
+  const now = new Date().toISOString()
   let leadRecord: any = null
   let currentVisitCount = 1
 
@@ -39,63 +33,117 @@ export async function submitLeadAction(prevState: any, formData: FormData) {
     const supabase = await createClient()
 
     // 1. Check if this customer lead already exists by email
-    const { data: existingLead } = await withTimeout(
-      supabase
-        .from('customer_leads')
-        .select('*')
-        .eq('email', email)
-        .maybeSingle()
-    )
+    const { data: existingLead, error: selectError } = await supabase
+      .from('customer_leads')
+      .select('id, visit_count, full_name, phone_number')
+      .eq('email', email)
+      .maybeSingle()
+
+    if (selectError) {
+      console.error('Error checking existing customer lead:', selectError.message)
+    }
 
     if (existingLead) {
       currentVisitCount = (existingLead.visit_count || 1) + 1
-      const { data: updatedLead } = await withTimeout(
+      leadRecord = existingLead
+
+      // Execute lead update and rate access log entry in parallel for maximum speed
+      await Promise.all([
         supabase
           .from('customer_leads')
           .update({
             full_name: fullName || existingLead.full_name,
             phone_number: phone || existingLead.phone_number,
             visit_count: currentVisitCount,
-            last_login_at: new Date().toISOString()
+            last_login_at: now
           })
-          .eq('id', existingLead.id)
-          .select()
-          .single()
-      )
-      leadRecord = updatedLead || existingLead
-    } else {
-      const { data: newLead } = await withTimeout(
+          .eq('id', existingLead.id),
         supabase
-          .from('customer_leads')
+          .from('customer_rate_access')
           .insert({
+            lead_id: existingLead.id,
             full_name: fullName,
             email: email,
             phone_number: phone,
-            visit_count: 1,
-            last_login_at: new Date().toISOString()
+            visit_number: currentVisitCount,
+            accessed_at: now
           })
-          .select()
-          .single()
-      )
-      leadRecord = newLead
-      currentVisitCount = 1
-    }
-
-    // 2. Insert into customer_rate_access log table
-    if (leadRecord?.id) {
-      await withTimeout(
-        supabase.from('customer_rate_access').insert({
-          lead_id: leadRecord.id,
+      ])
+    } else {
+      // 2. New lead - insert into customer_leads
+      const { data: newLead, error: insertError } = await supabase
+        .from('customer_leads')
+        .insert({
           full_name: fullName,
           email: email,
           phone_number: phone,
-          visit_number: currentVisitCount,
-          accessed_at: new Date().toISOString()
+          visit_count: 1,
+          last_login_at: now
         })
-      )
+        .select('id')
+        .single()
+
+      if (insertError) {
+        console.warn('Customer lead insert conflict or error, attempting fallback update:', insertError.message)
+        const { data: fallbackLead } = await supabase
+          .from('customer_leads')
+          .select('id, visit_count')
+          .eq('email', email)
+          .maybeSingle()
+
+        if (fallbackLead) {
+          leadRecord = fallbackLead
+          currentVisitCount = (fallbackLead.visit_count || 1) + 1
+
+          await Promise.all([
+            supabase
+              .from('customer_leads')
+              .update({
+                full_name: fullName,
+                phone_number: phone,
+                visit_count: currentVisitCount,
+                last_login_at: now
+              })
+              .eq('id', fallbackLead.id),
+            supabase
+              .from('customer_rate_access')
+              .insert({
+                lead_id: fallbackLead.id,
+                full_name: fullName,
+                email: email,
+                phone_number: phone,
+                visit_number: currentVisitCount,
+                accessed_at: now
+              })
+          ])
+        }
+      } else {
+        leadRecord = newLead
+        currentVisitCount = 1
+
+        if (newLead?.id) {
+          await supabase.from('customer_rate_access').insert({
+            lead_id: newLead.id,
+            full_name: fullName,
+            email: email,
+            phone_number: phone,
+            visit_number: 1,
+            accessed_at: now
+          })
+        }
+      }
+    }
+
+    // Instantly invalidate Admin dashboard caches so the login appears in the Admin panel without delay
+    try {
+      revalidatePath('/admin')
+      revalidatePath('/admin/customer-access')
+      revalidatePath('/admin/activity')
+    } catch (revalErr) {
+      console.warn('Revalidation notice:', revalErr)
     }
   } catch (dbErr) {
-    console.warn('Database access timed out or failed, proceeding with session:', dbErr)
+    console.error('Database operation failed during customer login:', dbErr)
   }
 
   // 3. Set a secure customer session cookie so user stays authenticated to view live rates
