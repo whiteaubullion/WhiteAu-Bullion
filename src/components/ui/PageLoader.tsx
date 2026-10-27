@@ -6,42 +6,31 @@ import styles from './PageLoader.module.css';
 
 export default function PageLoader() {
   const [fading, setFading] = useState(false);
-  const [hidden, setHidden] = useState(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        return !!sessionStorage.getItem('whiteau_loaded');
-      } catch {
-        return false;
-      }
-    }
-    return false;
-  });
+  const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
-    if (hidden) return;
-
-    try {
-      sessionStorage.setItem('whiteau_loaded', 'true');
-    } catch {
-      // ignore
-    }
-
-    // Keep loader visible for ~1.1s, then fade out smoothly
-    const timer = setTimeout(() => {
+    // Show quick premium intro for ~950ms, then smoothly fade out
+    const fadeTimer = setTimeout(() => {
       setFading(true);
-      setTimeout(() => {
-        setHidden(true);
-      }, 700);
-    }, 1100);
+    }, 950);
 
-    return () => clearTimeout(timer);
+    // Completely unmount after fade transition finishes (~1450ms)
+    const hideTimer = setTimeout(() => {
+      setHidden(true);
+    }, 1450);
+
+    return () => {
+      clearTimeout(fadeTimer);
+      clearTimeout(hideTimer);
+    };
   }, []);
+
+  if (hidden) return null;
 
   return (
     <div 
       className={`${styles.loaderOverlay} ${fading ? styles.fadeOut : ''}`}
-      style={{ display: hidden ? 'none' : 'flex' }}
-      aria-hidden={hidden}
+      aria-hidden={fading}
     >
       {/* Warm champagne / gold ambient glow */}
       <div className={styles.ambientGlow} />
