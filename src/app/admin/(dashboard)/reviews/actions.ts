@@ -1,11 +1,8 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import fs from 'fs'
-import path from 'path'
 import { createClient } from '@/utils/supabase/server'
-
-const REVIEWS_FILE = path.join(process.cwd(), 'src', 'data', 'reviews.json')
+import { getStoredReviews, saveReviews } from '@/app/api/reviews/route'
 
 export async function deleteReviewAction(id: string) {
   try {
@@ -30,16 +27,17 @@ export async function deleteReviewAction(id: string) {
     // 2. Delete from Supabase if table exists
     try {
       await supabase.from('customer_reviews').delete().eq('id', id)
-    } catch {
-      // Table might not exist yet
+    } catch (e) {
+      console.warn('Supabase delete review table skipped/failed:', e)
     }
 
-    // 3. Delete from local JSON backend storage
-    if (fs.existsSync(REVIEWS_FILE)) {
-      const data = fs.readFileSync(REVIEWS_FILE, 'utf-8')
-      const current = JSON.parse(data)
+    // 3. Delete from local / tmp storage safely (prevents EROFS read-only filesystem crash)
+    try {
+      const current = getStoredReviews()
       const filtered = current.filter((r: any) => String(r.id) !== String(id))
-      fs.writeFileSync(REVIEWS_FILE, JSON.stringify(filtered, null, 2), 'utf-8')
+      saveReviews(filtered)
+    } catch (e) {
+      console.warn('Local storage update skipped:', e)
     }
 
     // 4. Log to admin audit logs if table exists
@@ -47,8 +45,8 @@ export async function deleteReviewAction(id: string) {
       await supabase.from('admin_audit_logs').insert({
         admin_id: user.id,
         action: 'DELETE_CUSTOMER_REVIEW',
-        entity: 'reviews',
-        details: { review_id: id, deleted_by: profile.full_name }
+        entity_type: 'reviews',
+        details: { review_id: id, deleted_by: profile?.full_name || 'Admin' }
       })
     } catch {
       // Audit log optional

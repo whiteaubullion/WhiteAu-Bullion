@@ -1,37 +1,89 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import os from 'os';
 import { revalidatePath } from 'next/cache';
 
-const COMPLAINTS_FILE = path.join(process.cwd(), 'src', 'data', 'complaints.json');
+const SEED_FILE = path.join(process.cwd(), 'src', 'data', 'complaints.json');
+const TMP_FILE = path.join(os.tmpdir(), 'whiteau_complaints.json');
 
-export function getStoredComplaints() {
+declare global {
+  // eslint-disable-next-line no-var
+  var __whiteau_complaints_cache: any[] | undefined;
+}
+
+const DEFAULT_COMPLAINTS = [
+  {
+    id: "comp-1729904400000",
+    name: "Kiran Kumar",
+    phone: "9847123456",
+    email: "kiran.k@example.com",
+    category: "Valuation Dispute",
+    branch: "Cherthala",
+    message: "I visited the branch to sell an old gold chain. The initial purity readout was slightly lower than my previous hallmark certificate. Requested a second check.",
+    status: "pending",
+    created_at: "2026-10-25T14:20:00.000Z"
+  }
+];
+
+export function getStoredComplaints(): any[] {
+  // 1. In-memory cache
+  if (global.__whiteau_complaints_cache && Array.isArray(global.__whiteau_complaints_cache) && global.__whiteau_complaints_cache.length > 0) {
+    return global.__whiteau_complaints_cache;
+  }
+
+  // 2. /tmp storage (writable in serverless/Vercel)
   try {
-    if (fs.existsSync(COMPLAINTS_FILE)) {
-      const data = fs.readFileSync(COMPLAINTS_FILE, 'utf-8');
+    if (fs.existsSync(TMP_FILE)) {
+      const data = fs.readFileSync(TMP_FILE, 'utf-8');
       const parsed = JSON.parse(data);
-      if (Array.isArray(parsed)) {
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        global.__whiteau_complaints_cache = parsed;
+        return parsed;
+      }
+    }
+  } catch {}
+
+  // 3. Seed file
+  try {
+    if (fs.existsSync(SEED_FILE)) {
+      const data = fs.readFileSync(SEED_FILE, 'utf-8');
+      const parsed = JSON.parse(data);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        global.__whiteau_complaints_cache = parsed;
         return parsed;
       }
     }
   } catch (error) {
     console.error('Error reading complaints file:', error);
   }
-  return [];
+
+  global.__whiteau_complaints_cache = DEFAULT_COMPLAINTS;
+  return DEFAULT_COMPLAINTS;
 }
 
-export function saveComplaints(complaints: any[]) {
+export function saveComplaints(complaints: any[]): boolean {
+  global.__whiteau_complaints_cache = complaints;
+
+  // 1. Write to /tmp (always writable in serverless/Vercel)
   try {
-    const dir = path.dirname(COMPLAINTS_FILE);
+    fs.writeFileSync(TMP_FILE, JSON.stringify(complaints, null, 2), 'utf-8');
+  } catch (e) {
+    console.warn('Could not write to tmp complaints:', e);
+  }
+
+  // 2. Try to write to project seed file (works in local dev, safe EROFS catch in production)
+  try {
+    const dir = path.dirname(SEED_FILE);
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
-    fs.writeFileSync(COMPLAINTS_FILE, JSON.stringify(complaints, null, 2), 'utf-8');
-    return true;
-  } catch (error) {
-    console.error('Error saving complaints file:', error);
-    return false;
+    fs.writeFileSync(SEED_FILE, JSON.stringify(complaints, null, 2), 'utf-8');
+  } catch {
+    // Expected EROFS in serverless; memory and /tmp already saved
   }
+
+  return true;
 }
 
 export async function GET() {
@@ -44,11 +96,12 @@ export async function GET() {
       .select('*')
       .order('created_at', { ascending: false });
 
-    if (!error && data && data.length > 0) {
+    if (!error && Array.isArray(data) && data.length > 0) {
+      global.__whiteau_complaints_cache = data;
       return NextResponse.json({ complaints: data });
     }
   } catch {
-    // Fallback to local json
+    // Fallback to local / tmp storage
   }
 
   const complaints = getStoredComplaints();
@@ -61,7 +114,12 @@ export async function POST(request: Request) {
     const { name, phone, email, category, branch, message } = body;
 
     const cleanName = (name || '').trim();
-    const cleanPhone = (phone || '').replace(/\D/g, '');
+    let cleanPhone = (phone || '').replace(/\D/g, '');
+    if (cleanPhone.length === 12 && cleanPhone.startsWith('91')) {
+      cleanPhone = cleanPhone.slice(2);
+    } else if (cleanPhone.length === 11 && cleanPhone.startsWith('0')) {
+      cleanPhone = cleanPhone.slice(1);
+    }
     const cleanMessage = (message || '').trim();
 
     if (!cleanName || !cleanMessage) {
@@ -71,7 +129,7 @@ export async function POST(request: Request) {
       );
     }
 
-    if (cleanPhone && cleanPhone.length !== 10) {
+    if (!cleanPhone || cleanPhone.length !== 10) {
       return NextResponse.json(
         { error: 'Please enter a valid 10-digit mobile number.' },
         { status: 400 }
@@ -84,19 +142,19 @@ export async function POST(request: Request) {
       name: cleanName,
       phone: cleanPhone,
       email: (email || '').trim().toLowerCase(),
-      category: category || 'Other',
+      category: category || 'Valuation Dispute',
       branch: (branch || '').trim() || 'General',
       message: cleanMessage,
       status: 'pending',
       created_at: now
     };
 
-    // 1. Save to local JSON backend
+    // 1. Save to local/tmp/memory storage first for 100% reliability
     const current = getStoredComplaints();
-    const updated = [newComplaint, ...current];
+    const updated = [newComplaint, ...current.filter(c => c.id !== newComplaint.id)];
     saveComplaints(updated);
 
-    // 2. Also try inserting into Supabase customer_complaints
+    // 2. Also insert into Supabase customer_complaints if table exists
     try {
       const { createClient } = await import('@/utils/supabase/server');
       const supabase = await createClient();
@@ -111,8 +169,8 @@ export async function POST(request: Request) {
         status: newComplaint.status,
         created_at: newComplaint.created_at
       });
-    } catch {
-      // Supabase table optional fallback
+    } catch (e) {
+      console.warn('Supabase customer_complaints insert skipped:', e);
     }
 
     try {

@@ -1,9 +1,17 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import os from 'os';
 import { revalidatePath } from 'next/cache';
 
-const REVIEWS_FILE = path.join(process.cwd(), 'src', 'data', 'reviews.json');
+const SEED_FILE = path.join(process.cwd(), 'src', 'data', 'reviews.json');
+const TMP_FILE = path.join(os.tmpdir(), 'whiteau_reviews.json');
+
+// In-memory cache across requests in the current process/instance
+declare global {
+  // eslint-disable-next-line no-var
+  var __whiteau_reviews_cache: any[] | undefined;
+}
 
 const DEFAULT_REVIEWS = [
   {
@@ -58,33 +66,68 @@ const DEFAULT_REVIEWS = [
   }
 ];
 
-export function getStoredReviews() {
+export function getStoredReviews(): any[] {
+  // 1. Check in-memory cache
+  if (global.__whiteau_reviews_cache && Array.isArray(global.__whiteau_reviews_cache) && global.__whiteau_reviews_cache.length > 0) {
+    return global.__whiteau_reviews_cache;
+  }
+
+  // 2. Check /tmp file (writable in serverless)
   try {
-    if (fs.existsSync(REVIEWS_FILE)) {
-      const data = fs.readFileSync(REVIEWS_FILE, 'utf-8');
+    if (fs.existsSync(TMP_FILE)) {
+      const data = fs.readFileSync(TMP_FILE, 'utf-8');
       const parsed = JSON.parse(data);
       if (Array.isArray(parsed) && parsed.length > 0) {
+        global.__whiteau_reviews_cache = parsed;
+        return parsed;
+      }
+    }
+  } catch (error) {
+    // ignore tmp read errors
+  }
+
+  // 3. Fallback to bundled seed file
+  try {
+    if (fs.existsSync(SEED_FILE)) {
+      const data = fs.readFileSync(SEED_FILE, 'utf-8');
+      const parsed = JSON.parse(data);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        global.__whiteau_reviews_cache = parsed;
         return parsed;
       }
     }
   } catch (error) {
     console.error('Error reading reviews file:', error);
   }
+
+  global.__whiteau_reviews_cache = DEFAULT_REVIEWS;
   return DEFAULT_REVIEWS;
 }
 
-export function saveReviews(reviews: any[]) {
+export function saveReviews(reviews: any[]): boolean {
+  // Update memory
+  global.__whiteau_reviews_cache = reviews;
+
+  // 1. Save to /tmp (always writable in serverless/Vercel)
   try {
-    const dir = path.dirname(REVIEWS_FILE);
+    fs.writeFileSync(TMP_FILE, JSON.stringify(reviews, null, 2), 'utf-8');
+  } catch (e) {
+    console.warn('Could not write to tmp reviews file:', e);
+  }
+
+  // 2. Try to save to local seed file if filesystem is writable (local dev)
+  try {
+    const dir = path.dirname(SEED_FILE);
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
-    fs.writeFileSync(REVIEWS_FILE, JSON.stringify(reviews, null, 2), 'utf-8');
-    return true;
+    fs.writeFileSync(SEED_FILE, JSON.stringify(reviews, null, 2), 'utf-8');
   } catch (error) {
-    console.error('Error saving reviews file:', error);
-    return false;
+    // EROFS is expected on serverless / read-only production environments.
+    // Safe to ignore since memory and /tmp are updated, and Supabase is primary.
   }
+
+  return true;
 }
 
 export async function GET() {
@@ -97,15 +140,17 @@ export async function GET() {
       .select('*')
       .order('created_at', { ascending: false });
 
-    if (!error && data && data.length > 0) {
-      return NextResponse.json({ reviews: data });
+    if (!error && Array.isArray(data) && data.length > 0) {
+      // Sync memory cache with fresh Supabase data
+      global.__whiteau_reviews_cache = data;
+      return NextResponse.json({ reviews: data, source: 'supabase' });
     }
   } catch {
-    // Supabase table not available, fallback to reviews.json
+    // Supabase table not available, fallback to stored reviews
   }
 
   const reviews = getStoredReviews();
-  return NextResponse.json({ reviews });
+  return NextResponse.json({ reviews, source: 'local' });
 }
 
 export async function POST(request: Request) {
@@ -124,16 +169,16 @@ export async function POST(request: Request) {
       id: `rev-${Date.now()}`,
       name: name.trim(),
       role: role?.trim() || 'Verified Customer',
-      rating: Number(rating) || 5,
+      rating: Math.max(1, Math.min(5, Number(rating) || 5)),
       title: title?.trim() || 'Great Customer Experience',
       text: text.trim(),
       date: 'Just now',
       created_at: new Date().toISOString()
     };
 
-    // 1. Save to local JSON backend
+    // 1. Save to local/tmp/memory storage first for immediate availability
     const currentReviews = getStoredReviews();
-    const updatedReviews = [newReview, ...currentReviews];
+    const updatedReviews = [newReview, ...currentReviews.filter(r => r.id !== newReview.id)];
     saveReviews(updatedReviews);
 
     // 2. Also try inserting to Supabase if table exists
@@ -150,8 +195,8 @@ export async function POST(request: Request) {
         date: newReview.date,
         created_at: newReview.created_at
       });
-    } catch {
-      // Table might not exist yet
+    } catch (e) {
+      console.warn('Supabase customer_reviews insert skipped:', e);
     }
 
     try {
@@ -182,7 +227,7 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: 'Review ID is required' }, { status: 400 });
     }
 
-    // 1. Delete from local JSON backend
+    // 1. Delete from local/tmp/memory storage safely (never throws EROFS)
     const currentReviews = getStoredReviews();
     const updatedReviews = currentReviews.filter((r: any) => String(r.id) !== String(id));
     saveReviews(updatedReviews);

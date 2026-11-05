@@ -1,11 +1,8 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import fs from 'fs'
-import path from 'path'
 import { createClient } from '@/utils/supabase/server'
-
-const COMPLAINTS_FILE = path.join(process.cwd(), 'src', 'data', 'complaints.json')
+import { getStoredComplaints, saveComplaints } from '@/app/api/complaints/route'
 
 export async function deleteComplaintAction(id: string) {
   try {
@@ -32,12 +29,13 @@ export async function deleteComplaintAction(id: string) {
       await supabase.from('customer_complaints').delete().eq('id', id)
     } catch {}
 
-    // 3. Delete from local JSON backend storage
-    if (fs.existsSync(COMPLAINTS_FILE)) {
-      const data = fs.readFileSync(COMPLAINTS_FILE, 'utf-8')
-      const current = JSON.parse(data)
+    // 3. Delete from local / tmp storage safely
+    try {
+      const current = getStoredComplaints()
       const filtered = current.filter((c: any) => String(c.id) !== String(id))
-      fs.writeFileSync(COMPLAINTS_FILE, JSON.stringify(filtered, null, 2), 'utf-8')
+      saveComplaints(filtered)
+    } catch (e) {
+      console.warn('Local complaints storage update failed:', e)
     }
 
     // 4. Audit log
@@ -45,7 +43,7 @@ export async function deleteComplaintAction(id: string) {
       await supabase.from('admin_audit_logs').insert({
         admin_id: user.id,
         action: 'DELETE_CUSTOMER_COMPLAINT',
-        entity: 'complaints',
+        entity_type: 'complaints',
         details: { complaint_id: id, deleted_by: profile.full_name }
       })
     } catch {}
@@ -84,17 +82,18 @@ export async function updateComplaintStatusAction(id: string, newStatus: string)
       await supabase.from('customer_complaints').update({ status: newStatus }).eq('id', id)
     } catch {}
 
-    // 3. Update in local JSON backend storage
-    if (fs.existsSync(COMPLAINTS_FILE)) {
-      const data = fs.readFileSync(COMPLAINTS_FILE, 'utf-8')
-      const current = JSON.parse(data)
+    // 3. Update in local / tmp storage safely
+    try {
+      const current = getStoredComplaints()
       const updated = current.map((c: any) => {
         if (String(c.id) === String(id)) {
           return { ...c, status: newStatus }
         }
         return c
       })
-      fs.writeFileSync(COMPLAINTS_FILE, JSON.stringify(updated, null, 2), 'utf-8')
+      saveComplaints(updated)
+    } catch (e) {
+      console.warn('Local complaints status update failed:', e)
     }
 
     revalidatePath('/admin/complaints')

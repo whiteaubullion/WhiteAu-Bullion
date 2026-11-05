@@ -22,7 +22,12 @@ export default function Founder() {
     setErrorMsg('');
 
     const cleanName = fullName.trim();
-    const cleanPhone = phone.replace(/\D/g, '');
+    let cleanPhone = phone.replace(/\D/g, '');
+    if (cleanPhone.length === 12 && cleanPhone.startsWith('91')) {
+      cleanPhone = cleanPhone.slice(2);
+    } else if (cleanPhone.length === 11 && cleanPhone.startsWith('0')) {
+      cleanPhone = cleanPhone.slice(1);
+    }
     const cleanMessage = message.trim();
 
     if (!cleanName || !cleanMessage) {
@@ -135,22 +140,43 @@ export default function Founder() {
                       Our grievance resolution officer has received your complaint and will investigate and contact you within 24 business hours.
                     </p>
                   </div>
-                  <button
-                    type="button"
-                    onClick={handleClose}
-                    style={{
-                      marginTop: '1rem',
-                      padding: '0.65rem 1.5rem',
-                      backgroundColor: '#16a34a',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '8px',
-                      fontWeight: 600,
-                      cursor: 'pointer'
-                    }}
-                  >
-                    Done
-                  </button>
+                  <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.25rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+                    <a
+                      href={`https://wa.me/917012288794?text=${encodeURIComponent(`Hi WhiteAu Grievance Officer, I have lodged a complaint with Reference ID: ${complaintRef}. Please assist.`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        padding: '0.65rem 1.25rem',
+                        backgroundColor: '#25D366',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '8px',
+                        fontWeight: 600,
+                        textDecoration: 'none',
+                        fontSize: '0.9rem',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.4rem'
+                      }}
+                    >
+                      💬 WhatsApp Officer
+                    </a>
+                    <button
+                      type="button"
+                      onClick={handleClose}
+                      style={{
+                        padding: '0.65rem 1.5rem',
+                        backgroundColor: '#16a34a',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '8px',
+                        fontWeight: 600,
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Done
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className={styles.complaintForm}>
@@ -185,19 +211,12 @@ export default function Founder() {
                       <input 
                         type="tel" 
                         id="comp-phone"
-                        placeholder="10-digit mobile number" 
+                        placeholder="e.g. 9847123456" 
                         required 
                         inputMode="numeric"
-                        pattern="[0-9]{10}"
-                        maxLength={10}
-                        title="Please enter a 10-digit mobile number"
+                        maxLength={15}
                         value={phone}
-                        onKeyDown={(e) => {
-                          if (['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight'].includes(e.key) || (e.ctrlKey || e.metaKey)) return;
-                          if (!/^[0-9]$/.test(e.key)) { e.preventDefault(); return; }
-                          if (e.currentTarget.value.length >= 10 && e.currentTarget.selectionStart === e.currentTarget.selectionEnd) { e.preventDefault(); }
-                        }}
-                        onChange={e => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                        onChange={e => setPhone(e.target.value)}
                       />
                     </div>
                   </div>

@@ -42,15 +42,17 @@ export default async function AdminReviewsPage() {
     redirect('/admin/login')
   }
 
-  // Fetch reviews from Supabase or fallback to backend reviews.json
+  let isSupabaseConfigured = false
   let reviews: ReviewItem[] = []
+
   try {
     const { data: dbReviews, error } = await supabase
       .from('customer_reviews')
       .select('*')
       .order('created_at', { ascending: false })
 
-    if (!error && dbReviews && dbReviews.length > 0) {
+    if (!error && Array.isArray(dbReviews)) {
+      isSupabaseConfigured = true
       reviews = dbReviews
     } else {
       reviews = getStoredReviews()
@@ -74,6 +76,25 @@ export default async function AdminReviewsPage() {
           Manage customer testimonials displayed on the homepage. Reviews deleted here are instantly removed from the public website.
         </p>
       </div>
+
+      {!isSupabaseConfigured && (
+        <div style={{
+          backgroundColor: 'rgba(234, 162, 33, 0.12)',
+          border: '1px solid rgba(234, 162, 33, 0.4)',
+          borderRadius: '0.75rem',
+          padding: '1rem 1.25rem',
+          marginBottom: '1.5rem',
+          color: '#fef08a'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600, fontSize: '0.95rem', marginBottom: '0.25rem', color: '#fde047' }}>
+            <span>⚡ Supabase Notice:</span>
+            <span>Running with serverless-safe local storage</span>
+          </div>
+          <p style={{ margin: 0, fontSize: '0.85rem', color: '#e2e8f0', lineHeight: 1.5 }}>
+            The <code>customer_reviews</code> table is not yet created in your Supabase database. To enable 100% persistent cloud database storage across all Vercel instances, run the script provided in <code>supabase_reviews_setup.sql</code> in your Supabase SQL Editor.
+          </p>
+        </div>
+      )}
 
       {/* Summary Cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>

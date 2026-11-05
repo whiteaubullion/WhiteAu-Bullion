@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 
@@ -33,9 +34,18 @@ export default async function AdminLayout({
       
       {/* Sidebar Navigation */}
       <aside style={{ width: '260px', backgroundColor: '#1e293b', borderRight: '1px solid #334155', display: 'flex', flexDirection: 'column' }}>
-        <div style={{ padding: '1.5rem', borderBottom: '1px solid #334155' }}>
-          <h2 style={{ color: 'white', fontSize: '1.25rem', fontWeight: 'bold' }}>WhiteAu Admin</h2>
-          <p style={{ color: '#94a3b8', fontSize: '0.875rem', marginTop: '0.25rem' }}>{profile.full_name}</p>
+        <div style={{ padding: '1.25rem 1.5rem', borderBottom: '1px solid #334155', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <Image 
+            src="/gold-logo.webp" 
+            alt="WhiteAu Logo" 
+            width={38} 
+            height={38} 
+            style={{ width: '38px', height: '38px', objectFit: 'contain' }} 
+          />
+          <div>
+            <h2 style={{ color: 'white', fontSize: '1.2rem', fontWeight: 'bold', margin: 0, lineHeight: 1.2 }}>WhiteAu Admin</h2>
+            <p style={{ color: '#94a3b8', fontSize: '0.8rem', margin: '0.2rem 0 0' }}>{profile.full_name}</p>
+          </div>
         </div>
         
         <nav style={{ padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1 }}>

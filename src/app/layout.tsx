@@ -22,6 +22,17 @@ const jost = Jost({
 export const metadata: Metadata = {
   title: "WhiteAu Bullion | Your Trusted Gold Partner",
   description: "Turn Your Gold Into Trusted Value with WhiteAu Bullion Pvt Ltd, a trusted gold-buying company in Kerala.",
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon.png', type: 'image/png' },
+      { url: '/gold-logo.webp', type: 'image/webp' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: [
+      { url: '/apple-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
 };
 
 export default function RootLayout({
