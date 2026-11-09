@@ -4,6 +4,7 @@ import "./globals.css";
 import FloatingWhatsApp from '@/components/ui/FloatingWhatsApp';
 import SmoothScroll from '@/components/ui/SmoothScroll';
 import PageLoader from '@/components/ui/PageLoader';
+import BackgroundVideo from '@/components/ui/BackgroundVideo';
 
 const playfair = Playfair_Display({
   variable: "--font-cormorant",
@@ -43,28 +44,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${playfair.variable} ${jost.variable}`}>
       <body>
-        <video 
-          autoPlay 
-          loop 
-          muted 
-          playsInline
-          preload="auto"
-          style={{
-            position: "fixed",
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            zIndex: -1,
-            top: 0,
-            left: 0,
-            transform: "scale(1.05) translateZ(0)",
-            willChange: "transform",
-            pointerEvents: "none",
-          }}
-        >
-          <source src="/hero-bg-mobile.mp4" media="(max-width: 768px)" type="video/mp4" />
-          <source src="/hero-bg-1080p.mp4" type="video/mp4" />
-        </video>
+        <BackgroundVideo />
         <PageLoader />
         {children}
         <SmoothScroll />
