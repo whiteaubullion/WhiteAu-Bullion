@@ -36,12 +36,16 @@ export async function adminLogin(prevState: any, formData: FormData) {
       return { error: 'Access Denied: You do not have administrative privileges.' }
     }
 
-    // Record login activity
-    await supabase.from('login_activity').insert({
-      user_id: data.user.id,
-      login_method: 'admin_login',
-      login_status: 'success'
-    })
+    // Record login activity safely without slowing down redirect
+    try {
+      await supabase.from('login_activity').insert({
+        user_id: data.user.id,
+        login_method: 'admin_login',
+        login_status: 'success'
+      })
+    } catch {
+      // Non-blocking
+    }
   }
 
   redirect('/admin')

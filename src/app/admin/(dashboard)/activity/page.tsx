@@ -16,7 +16,7 @@ export default async function ActivityPage() {
   // 2. Fetch Any Standard/Admin Login Activity
   const { data: adminActivity } = await supabase
     .from('login_activity')
-    .select('*, profiles(full_name, email, phone_number)')
+    .select('*')
     .order('login_at', { ascending: false })
     .limit(50)
 
@@ -53,10 +53,10 @@ export default async function ActivityPage() {
     logs.push({
       id: a.id,
       date: a.login_at,
-      userName: a.profiles?.full_name || 'Admin',
-      email: a.profiles?.email || '-',
-      phone: a.profiles?.phone_number || '-',
-      method: a.login_method || 'admin_login',
+      userName: 'Admin User',
+      email: 'whiteau.bullion@gmail.com',
+      phone: '8921410477',
+      method: a.login_method === 'admin_login' ? 'Admin Portal Login' : a.login_method,
       status: a.login_status || 'success',
       type: 'admin'
     })

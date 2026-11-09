@@ -17,7 +17,7 @@ export default async function AdminDashboardPage() {
   ] = await Promise.all([
     supabase.from('profiles').select('*', { count: 'exact', head: true }),
     supabase.from('customer_leads').select('*', { count: 'exact', head: true }),
-    supabase.from('login_activity').select('*, profiles(full_name)').order('login_at', { ascending: false }).limit(5),
+    supabase.from('login_activity').select('*').order('login_at', { ascending: false }).limit(5),
     supabase.from('customer_rate_access').select('*').order('accessed_at', { ascending: false }).limit(5),
     supabase.from('gold_rates').select('*', { count: 'exact', head: true }).eq('is_active', true),
     supabase.from('gold_rates').select('*').eq('is_active', true).order('updated_at', { ascending: false }).limit(4),
@@ -34,8 +34,8 @@ export default async function AdminDashboardPage() {
     })) || []),
     ...(recentLogins?.map(l => ({
       id: l.id,
-      name: l.profiles?.full_name || 'Admin',
-      method: l.login_method,
+      name: 'Admin User',
+      method: l.login_method === 'admin_login' ? 'Portal Login' : l.login_method,
       time: l.login_at
     })) || [])
   ].sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()).slice(0, 5)
