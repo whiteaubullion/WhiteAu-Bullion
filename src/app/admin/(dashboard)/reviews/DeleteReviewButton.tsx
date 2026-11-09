@@ -1,10 +1,13 @@
 'use client'
 
-import React, { useTransition } from 'react'
+import React, { useTransition, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { deleteReviewAction } from './actions'
 
 export function DeleteReviewButton({ id, reviewName }: { id: string; reviewName?: string }) {
   const [isPending, startTransition] = useTransition()
+  const [isDeleted, setIsDeleted] = useState(false)
+  const router = useRouter()
 
   const handleDelete = () => {
     const confirmMsg = reviewName 
@@ -15,12 +18,33 @@ export function DeleteReviewButton({ id, reviewName }: { id: string; reviewName?
       return
     }
 
+    // Immediate visual feedback: mark as deleted right away
+    setIsDeleted(true)
+
     startTransition(async () => {
       const res = await deleteReviewAction(id)
       if (res?.error) {
+        setIsDeleted(false) // revert if server action failed
         alert(res.error)
+      } else {
+        router.refresh()
       }
     })
+  }
+
+  if (isDeleted) {
+    return (
+      <span style={{ 
+        color: '#94a3b8', 
+        fontSize: '0.8rem', 
+        fontStyle: 'italic',
+        backgroundColor: 'rgba(51, 65, 85, 0.4)',
+        padding: '0.25rem 0.6rem',
+        borderRadius: '0.375rem'
+      }}>
+        ✓ Deleted
+      </span>
+    )
   }
 
   return (

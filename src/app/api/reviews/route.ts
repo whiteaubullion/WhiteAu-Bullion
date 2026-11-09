@@ -131,6 +131,7 @@ export function saveReviews(reviews: any[]): boolean {
 }
 
 export async function GET() {
+  let reviews: any[] = [];
   // Try fetching from Supabase if table exists
   try {
     const { createClient } = await import('@/utils/supabase/server');
@@ -141,16 +142,29 @@ export async function GET() {
       .order('created_at', { ascending: false });
 
     if (!error && Array.isArray(data) && data.length > 0) {
-      // Sync memory cache with fresh Supabase data
       global.__whiteau_reviews_cache = data;
-      return NextResponse.json({ reviews: data, source: 'supabase' });
+      reviews = data;
+    } else {
+      reviews = getStoredReviews();
     }
   } catch {
-    // Supabase table not available, fallback to stored reviews
+    reviews = getStoredReviews();
   }
 
-  const reviews = getStoredReviews();
-  return NextResponse.json({ reviews, source: 'local' });
+  // Filter out any cookie-deleted reviews as fallback
+  try {
+    const { cookies } = await import('next/headers');
+    const cookieStore = await cookies();
+    const deletedCookie = cookieStore.get('whiteau_deleted_reviews')?.value;
+    if (deletedCookie) {
+      const deletedIds = JSON.parse(deletedCookie);
+      if (Array.isArray(deletedIds) && deletedIds.length > 0) {
+        reviews = reviews.filter((r: any) => !deletedIds.includes(String(r.id)));
+      }
+    }
+  } catch {}
+
+  return NextResponse.json({ reviews, source: global.__whiteau_reviews_cache ? 'cached' : 'local' });
 }
 
 export async function POST(request: Request) {

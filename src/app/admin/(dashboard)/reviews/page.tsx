@@ -1,10 +1,12 @@
 import React from 'react'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
+import { cookies } from 'next/headers'
 import { getStoredReviews } from '@/app/api/reviews/route'
 import { DeleteReviewButton } from './DeleteReviewButton'
 
 export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 interface ReviewItem {
   id: string
@@ -61,6 +63,18 @@ export default async function AdminReviewsPage() {
     reviews = getStoredReviews()
   }
 
+  // Filter out any reviews marked as deleted in cookies
+  try {
+    const cookieStore = await cookies()
+    const deletedCookie = cookieStore.get('whiteau_deleted_reviews')?.value
+    if (deletedCookie) {
+      const deletedIds = JSON.parse(deletedCookie)
+      if (Array.isArray(deletedIds) && deletedIds.length > 0) {
+        reviews = reviews.filter(r => !deletedIds.includes(String(r.id)))
+      }
+    }
+  } catch {}
+
   const totalReviews = reviews.length
   const avgRating = totalReviews > 0
     ? (reviews.reduce((sum, r) => sum + (Number(r.rating) || 5), 0) / totalReviews).toFixed(1)
@@ -82,17 +96,36 @@ export default async function AdminReviewsPage() {
           backgroundColor: 'rgba(234, 162, 33, 0.12)',
           border: '1px solid rgba(234, 162, 33, 0.4)',
           borderRadius: '0.75rem',
-          padding: '1rem 1.25rem',
+          padding: '1.25rem',
           marginBottom: '1.5rem',
           color: '#fef08a'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600, fontSize: '0.95rem', marginBottom: '0.25rem', color: '#fde047' }}>
-            <span>⚡ Supabase Notice:</span>
-            <span>Running with serverless-safe local storage</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 700, fontSize: '1rem', marginBottom: '0.35rem', color: '#fde047' }}>
+            <span>⚡ Action Required: Connect Supabase Database for Real-Time Sync</span>
           </div>
-          <p style={{ margin: 0, fontSize: '0.85rem', color: '#e2e8f0', lineHeight: 1.5 }}>
-            The <code>customer_reviews</code> table is not yet created in your Supabase database. To enable 100% persistent cloud database storage across all Vercel instances, run the script provided in <code>supabase_reviews_setup.sql</code> in your Supabase SQL Editor.
+          <p style={{ margin: '0 0 0.75rem 0', fontSize: '0.875rem', color: '#e2e8f0', lineHeight: 1.5 }}>
+            The <code>customer_reviews</code> table has not been created in your Supabase project yet. Because serverless hosting runs on isolated instances, you must run the 1-click SQL setup script in your Supabase Dashboard so new reviews save and sync across all visitors and devices in real time.
           </p>
+          <a 
+            href="https://supabase.com/dashboard/project/kjjkxevcdlpldqvbmwks/sql/new"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              backgroundColor: '#eab308',
+              color: '#0f172a',
+              padding: '0.5rem 1rem',
+              borderRadius: '0.375rem',
+              fontWeight: 700,
+              fontSize: '0.85rem',
+              textDecoration: 'none',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+            }}
+          >
+            🚀 Open Supabase SQL Editor (1-Click Setup) →
+          </a>
         </div>
       )}
 

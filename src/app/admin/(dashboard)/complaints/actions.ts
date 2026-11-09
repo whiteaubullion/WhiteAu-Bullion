@@ -1,6 +1,7 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
+import { cookies } from 'next/headers'
 import { createClient } from '@/utils/supabase/server'
 import { getStoredComplaints, saveComplaints } from '@/app/api/complaints/route'
 
@@ -26,10 +27,34 @@ export async function deleteComplaintAction(id: string) {
 
     // 2. Delete from Supabase if table exists
     try {
-      await supabase.from('customer_complaints').delete().eq('id', id)
+      await supabase.from('customer_complaints').delete().eq('id', String(id))
     } catch {}
 
-    // 3. Delete from local / tmp storage safely
+    // 3. Track in cookie so deletion persists across all Vercel instances
+    try {
+      const cookieStore = await cookies()
+      const existingCookie = cookieStore.get('whiteau_deleted_complaints')?.value
+      let deletedList: string[] = []
+      if (existingCookie) {
+        try {
+          const parsed = JSON.parse(existingCookie)
+          if (Array.isArray(parsed)) deletedList = parsed
+        } catch {}
+      }
+      if (!deletedList.includes(String(id))) {
+        deletedList.push(String(id))
+      }
+      cookieStore.set('whiteau_deleted_complaints', JSON.stringify(deletedList), {
+        path: '/',
+        maxAge: 60 * 60 * 24 * 365,
+        httpOnly: false,
+        sameSite: 'lax'
+      })
+    } catch (e) {
+      console.warn('Cookie delete tracking error:', e)
+    }
+
+    // 4. Delete from local / tmp storage safely
     try {
       const current = getStoredComplaints()
       const filtered = current.filter((c: any) => String(c.id) !== String(id))
@@ -38,7 +63,7 @@ export async function deleteComplaintAction(id: string) {
       console.warn('Local complaints storage update failed:', e)
     }
 
-    // 4. Audit log
+    // 5. Audit log
     try {
       await supabase.from('admin_audit_logs').insert({
         admin_id: user.id,
@@ -79,7 +104,7 @@ export async function updateComplaintStatusAction(id: string, newStatus: string)
 
     // 2. Update in Supabase if exists
     try {
-      await supabase.from('customer_complaints').update({ status: newStatus }).eq('id', id)
+      await supabase.from('customer_complaints').update({ status: newStatus }).eq('id', String(id))
     } catch {}
 
     // 3. Update in local / tmp storage safely

@@ -1,10 +1,12 @@
 import React from 'react'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
+import { cookies } from 'next/headers'
 import { getStoredComplaints } from '@/app/api/complaints/route'
 import { ComplaintRowActions } from './ComplaintRowActions'
 
 export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 interface ComplaintItem {
   id: string
@@ -62,6 +64,18 @@ export default async function AdminComplaintsPage() {
     complaints = getStoredComplaints()
   }
 
+  // Filter out any complaints marked as deleted in cookies
+  try {
+    const cookieStore = await cookies()
+    const deletedCookie = cookieStore.get('whiteau_deleted_complaints')?.value
+    if (deletedCookie) {
+      const deletedIds = JSON.parse(deletedCookie)
+      if (Array.isArray(deletedIds) && deletedIds.length > 0) {
+        complaints = complaints.filter(c => !deletedIds.includes(String(c.id)))
+      }
+    }
+  } catch {}
+
   const total = complaints.length
   const pending = complaints.filter(c => c.status === 'pending').length
   const investigating = complaints.filter(c => c.status === 'investigating').length
@@ -98,17 +112,36 @@ export default async function AdminComplaintsPage() {
           backgroundColor: 'rgba(234, 162, 33, 0.12)',
           border: '1px solid rgba(234, 162, 33, 0.4)',
           borderRadius: '0.75rem',
-          padding: '1rem 1.25rem',
+          padding: '1.25rem',
           marginBottom: '1.5rem',
           color: '#fef08a'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600, fontSize: '0.95rem', marginBottom: '0.25rem', color: '#fde047' }}>
-            <span>⚡ Supabase Notice:</span>
-            <span>Running with serverless-safe local storage</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 700, fontSize: '1rem', marginBottom: '0.35rem', color: '#fde047' }}>
+            <span>⚡ Action Required: Connect Supabase Database for Real-Time Sync</span>
           </div>
-          <p style={{ margin: 0, fontSize: '0.85rem', color: '#e2e8f0', lineHeight: 1.5 }}>
-            The <code>customer_complaints</code> table is not yet created in your Supabase database. To enable 100% persistent cloud database storage across all Vercel instances, run the script provided in <code>supabase_reviews_setup.sql</code> in your Supabase SQL Editor.
+          <p style={{ margin: '0 0 0.75rem 0', fontSize: '0.875rem', color: '#e2e8f0', lineHeight: 1.5 }}>
+            The <code>customer_complaints</code> table has not been created in your Supabase project yet. Because serverless hosting runs on isolated instances, you must run the 1-click SQL setup script in your Supabase Dashboard so complaints save and sync across all visitors and devices in real time.
           </p>
+          <a 
+            href="https://supabase.com/dashboard/project/kjjkxevcdlpldqvbmwks/sql/new"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              backgroundColor: '#eab308',
+              color: '#0f172a',
+              padding: '0.5rem 1rem',
+              borderRadius: '0.375rem',
+              fontWeight: 700,
+              fontSize: '0.85rem',
+              textDecoration: 'none',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+            }}
+          >
+            🚀 Open Supabase SQL Editor (1-Click Setup) →
+          </a>
         </div>
       )}
 
@@ -179,60 +212,43 @@ export default async function AdminComplaintsPage() {
                         {c.phone ? (
                           <div>
                             <a 
-                              href={`tel:${c.phone}`} 
-                              style={{ color: '#38bdf8', textDecoration: 'none', fontWeight: 600, fontSize: '0.88rem' }}
+                              href={`tel:${c.phone}`}
+                              style={{ color: '#38bdf8', textDecoration: 'none', fontWeight: 600, fontSize: '0.85rem', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}
                             >
                               📞 {c.phone}
                             </a>
                           </div>
-                        ) : (
-                          <span style={{ color: '#64748b', fontSize: '0.85rem' }}>No phone</span>
-                        )}
-                        {c.email && (
-                          <div style={{ marginTop: '0.2rem' }}>
-                            <a 
-                              href={`mailto:${c.email}`} 
-                              style={{ color: '#94a3b8', textDecoration: 'none', fontSize: '0.8rem' }}
-                            >
-                              ✉️ {c.email}
-                            </a>
+                        ) : null}
+                        {c.email ? (
+                          <div style={{ fontSize: '0.78rem', color: '#94a3b8', marginTop: '0.2rem' }}>
+                            ✉️ {c.email}
                           </div>
-                        )}
+                        ) : null}
                       </td>
 
                       <td style={tdStyle}>
                         <span style={{
                           display: 'inline-block',
                           padding: '0.25rem 0.6rem',
-                          borderRadius: '6px',
-                          fontSize: '0.78rem',
-                          fontWeight: 600,
+                          borderRadius: '1rem',
                           backgroundColor: catStyle.bg,
                           color: catStyle.text,
                           border: `1px solid ${catStyle.border}`,
+                          fontSize: '0.75rem',
+                          fontWeight: 600,
                           textTransform: 'capitalize'
                         }}>
                           {c.category}
                         </span>
-                        {c.branch && (
-                          <div style={{ fontSize: '0.78rem', color: '#94a3b8', marginTop: '0.35rem' }}>
-                            📍 {c.branch}
-                          </div>
-                        )}
+                        <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '0.35rem' }}>
+                          📍 {c.branch || 'General'}
+                        </div>
                       </td>
 
                       <td style={tdStyle}>
-                        <div style={{
-                          backgroundColor: 'rgba(15, 23, 42, 0.6)',
-                          border: '1px solid rgba(51, 65, 85, 0.6)',
-                          borderRadius: '8px',
-                          padding: '0.75rem 1rem',
-                          color: '#e2e8f0',
-                          fontSize: '0.88rem',
-                          lineHeight: '1.5'
-                        }}>
+                        <p style={{ margin: 0, color: '#e2e8f0', fontSize: '0.85rem', lineHeight: '1.5' }}>
                           "{c.message}"
-                        </div>
+                        </p>
                       </td>
 
                       <td style={{ ...tdStyle, color: '#94a3b8', fontSize: '0.8rem', whiteSpace: 'nowrap' }}>
@@ -240,7 +256,7 @@ export default async function AdminComplaintsPage() {
                       </td>
 
                       <td style={{ ...tdStyle, textAlign: 'right' }}>
-                        <ComplaintRowActions id={c.id} name={c.name} currentStatus={c.status || 'pending'} />
+                        <ComplaintRowActions id={c.id} name={c.name} currentStatus={c.status} />
                       </td>
                     </tr>
                   )

@@ -87,6 +87,7 @@ export function saveComplaints(complaints: any[]): boolean {
 }
 
 export async function GET() {
+  let complaints: any[] = [];
   // Try Supabase first if available
   try {
     const { createClient } = await import('@/utils/supabase/server');
@@ -98,13 +99,27 @@ export async function GET() {
 
     if (!error && Array.isArray(data) && data.length > 0) {
       global.__whiteau_complaints_cache = data;
-      return NextResponse.json({ complaints: data });
+      complaints = data;
+    } else {
+      complaints = getStoredComplaints();
     }
   } catch {
-    // Fallback to local / tmp storage
+    complaints = getStoredComplaints();
   }
 
-  const complaints = getStoredComplaints();
+  // Filter out any cookie-deleted complaints
+  try {
+    const { cookies } = await import('next/headers');
+    const cookieStore = await cookies();
+    const deletedCookie = cookieStore.get('whiteau_deleted_complaints')?.value;
+    if (deletedCookie) {
+      const deletedIds = JSON.parse(deletedCookie);
+      if (Array.isArray(deletedIds) && deletedIds.length > 0) {
+        complaints = complaints.filter((c: any) => !deletedIds.includes(String(c.id)));
+      }
+    }
+  } catch {}
+
   return NextResponse.json({ complaints });
 }
 

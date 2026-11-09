@@ -1,6 +1,7 @@
 'use client'
 
-import React, { useTransition } from 'react'
+import React, { useTransition, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { deleteComplaintAction, updateComplaintStatusAction } from './actions'
 
 interface ComplaintRowActionsProps {
@@ -11,12 +12,19 @@ interface ComplaintRowActionsProps {
 
 export function ComplaintRowActions({ id, name, currentStatus }: ComplaintRowActionsProps) {
   const [isPending, startTransition] = useTransition()
+  const [isDeleted, setIsDeleted] = useState(false)
+  const [status, setStatus] = useState(currentStatus)
+  const router = useRouter()
 
   const handleStatusChange = (newStatus: string) => {
+    setStatus(newStatus)
     startTransition(async () => {
       const res = await updateComplaintStatusAction(id, newStatus)
       if (res?.error) {
+        setStatus(currentStatus)
         alert(res.error)
+      } else {
+        router.refresh()
       }
     })
   }
@@ -26,36 +34,56 @@ export function ComplaintRowActions({ id, name, currentStatus }: ComplaintRowAct
       return
     }
 
+    setIsDeleted(true)
+
     startTransition(async () => {
       const res = await deleteComplaintAction(id)
       if (res?.error) {
+        setIsDeleted(false)
         alert(res.error)
+      } else {
+        router.refresh()
       }
     })
+  }
+
+  if (isDeleted) {
+    return (
+      <span style={{ 
+        color: '#94a3b8', 
+        fontSize: '0.8rem', 
+        fontStyle: 'italic',
+        backgroundColor: 'rgba(51, 65, 85, 0.4)',
+        padding: '0.25rem 0.6rem',
+        borderRadius: '0.375rem'
+      }}>
+        ✓ Deleted
+      </span>
+    )
   }
 
   return (
     <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem' }}>
       <select
-        value={currentStatus}
+        value={status}
         disabled={isPending}
         onChange={(e) => handleStatusChange(e.target.value)}
         style={{
           padding: '0.35rem 0.6rem',
           borderRadius: '0.375rem',
-          backgroundColor: currentStatus === 'resolved' 
+          backgroundColor: status === 'resolved' 
             ? 'rgba(16, 185, 129, 0.15)' 
-            : currentStatus === 'investigating' 
+            : status === 'investigating' 
               ? 'rgba(56, 189, 248, 0.15)' 
               : 'rgba(234, 179, 8, 0.15)',
-          color: currentStatus === 'resolved' 
+          color: status === 'resolved' 
             ? '#10b981' 
-            : currentStatus === 'investigating' 
+            : status === 'investigating' 
               ? '#38bdf8' 
               : '#eab308',
-          border: currentStatus === 'resolved' 
+          border: status === 'resolved' 
             ? '1px solid rgba(16, 185, 129, 0.35)' 
-            : currentStatus === 'investigating' 
+            : status === 'investigating' 
               ? '1px solid rgba(56, 189, 248, 0.35)' 
               : '1px solid rgba(234, 179, 8, 0.35)',
           fontSize: '0.78rem',
